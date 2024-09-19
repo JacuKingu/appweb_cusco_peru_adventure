@@ -12,9 +12,9 @@ export const obtenerPasaportes = async (req, res) => {
 
 // Insertar un nuevo pasaporte
 export const insertarPasaporte = async (req, res) => {
-    const { id_cliente, numeroPasaporte, paisEmision, fechaExpiracion } = req.body;
+    const { id_cliente, numero_pasaporte, pais_emision, fecha_expiracion } = req.body;
     try {
-        await pasaporteModel.insertarPasaporte(id_cliente, numeroPasaporte, paisEmision, fechaExpiracion);
+        await pasaporteModel.insertarPasaporte(id_cliente, numero_pasaporte, pais_emision, fecha_expiracion);
         res.status(201).json({ mensaje: 'Pasaporte insertado exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al insertar pasaporte' });
@@ -24,9 +24,9 @@ export const insertarPasaporte = async (req, res) => {
 // Actualizar un pasaporte existente
 export const actualizarPasaporte = async (req, res) => {
     const { id_pasaporte } = req.params;
-    const { id_cliente, numeroPasaporte, paisEmision, fechaExpiracion } = req.body;
+    const { id_cliente, numero_pasaporte, pais_emision, fecha_expiracion } = req.body;
     try {
-        await pasaporteModel.actualizarPasaporte(id_pasaporte, id_cliente, numeroPasaporte, paisEmision, fechaExpiracion);
+        await pasaporteModel.actualizarPasaporte(id_pasaporte, id_cliente, numero_pasaporte, pais_emision, fecha_expiracion);
         res.status(200).json({ mensaje: 'Pasaporte actualizado exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar pasaporte' });

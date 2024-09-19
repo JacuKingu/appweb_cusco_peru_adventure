@@ -13,12 +13,12 @@ export const obtenerClientesActivos = async () => {
 };
 
 //Insertar un nuevo Cliente
-export const insertarCliente = async (nombre, apellido, email, telefono, fechaNacimiento, id_grupo) => {
+export const insertarCliente = async (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) => {
     try {
         const pool = await connection;
         const [result] = await pool.execute(
             'CALL insertarCliente(?, ?, ?, ?, ?, ?)',
-            [nombre, apellido, email, telefono, fechaNacimiento, id_grupo]
+            [nombre, apellido, email, telefono, fecha_nacimiento, id_grupo]
         );
         return result;
     } catch (error) {
@@ -28,12 +28,12 @@ export const insertarCliente = async (nombre, apellido, email, telefono, fechaNa
 };
 
 //Actualizar un Cliente existente
-export const actualizarCliente = async (id_cliente, nombre, apellido, email, telefono, fechaNacimiento, id_grupo) => {
+export const actualizarCliente = async (id_cliente, nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) => {
     try {
         const pool = await connection;
         const [result] = await pool.execute(
             'CALL actualizarCliente(?, ?, ?, ?, ?, ?, ?)',
-            [id_cliente, nombre, apellido, email, telefono, fechaNacimiento, id_grupo]
+            [id_cliente, nombre, apellido, email, telefono, fecha_nacimiento, id_grupo]
         );
         return result;
     } catch (error) {

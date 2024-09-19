@@ -13,10 +13,10 @@ export const obtenerGruposActivos = async () => {
 };
 
 // Insertar un nuevo grupo
-export const insertarGrupo = async (id_pdf, nombreGrupo) => {
+export const insertarGrupo = async (id_pdf, nombre_grupo) => {
   try {
     const pool = await connection;
-    const [result] = await pool.execute('CALL insertarGrupo(?, ?)', [id_pdf, nombreGrupo]);
+    const [result] = await pool.execute('CALL insertarGrupo(?, ?)', [id_pdf, nombre_grupo]);
     return result;
   } catch (error) {
     console.error('Error al insertar grupo:', error);
@@ -25,10 +25,10 @@ export const insertarGrupo = async (id_pdf, nombreGrupo) => {
 };
 
 // Actualizar un grupo existente
-export const actualizarGrupo = async (id_grupo, id_pdf, nombreGrupo) => {
+export const actualizarGrupo = async (id_grupo, id_pdf, nombre_grupo) => {
   try {
     const pool = await connection;
-    const [result] = await pool.execute('CALL actualizarGrupo(?, ?, ?)', [id_grupo, id_pdf, nombreGrupo]);
+    const [result] = await pool.execute('CALL actualizarGrupo(?, ?, ?)', [id_grupo, id_pdf, nombre_grupo]);
     return result;
   } catch (error) {
     console.error('Error al actualizar grupo:', error);

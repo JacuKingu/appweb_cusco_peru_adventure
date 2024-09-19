@@ -13,10 +13,10 @@ export const obtenerPdfsActivos = async () => {
 };
 
 // Insertar un nuevo PDF
-export const insertarPdf = async (nombreArchivo, contenido) => {
+export const insertarPdf = async (nombre_archivo, contenido) => {
   try {
     const pool = await connection;
-    const [result] = await pool.execute('CALL insertarPdf(?, ?)', [nombreArchivo, contenido]);
+    const [result] = await pool.execute('CALL insertarPdf(?, ?)', [nombre_archivo, contenido]);
     return result;
   } catch (error) {
     console.error('Error al insertar PDF:', error);
@@ -25,10 +25,10 @@ export const insertarPdf = async (nombreArchivo, contenido) => {
 };
 
 // Actualizar un PDF existente
-export const actualizarPdf = async (id_pdf, nuevoNombreArchivo, nuevoContenido) => {
+export const actualizarPdf = async (id_pdf, nombre_archivo, contenido) => {
   try {
     const pool = await connection;
-    const [result] = await pool.execute('CALL actualizarPdf(?, ?, ?)', [id_pdf, nuevoNombreArchivo, nuevoContenido]);
+    const [result] = await pool.execute('CALL actualizarPdf(?, ?, ?)', [id_pdf, nombre_archivo, contenido]);
     return result;
   } catch (error) {
     console.error('Error al actualizar PDF:', error);

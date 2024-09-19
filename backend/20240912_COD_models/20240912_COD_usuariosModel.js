@@ -13,10 +13,10 @@ export const obtenerUsuariosActivos = async () => {
 };
 
 // Insertar un nuevo usuario
-export const insertarUsuario = async (nombreUsuario, contraseña, rol) => {
+export const insertarUsuario = async (nombre, contraseña, rol) => {
   try {
     const pool = await connection;
-    const [result] = await pool.execute('CALL insertarUsuario(?, ?, ?)', [nombreUsuario, contraseña, rol]);
+    const [result] = await pool.execute('CALL insertarUsuario(?, ?, ?)', [nombre, contraseña, rol]);
     return result;
   } catch (error) {
     console.error('Error al insertar usuario:', error);
@@ -25,10 +25,10 @@ export const insertarUsuario = async (nombreUsuario, contraseña, rol) => {
 };
 
 // Actualizar un usuario existente
-export const actualizarUsuario = async (idUsuario, nombreUsuario, contraseña, rol) => {
+export const actualizarUsuario = async (id_usuario, nombre, contraseña, rol) => {
   try {
     const pool = await connection;
-    const [result] = await pool.execute('CALL actualizarUsuario(?, ?, ?, ?)', [idUsuario, nombreUsuario, contraseña, rol]);
+    const [result] = await pool.execute('CALL actualizarUsuario(?, ?, ?, ?)', [id_usuario, nombre, contraseña, rol]);
     return result;
   } catch (error) {
     console.error('Error al actualizar usuario:', error);
@@ -37,10 +37,10 @@ export const actualizarUsuario = async (idUsuario, nombreUsuario, contraseña, r
 };
 
 // Eliminar lógicamente un usuario
-export const eliminarUsuario = async (idUsuario) => {
+export const eliminarUsuario = async (id_usuario) => {
   try {
     const pool = await connection;
-    const [result] = await pool.execute('CALL eliminarUsuario(?)', [idUsuario]);
+    const [result] = await pool.execute('CALL eliminarUsuario(?)', [id_usuario]);
     return result;
   } catch (error) {
     console.error('Error al eliminar usuario:', error);

@@ -12,9 +12,9 @@ export const obtenerPdfs = async (req, res) => {
 
 // Insertar un nuevo PDF
 export const insertarPdf = async (req, res) => {
-    const { nombreArchivo, contenido } = req.body;
+    const { nombre_archivo, contenido } = req.body;
     try {
-        await pdfModel.insertarPdf(nombreArchivo, contenido);
+        await pdfModel.insertarPdf(nombre_archivo, contenido);
         res.status(201).json({ mensaje: 'PDF insertado exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al insertar PDF' });
@@ -24,9 +24,9 @@ export const insertarPdf = async (req, res) => {
 // Actualizar un PDF
 export const actualizarPdf = async (req, res) => {
     const { id_pdf } = req.params;
-    const { nombreArchivo, contenido } = req.body;
+    const { nombre_archivo, contenido } = req.body;
     try {
-        await pdfModel.actualizarPdf(id_pdf, nombreArchivo, contenido);
+        await pdfModel.actualizarPdf(id_pdf, nombre_archivo, contenido);
         res.status(200).json({ mensaje: 'PDF actualizado exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar PDF' });

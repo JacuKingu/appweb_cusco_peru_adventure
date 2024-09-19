@@ -12,9 +12,9 @@ export const obtenerClientes = async (req, res) => {
 
 // Insertar un nuevo cliente
 export const insertarCliente = async (req, res) => {
-    const { nombre, apellido, email, telefono, fechaNacimiento, id_grupo } = req.body;
+    const { nombre, apellido, email, telefono, fecha_nacimiento, id_grupo } = req.body;
     try {
-        await clientesModel.insertarCliente(nombre, apellido, email, telefono, fechaNacimiento, id_grupo);
+        await clientesModel.insertarCliente(nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
         res.status(201).json({ mensaje: 'Cliente insertado exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al insertar cliente' });
@@ -24,9 +24,9 @@ export const insertarCliente = async (req, res) => {
 // Actualizar un cliente
 export const actualizarCliente = async (req, res) => {
     const { id_cliente } = req.params;
-    const { nombre, apellido, email, telefono, fechaNacimiento, id_grupo } = req.body;
+    const { nombre, apellido, email, telefono, fecha_nacimiento, id_grupo } = req.body;
     try {
-        await clientesModel.actualizarCliente(id_cliente, nombre, apellido, email, telefono, fechaNacimiento, id_grupo);
+        await clientesModel.actualizarCliente(id_cliente, nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
         res.status(200).json({ mensaje: 'Cliente actualizado exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar cliente' });
