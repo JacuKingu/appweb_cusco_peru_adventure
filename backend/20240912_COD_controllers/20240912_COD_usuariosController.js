@@ -4,36 +4,14 @@ import * as usuariosModel from '../20240912_COD_models/20240912_COD_usuariosMode
 export const obtenerUsuarios = async (req, res) => {
   try {
     const usuarios = await usuariosModel.obtenerUsuariosActivos();
-    res.status(200).json(usuarios);
+    res.status(200).json({
+      sucess: true,
+      data: usuarios
+    });
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener usuarios' });
   }
 };
-
-export const obtenerUsuariosActivos = async () => {
-  try {
-      const pool = await connection;
-      const [rows, fields] = await pool.execute('CALL obtenerUsuariosActivos()');
-      console.log('Resultado de la consulta de usuarios:', rows);
-
-      // Verifica si 'rows' es un array con resultados y selecciona el primer conjunto de resultados
-      if (Array.isArray(rows) && rows.length > 0) {
-          if (Array.isArray(rows[0])) {
-              return rows[0]; // Selecciona el primer conjunto de resultados, que es la lista de usuarios
-          } else {
-              return rows; // Si es un único conjunto, retorna directamente
-          }
-      } else {
-          return []; // Devuelve un array vacío si no hay resultados
-      }
-  } catch (error) {
-      console.error('Error al obtener usuarios activos:', error);
-      throw error;
-  }
-};
-
-
-
 
 // Insertar un nuevo usuario
 export const insertarUsuario = async (req, res) => {
