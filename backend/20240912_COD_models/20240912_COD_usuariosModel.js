@@ -5,7 +5,13 @@ export const obtenerUsuariosActivos = async () => {
   try {
     const pool = await connection;
     const [rows] = await pool.execute('CALL obtenerUsuariosActivos()');
-    return rows;
+    const formato = rows[0].map(usuario =>{
+      return{
+        ...usuario,
+        activo: usuario.activo[0] === 1
+      };
+    });
+    return formato;
   } catch (error) {
     console.error('Error al obtener usuarios activos:', error);
     throw error;
