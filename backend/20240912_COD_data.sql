@@ -263,6 +263,7 @@ END //
 
 DELIMITER ;
 
+/*
 INSERT INTO pdf (nombre_archivo, contenido) VALUES ('documento1.pdf', LOAD_FILE('/ruta/documento1.pdf'));
 INSERT INTO pdf (nombre_archivo, contenido) VALUES ('documento2.pdf', LOAD_FILE('/ruta/documento2.pdf'));
 INSERT INTO pdf (nombre_archivo, contenido) VALUES ('documento3.pdf', LOAD_FILE('/ruta/documento3.pdf'));
@@ -321,3 +322,4 @@ pasaporte
 recomendaciones
 reservas
 usuarios
+*/
