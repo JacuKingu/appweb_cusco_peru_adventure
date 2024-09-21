@@ -4,16 +4,19 @@ import { verificarToken, verificarRol } from '../20240912_COD_middlewares/202409
 
 const router = express.Router();
 
-// Ruta protegida para obtener reservas (requiere token)
+// Ruta protegida para obtener todas las reservas activas (requiere token)
 router.get('/', verificarToken, reservasController.obtenerReservas);
 
-// Ruta protegida para insertar reserva (requiere token y rol de administrador)
+// Ruta protegida para obtener una reserva por ID (requiere token)
+router.get('/:id_reserva', verificarToken, reservasController.obtenerReservaPorId);
+
+// Ruta protegida para insertar una reserva (requiere token y rol de admin o asesor)
 router.post('/', verificarToken, verificarRol(['admin', 'asesor']), reservasController.insertarReserva);
 
-// Ruta protegida para actualizar reserva (requiere token y rol de administrador)
+// Ruta protegida para actualizar una reserva (requiere token y rol de admin o asesor)
 router.put('/:id_reserva', verificarToken, verificarRol(['admin', 'asesor']), reservasController.actualizarReserva);
 
-// Ruta protegida para eliminar reserva (requiere token y rol de administrador)
+// Ruta protegida para eliminar una reserva (requiere token y rol de admin o asesor)
 router.delete('/:id_reserva', verificarToken, verificarRol(['admin', 'asesor']), reservasController.eliminarReserva);
 
 export default router;

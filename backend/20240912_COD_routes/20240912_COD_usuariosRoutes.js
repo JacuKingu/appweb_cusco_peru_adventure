@@ -5,16 +5,19 @@ import * as validar from '../20240912_COD_middlewares/20240912_COD_validationMid
 
 const router = express.Router();
 
-// Ruta para obtener todos los usuarios activos
-router.get('/',  usuarioController.obtenerUsuarios);
+// Ruta protegida para obtener todos los usuarios activos (requiere token y rol)
+router.get('/', verificar.verificarToken, verificar.verificarRol(['admin']), usuarioController.obtenerUsuarios);
 
-// Ruta para insertar un nuevo usuario con validación
+// Ruta protegida para obtener un usuario por ID (requiere token y rol)
+router.get('/:id_usuario', verificar.verificarToken, verificar.verificarRol(['admin']), usuarioController.obtenerUsuarioPorId);
+
+// Ruta protegida para insertar un nuevo usuario con validación
 router.post('/', verificar.verificarToken, verificar.verificarRol(['admin']), validar.validarUsuario, validar.manejarErroresDeValidacion, usuarioController.insertarUsuario);
 
-// Ruta para actualizar un usuario existente
+// Ruta protegida para actualizar un usuario existente con validación
 router.put('/:id_usuario', verificar.verificarToken, verificar.verificarRol(['admin']), validar.validarUsuario, validar.manejarErroresDeValidacion, usuarioController.actualizarUsuario);
 
-// Ruta para eliminar lógicamente un usuario
+// Ruta protegida para eliminar lógicamente un usuario
 router.delete('/:id_usuario', verificar.verificarToken, verificar.verificarRol(['admin']), usuarioController.eliminarUsuario);
 
-export default router; 
+export default router;

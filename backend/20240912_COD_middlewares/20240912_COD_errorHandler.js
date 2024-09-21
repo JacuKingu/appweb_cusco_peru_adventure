@@ -15,14 +15,15 @@ export const logger = winston.createLogger({
 
 // Middleware de manejo de errores
 export const errorHandler = (err, req, res, next) => {
-    logger.error(`${err.statusCode || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Error interno del servidor';
 
+    // Registrar el error en los logs
+    logger.error(`${statusCode} - ${message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+
+    // Responder con el error
     res.status(statusCode).json({
         message: message,
         stack: process.env.NODE_ENV === 'development' ? err.stack : {} // Mostrar el stack solo en desarrollo
     });
 };
-

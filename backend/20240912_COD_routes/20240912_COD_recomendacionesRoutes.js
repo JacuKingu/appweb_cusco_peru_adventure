@@ -4,16 +4,19 @@ import { verificarToken, verificarRol } from '../20240912_COD_middlewares/202409
 
 const router = express.Router();
 
-// Ruta protegida para obtener recomendaciones (requiere token)
+// Ruta protegida para obtener todas las recomendaciones (requiere token)
 router.get('/', verificarToken, recomendacionesController.obtenerRecomendaciones);
 
-// Ruta protegida para insertar recomendación (requiere token y rol de admin)
+// Ruta protegida para obtener una recomendación por ID (requiere token)
+router.get('/:id_recomendacion', verificarToken, recomendacionesController.obtenerRecomendacionPorId);
+
+// Ruta protegida para insertar una recomendación (requiere token y rol de admin o asesor)
 router.post('/', verificarToken, verificarRol(['admin', 'asesor']), recomendacionesController.insertarRecomendacion);
 
-// Ruta protegida para actualizar recomendación (requiere token y rol de admin)
+// Ruta protegida para actualizar una recomendación (requiere token y rol de admin o asesor)
 router.put('/:id_recomendacion', verificarToken, verificarRol(['admin', 'asesor']), recomendacionesController.actualizarRecomendacion);
 
-// Ruta protegida para eliminar recomendación (requiere token y rol de admin)
+// Ruta protegida para eliminar una recomendación (requiere token y rol de admin o asesor)
 router.delete('/:id_recomendacion', verificarToken, verificarRol(['admin', 'asesor']), recomendacionesController.eliminarRecomendacion);
 
 export default router;

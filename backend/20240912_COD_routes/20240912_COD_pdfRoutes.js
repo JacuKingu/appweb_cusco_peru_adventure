@@ -4,16 +4,19 @@ import { verificarToken, verificarRol } from '../20240912_COD_middlewares/202409
 
 const router = express.Router();
 
-// Ruta protegida para obtener PDFs (requiere token)
+// Ruta protegida para obtener todos los PDFs activos (requiere token)
 router.get('/', verificarToken, pdfController.obtenerPdfs);
 
-// Ruta protegida para insertar PDF (requiere token y rol de admin)
+// Ruta protegida para obtener un PDF por ID (requiere token)
+router.get('/:id_pdf', verificarToken, pdfController.obtenerPdfPorId);
+
+// Ruta protegida para insertar un PDF (requiere token y rol de admin o asesor)
 router.post('/', verificarToken, verificarRol(['admin', 'asesor']), pdfController.insertarPdf);
 
-// Ruta protegida para actualizar PDF (requiere token y rol de admin)
+// Ruta protegida para actualizar un PDF (requiere token y rol de admin o asesor)
 router.put('/:id_pdf', verificarToken, verificarRol(['admin', 'asesor']), pdfController.actualizarPdf);
 
-// Ruta protegida para eliminar PDF (requiere token y rol de admin)
+// Ruta protegida para eliminar un PDF (requiere token y rol de admin o asesor)
 router.delete('/:id_pdf', verificarToken, verificarRol(['admin', 'asesor']), pdfController.eliminarPdf);
 
 export default router;

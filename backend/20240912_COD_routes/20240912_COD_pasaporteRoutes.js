@@ -4,16 +4,19 @@ import { verificarToken, verificarRol } from '../20240912_COD_middlewares/202409
 
 const router = express.Router();
 
-// Ruta protegida para obtener pasaportes (requiere token)
+// Ruta protegida para obtener todos los pasaportes activos (requiere token)
 router.get('/', verificarToken, pasaportesController.obtenerPasaportes);
 
-// Ruta protegida para insertar pasaporte (requiere token y rol de admin)
+// Ruta protegida para obtener un pasaporte por ID (requiere token)
+router.get('/:id_pasaporte', verificarToken, pasaportesController.obtenerPasaportePorId);
+
+// Ruta protegida para insertar un pasaporte (requiere token y rol de admin o asesor)
 router.post('/', verificarToken, verificarRol(['admin', 'asesor']), pasaportesController.insertarPasaporte);
 
-// Ruta protegida para actualizar pasaporte (requiere token y rol de admin)
+// Ruta protegida para actualizar un pasaporte (requiere token y rol de admin o asesor)
 router.put('/:id_pasaporte', verificarToken, verificarRol(['admin', 'asesor']), pasaportesController.actualizarPasaporte);
 
-// Ruta protegida para eliminar pasaporte (requiere token y rol de admin)
+// Ruta protegida para eliminar un pasaporte (requiere token y rol de admin o asesor)
 router.delete('/:id_pasaporte', verificarToken, verificarRol(['admin', 'asesor']), pasaportesController.eliminarPasaporte);
 
 export default router;
