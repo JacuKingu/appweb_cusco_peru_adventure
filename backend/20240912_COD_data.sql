@@ -4,30 +4,30 @@ USE cpa;
 -- Tabla de pdf con almacenamiento de contenido
 CREATE TABLE pdf (
     id_pdf INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_archivo VARCHAR(255) NOT NULL,
+    archivo VARCHAR(255) NOT NULL,
     contenido LONGBLOB,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    activo BIT DEFAULT 1
+    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activo TINYINT(1) DEFAULT 1
 );
 
 -- Tabla de tours
 CREATE TABLE tours (
     id_tour INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_tour VARCHAR(100) NOT NULL,
+    tour VARCHAR(100) NOT NULL,
     descripcion TEXT,
-    duracion INT, -- Duración del tour en días
+    duracion INT,
     precio DECIMAL(10, 2),
     categoria VARCHAR(50),
-    activo BIT DEFAULT 1
+    activo TINYINT(1) DEFAULT 1
 );
 
 -- Tabla de Grupos de Viaje
 CREATE TABLE grupos (
     id_grupo INT AUTO_INCREMENT PRIMARY KEY,
     id_pdf INT,
-    nombre_grupo VARCHAR(100),
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    activo BIT DEFAULT 1,
+    grupo VARCHAR(100),
+    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activo TINYINT(1) DEFAULT 1,
     FOREIGN KEY (id_pdf) REFERENCES pdf(id_pdf)
 );
 
@@ -39,9 +39,9 @@ CREATE TABLE clientes (
     email VARCHAR(100) NULL,
     telefono VARCHAR(15) NULL,
     fecha_nacimiento DATE,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_grupo INT,
-    activo BIT DEFAULT 1,
+    activo TINYINT(1) DEFAULT 1,
     FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo)
 );
 
@@ -52,8 +52,8 @@ CREATE TABLE pasaporte (
     numero_pasaporte VARCHAR(20) UNIQUE NOT NULL,
     pais_emision VARCHAR(100),
     fecha_expiracion DATE,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    activo BIT DEFAULT 1,
+    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activo TINYINT(1) DEFAULT 1,
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
 
@@ -62,9 +62,9 @@ CREATE TABLE recomendaciones (
     id_recomendacion INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT,
     id_tour INT,
-    fecha_recomendacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     contenido TEXT,
-    activo BIT DEFAULT 1, 
+    activo TINYINT(1) DEFAULT 1, 
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
     FOREIGN KEY (id_tour) REFERENCES tours(id_tour)
 );
@@ -74,9 +74,9 @@ CREATE TABLE reservas (
     id_reserva INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT,
     id_tour INT,
-    fecha_reserva TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     estado ENUM('pendiente', 'confirmada', 'cancelada') DEFAULT 'pendiente',
-    activo BIT DEFAULT 1, 
+    activo TINYINT(1) DEFAULT 1, 
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
     FOREIGN KEY (id_tour) REFERENCES tours(id_tour)
 );
@@ -87,8 +87,8 @@ CREATE TABLE usuarios (
     nombre VARCHAR(50) UNIQUE NOT NULL,
     contraseña VARCHAR(255) NOT NULL,
     rol ENUM('admin', 'asesor') DEFAULT 'asesor',
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    activo BIT DEFAULT 1 
+    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activo TINYINT(1) DEFAULT 1 
 );
 
 DELIMITER //
@@ -96,17 +96,30 @@ DELIMITER //
 -- Procedimientos para la tabla de pdf
 CREATE PROCEDURE insertarPdf(IN nombre VARCHAR(255), IN contenido BLOB)
 BEGIN
-    INSERT INTO pdf (nombre_archivo, contenido) VALUES (nombre, contenido);
+    INSERT INTO pdf (archivo, contenido) VALUES (nombre, contenido);
 END //
 
-CREATE PROCEDURE obtenerPdfsActivos()
+CREATE PROCEDURE obtenerPdfsActivos(IN rol ENUM('admin', 'asesor'))
 BEGIN
-    SELECT * FROM pdf WHERE activo = 1;
+    IF rol = 'asesor' THEN
+        SELECT * FROM pdf WHERE activo = 1;
+    ELSE
+        SELECT * FROM pdf;
+    END IF;
+END //
+
+CREATE PROCEDURE obtenerPdfPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM pdf WHERE id_pdf = id AND activo = 1;
+    ELSE
+        SELECT * FROM pdf WHERE id_pdf = id;
+    END IF;
 END //
 
 CREATE PROCEDURE actualizarPdf(IN id INT, IN nuevo_nombre VARCHAR(255), IN nuevo_contenido BLOB)
 BEGIN
-    UPDATE pdf SET nombre_archivo = nuevo_nombre, contenido = nuevo_contenido WHERE id_pdf = id AND activo = 1;
+    UPDATE pdf SET archivo = nuevo_nombre, contenido = nuevo_contenido WHERE id_pdf = id AND activo = 1;
 END //
 
 CREATE PROCEDURE eliminarPdf(IN id INT)
@@ -117,17 +130,30 @@ END //
 -- Procedimientos para la tabla de tours
 CREATE PROCEDURE insertarTour(IN nombre VARCHAR(100), IN descripcion TEXT, IN duracion INT, IN precio DECIMAL(10, 2), IN categoria VARCHAR(50))
 BEGIN
-    INSERT INTO tours (nombre_tour, descripcion, duracion, precio, categoria) VALUES (nombre, descripcion, duracion, precio, categoria);
+    INSERT INTO tours (tour, descripcion, duracion, precio, categoria) VALUES (nombre, descripcion, duracion, precio, categoria);
 END //
 
-CREATE PROCEDURE obtenerToursActivos()
+CREATE PROCEDURE obtenerToursActivos(IN rol ENUM('admin', 'asesor'))
 BEGIN
-    SELECT * FROM tours WHERE activo = 1;
+    IF rol = 'asesor' THEN
+        SELECT * FROM tours WHERE activo = 1;
+    ELSE
+        SELECT * FROM tours;
+    END IF;
+END //
+
+CREATE PROCEDURE obtenerTourPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM tours WHERE id_tour = id AND activo = 1;
+    ELSE
+        SELECT * FROM tours WHERE id_tour = id;
+    END IF;
 END //
 
 CREATE PROCEDURE actualizarTour(IN id INT, IN nuevo_nombre VARCHAR(100), IN nueva_descripcion TEXT, IN nueva_duracion INT, IN nuevo_precio DECIMAL(10, 2), IN nueva_categoria VARCHAR(50))
 BEGIN
-    UPDATE tours SET nombre_tour = nuevo_nombre, descripcion = nueva_descripcion, duracion = nueva_duracion, precio = nuevo_precio, categoria = nueva_categoria WHERE id_tour = id AND activo = 1;
+    UPDATE tours SET tour = nuevo_nombre, descripcion = nueva_descripcion, duracion = nueva_duracion, precio = nuevo_precio, categoria = nueva_categoria WHERE id_tour = id AND activo = 1;
 END //
 
 CREATE PROCEDURE eliminarTour(IN id INT)
@@ -138,17 +164,30 @@ END //
 -- Procedimientos para la tabla de grupos
 CREATE PROCEDURE insertarGrupo(IN id_pdf INT, IN nombre VARCHAR(100))
 BEGIN
-    INSERT INTO grupos (id_pdf, nombre_grupo) VALUES (id_pdf, nombre);
+    INSERT INTO grupos (id_pdf, grupo) VALUES (id_pdf, nombre);
 END //
 
-CREATE PROCEDURE obtenerGruposActivos()
+CREATE PROCEDURE obtenerGruposActivos(IN rol ENUM('admin', 'asesor'))
 BEGIN
-    SELECT * FROM grupos WHERE activo = 1;
+    IF rol = 'asesor' THEN
+        SELECT * FROM grupos WHERE activo = 1;
+    ELSE
+        SELECT * FROM grupos;
+    END IF;
+END //
+
+CREATE PROCEDURE obtenerGrupoPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM grupos WHERE id_grupo = id AND activo = 1;
+    ELSE
+        SELECT * FROM grupos WHERE id_grupo = id;
+    END IF;
 END //
 
 CREATE PROCEDURE actualizarGrupo(IN id INT, IN nuevo_id_pdf INT, IN nuevo_nombre VARCHAR(100))
 BEGIN
-    UPDATE grupos SET id_pdf = nuevo_id_pdf, nombre_grupo = nuevo_nombre WHERE id_grupo = id AND activo = 1;
+    UPDATE grupos SET id_pdf = nuevo_id_pdf, grupo = nuevo_nombre WHERE id_grupo = id AND activo = 1;
 END //
 
 CREATE PROCEDURE eliminarGrupo(IN id INT)
@@ -162,9 +201,22 @@ BEGIN
     INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
 END //
 
-CREATE PROCEDURE obtenerClientesActivos()
+CREATE PROCEDURE obtenerClientesActivos(IN rol ENUM('admin', 'asesor'))
 BEGIN
-    SELECT * FROM clientes WHERE activo = 1;
+    IF rol = 'asesor' THEN
+        SELECT * FROM clientes WHERE activo = 1;
+    ELSE
+        SELECT * FROM clientes;
+    END IF;
+END //
+
+CREATE PROCEDURE obtenerClientePorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM clientes WHERE id_cliente = id AND activo = 1;
+    ELSE
+        SELECT * FROM clientes WHERE id_cliente = id;
+    END IF;
 END //
 
 CREATE PROCEDURE actualizarCliente(IN id INT, IN nuevo_nombre VARCHAR(100), IN nuevo_apellido VARCHAR(100), IN nuevo_email VARCHAR(100), IN nuevo_telefono VARCHAR(15), IN nueva_fecha_nacimiento DATE, IN nuevo_id_grupo INT)
@@ -183,9 +235,22 @@ BEGIN
     INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (id_cliente, numero, pais, fecha_expiracion);
 END //
 
-CREATE PROCEDURE obtenerPasaportesActivos()
+CREATE PROCEDURE obtenerPasaportesActivos(IN rol ENUM('admin', 'asesor'))
 BEGIN
-    SELECT * FROM pasaporte WHERE activo = 1;
+    IF rol = 'asesor' THEN
+        SELECT * FROM pasaporte WHERE activo = 1;
+    ELSE
+        SELECT * FROM pasaporte;
+    END IF;
+END //
+
+CREATE PROCEDURE obtenerPasaportePorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM pasaporte WHERE id_pasaporte = id AND activo = 1;
+    ELSE
+        SELECT * FROM pasaporte WHERE id_pasaporte = id;
+    END IF;
 END //
 
 CREATE PROCEDURE actualizarPasaporte(IN id INT, IN nuevo_id_cliente INT, IN nuevo_numero VARCHAR(20), IN nuevo_pais VARCHAR(100), IN nueva_fecha_expiracion DATE)
@@ -201,22 +266,35 @@ END //
 -- Procedimientos para la tabla de recomendaciones
 CREATE PROCEDURE insertarRecomendacion(IN id_cliente INT, IN id_tour INT, IN contenido TEXT)
 BEGIN
-    INSERT INTO Recomendaciones (id_cliente, id_tour, contenido) VALUES (id_cliente, id_tour, contenido);
+    INSERT INTO recomendaciones (id_cliente, id_tour, contenido) VALUES (id_cliente, id_tour, contenido);
 END //
 
-CREATE PROCEDURE obtenerRecomendacionesActivas()
+CREATE PROCEDURE obtenerRecomendacionesActivas(IN rol ENUM('admin', 'asesor'))
 BEGIN
-    SELECT * FROM Recomendaciones WHERE activo = 1;
+    IF rol = 'asesor' THEN
+        SELECT * FROM recomendaciones WHERE activo = 1;
+    ELSE
+        SELECT * FROM recomendaciones;
+    END IF;
+END //
+
+CREATE PROCEDURE obtenerRecomendacionPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM recomendaciones WHERE id_recomendacion = id AND activo = 1;
+    ELSE
+        SELECT * FROM recomendaciones WHERE id_recomendacion = id;
+    END IF;
 END //
 
 CREATE PROCEDURE actualizarRecomendacion(IN id INT, IN nuevo_id_cliente INT, IN nuevo_id_tour INT, IN nuevo_contenido TEXT)
 BEGIN
-    UPDATE Recomendaciones SET id_cliente = nuevo_id_cliente, id_tour = nuevo_id_tour, contenido = nuevo_contenido WHERE id_recomendacion = id AND activo = 1;
+    UPDATE recomendaciones SET id_cliente = nuevo_id_cliente, id_tour = nuevo_id_tour, contenido = nuevo_contenido WHERE id_recomendacion = id AND activo = 1;
 END //
 
 CREATE PROCEDURE eliminarRecomendacion(IN id INT)
 BEGIN
-    UPDATE Recomendaciones SET activo = 0 WHERE id_recomendacion = id;
+    UPDATE recomendaciones SET activo = 0 WHERE id_recomendacion = id;
 END //
 
 -- Procedimientos para la tabla de reservas
@@ -225,9 +303,22 @@ BEGIN
     INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (id_cliente, id_tour, estado);
 END //
 
-CREATE PROCEDURE obtenerReservasActivas()
+CREATE PROCEDURE obtenerReservasActivas(IN rol ENUM('admin', 'asesor'))
 BEGIN
-    SELECT * FROM reservas WHERE activo = 1;
+    IF rol = 'asesor' THEN
+        SELECT * FROM reservas WHERE activo = 1;
+    ELSE
+        SELECT * FROM reservas;
+    END IF;
+END //
+
+CREATE PROCEDURE obtenerReservaPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM reservas WHERE id_reserva = id AND activo = 1;
+    ELSE
+        SELECT * FROM reservas WHERE id_reserva = id;
+    END IF;
 END //
 
 CREATE PROCEDURE actualizarReserva(IN id INT, IN nuevo_id_cliente INT, IN nuevo_id_tour INT, IN nuevo_estado ENUM('pendiente', 'confirmada', 'cancelada'))
@@ -246,9 +337,22 @@ BEGIN
     INSERT INTO usuarios (nombre, contraseña, rol) VALUES (nombre, contraseña, rol);
 END //
 
-CREATE PROCEDURE obtenerUsuariosActivos()
+CREATE PROCEDURE obtenerUsuariosActivos(IN rol ENUM('admin', 'asesor'))
 BEGIN
-    SELECT * FROM usuarios WHERE activo = 1;
+    IF rol = 'asesor' THEN
+        SELECT * FROM usuarios WHERE activo = 1;
+    ELSE
+        SELECT * FROM usuarios;
+    END IF;
+END //
+
+CREATE PROCEDURE obtenerUsuarioPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM usuarios WHERE id_usuario = id AND activo = 1;
+    ELSE
+        SELECT * FROM usuarios WHERE id_usuario = id;
+    END IF;
 END //
 
 CREATE PROCEDURE actualizarUsuario(IN id INT, IN nuevo_nombre VARCHAR(50), IN nueva_contraseña VARCHAR(255), IN nuevo_rol ENUM('admin', 'asesor'))
@@ -263,63 +367,83 @@ END //
 
 DELIMITER ;
 
-/*
-INSERT INTO pdf (nombre_archivo, contenido) VALUES ('documento1.pdf', LOAD_FILE('/ruta/documento1.pdf'));
-INSERT INTO pdf (nombre_archivo, contenido) VALUES ('documento2.pdf', LOAD_FILE('/ruta/documento2.pdf'));
-INSERT INTO pdf (nombre_archivo, contenido) VALUES ('documento3.pdf', LOAD_FILE('/ruta/documento3.pdf'));
-INSERT INTO pdf (nombre_archivo, contenido) VALUES ('documento4.pdf', LOAD_FILE('/ruta/documento4.pdf'));
-INSERT INTO pdf (nombre_archivo, contenido) VALUES ('documento5.pdf', LOAD_FILE('/ruta/documento5.pdf'));
 
-INSERT INTO tours (nombre_tour, descripcion, duracion, precio, categoria) VALUES ('Tour Aventura', 'Tour de aventura por el valle', 3, 150.00, 'Aventura');
-INSERT INTO tours (nombre_tour, descripcion, duracion, precio, categoria) VALUES ('Tour Cultural', 'Tour por los sitios históricos', 2, 100.00, 'Cultural');
-INSERT INTO tours (nombre_tour, descripcion, duracion, precio, categoria) VALUES ('Tour Gastronómico', 'Degustación de platos típicos', 1, 80.00, 'Gastronómico');
-INSERT INTO tours (nombre_tour, descripcion, duracion, precio, categoria) VALUES ('Tour Ecológico', 'Exploración de la fauna local', 4, 200.00, 'Ecológico');
-INSERT INTO tours (nombre_tour, descripcion, duracion, precio, categoria) VALUES ('Tour Nocturno', 'Recorrido nocturno de la ciudad', 1, 50.00, 'Nocturno');
+/* 
+-- Tabla tours
+INSERT INTO tours (tour, descripcion, duracion, precio, categoria) VALUES ('Tour Histórico', 'Explora la historia de la ciudad.', 3, 50.00, 'Cultural');
+INSERT INTO tours (tour, descripcion, duracion, precio, categoria) VALUES ('Aventura en la Montaña', 'Senderismo y escalada.', 5, 120.00, 'Aventura');
+INSERT INTO tours (tour, descripcion, duracion, precio, categoria) VALUES ('Tour Gastronómico', 'Degustación de comida local.', 2, 35.00, 'Gastronomía');
 
-INSERT INTO grupos (id_pdf, nombre_grupo) VALUES (1, 'Grupo Aventura 1');
-INSERT INTO grupos (id_pdf, nombre_grupo) VALUES (2, 'Grupo Cultural 2');
-INSERT INTO grupos (id_pdf, nombre_grupo) VALUES (3, 'Grupo Gastronómico 3');
-INSERT INTO grupos (id_pdf, nombre_grupo) VALUES (4, 'Grupo Ecológico 4');
-INSERT INTO grupos (id_pdf, nombre_grupo) VALUES (5, 'Grupo Nocturno 5');
+-- Tabla grupos
+INSERT INTO grupos (id_pdf, grupo) VALUES (1, 'Grupo Histórico');
+INSERT INTO grupos (id_pdf, grupo) VALUES (2, 'Grupo Aventura');
+INSERT INTO grupos (id_pdf, grupo) VALUES (3, 'Grupo Gastronómico');
 
-INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES ('Juan', 'Perez', 'juan@example.com', '123456789', '1985-05-10', 1);
-INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES ('Maria', 'Lopez', 'maria@example.com', '987654321', '1990-03-15', 2);
-INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES ('Carlos', 'Garcia', 'carlos@example.com', '555123456', '1988-09-20', 3);
-INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES ('Ana', 'Martinez', 'ana@example.com', '777888999', '1992-12-01', 4);
-INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES ('Luis', 'Fernandez', 'luis@example.com', '444666777', '1980-07-22', 5);
+-- Tabla clientes
+INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', '123456789', '1990-05-10', 1);
+INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES ('Ana', 'Gómez', 'ana.gomez@example.com', '987654321', '1985-03-22', 2);
+INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES ('Carlos', 'Martínez', 'carlos.martinez@example.com', '555123456', '1992-12-15', 3);
 
-INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (1, 'X1234567', 'España', '2025-05-10');
-INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (2, 'Y7654321', 'México', '2024-08-20');
-INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (3, 'Z3456789', 'Argentina', '2023-11-30');
-INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (4, 'A9876543', 'Chile', '2026-02-14');
-INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (5, 'B2345678', 'Perú', '2027-07-19');
+-- Tabla pasaporte
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (1, 'P12345678', 'México', '2030-01-01');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (2, 'G87654321', 'Argentina', '2028-05-10');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (3, 'M09876543', 'Colombia', '2029-11-25');
 
-INSERT INTO Recomendaciones (id_cliente, id_tour, contenido) VALUES (1, 1, 'Recomendado por preferencias de aventura');
-INSERT INTO Recomendaciones (id_cliente, id_tour, contenido) VALUES (2, 2, 'Recomendado por interés cultural');
-INSERT INTO Recomendaciones (id_cliente, id_tour, contenido) VALUES (3, 3, 'Recomendado por gustos gastronómicos');
-INSERT INTO Recomendaciones (id_cliente, id_tour, contenido) VALUES (4, 4, 'Recomendado por interés ecológico');
-INSERT INTO Recomendaciones (id_cliente, id_tour, contenido) VALUES (5, 5, 'Recomendado por preferencia de tours nocturnos');
+-- Tabla recomendaciones
+INSERT INTO recomendaciones (id_cliente, id_tour, contenido) VALUES (1, 1, 'El tour fue muy informativo y entretenido.');
+INSERT INTO recomendaciones (id_cliente, id_tour, contenido) VALUES (2, 2, 'La aventura en la montaña fue desafiante pero gratificante.');
+INSERT INTO recomendaciones (id_cliente, id_tour, contenido) VALUES (3, 3, 'Deliciosa experiencia gastronómica, lo recomiendo.');
 
-INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (1, 1, 'pendiente');
-INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (2, 2, 'confirmada');
+-- Tabla reservas
+INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (1, 1, 'confirmada');
+INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (2, 2, 'pendiente');
 INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (3, 3, 'cancelada');
-INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (4, 4, 'pendiente');
-INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (5, 5, 'confirmada');
 
-INSERT INTO usuarios (nombre, contraseña, rol) VALUES ('admin1', 'contraseña1', 'admin');
-INSERT INTO usuarios (nombre, contraseña, rol) VALUES ('asesor1', 'contraseña2', 'asesor');
-INSERT INTO usuarios (nombre, contraseña, rol) VALUES ('asesor2', 'contraseña3', 'asesor');
-INSERT INTO usuarios (nombre, contraseña, rol) VALUES ('admin2', 'contraseña4', 'admin');
-INSERT INTO usuarios (nombre, contraseña, rol) VALUES ('asesor3', 'contraseña5', 'asesor');
+-- Tabla usuarios
+INSERT INTO usuarios (nombre, contraseña, rol) VALUES ('admin1', 'password123', 'admin');
+INSERT INTO usuarios (nombre, contraseña, rol) VALUES ('asesor1', 'password123', 'asesor');
+INSERT INTO usuarios (nombre, contraseña, rol) VALUES ('asesor2', 'password456', 'asesor');
 
-20240912_COD_
+--------------------------------------------------------------------------------------------------
+Tabla tours
 
-pdf
-tours
-grupos
-clientes
-pasaporte
-recomendaciones
-reservas
-usuarios
-*/
+{ "tour": "Tour Histórico", "descripcion": "Explora la historia de la ciudad.", "duracion": 3, "precio": 50.00, "categoria": "Cultural" }
+{ "tour": "Aventura en la Montaña", "descripcion": "Senderismo y escalada.", "duracion": 5, "precio": 120.00, "categoria": "Aventura" }
+{ "tour": "Tour Gastronómico", "descripcion": "Degustación de comida local.", "duracion": 2, "precio": 35.00, "categoria": "Gastronomía" }
+Tabla grupos
+
+{ "id_pdf": 1, "grupo": "Grupo Histórico" }
+{ "id_pdf": 2, "grupo": "Grupo Aventura" }
+{ "id_pdf": 3, "grupo": "Grupo Gastronómico" }
+
+Tabla clientes
+
+{ "nombre": "Juan", "apellido": "Pérez", "email": "juan.perez@example.com", "telefono": "123456789", "fecha_nacimiento": "1990-05-10", "id_grupo": 1 }
+{ "nombre": "Ana", "apellido": "Gómez", "email": "ana.gomez@example.com", "telefono": "987654321", "fecha_nacimiento": "1985-03-22", "id_grupo": 2 }
+{ "nombre": "Carlos", "apellido": "Martínez", "email": "carlos.martinez@example.com", "telefono": "555123456", "fecha_nacimiento": "1992-12-15", "id_grupo": 3 }
+
+Tabla pasaporte
+
+{ "id_cliente": 1, "numero_pasaporte": "P12345678", "pais_emision": "México", "fecha_expiracion": "2030-01-01" }
+{ "id_cliente": 2, "numero_pasaporte": "G87654321", "pais_emision": "Argentina", "fecha_expiracion": "2028-05-10" }
+{ "id_cliente": 3, "numero_pasaporte": "M09876543", "pais_emision": "Colombia", "fecha_expiracion": "2029-11-25" }
+
+Tabla recomendaciones
+
+{ "id_cliente": 1, "id_tour": 1, "contenido": "El tour fue muy informativo y entretenido." }
+{ "id_cliente": 2, "id_tour": 2, "contenido": "La aventura en la montaña fue desafiante pero gratificante." }
+{ "id_cliente": 3, "id_tour": 3, "contenido": "Deliciosa experiencia gastronómica, lo recomiendo." }
+
+Tabla reservas
+
+{ "id_cliente": 1, "id_tour": 1, "estado": "confirmada" }
+{ "id_cliente": 2, "id_tour": 2, "estado": "pendiente" }
+{ "id_cliente": 3, "id_tour": 3, "estado": "cancelada" }
+
+Tabla usuarios
+
+{ "nombre": "admin1", "contraseña": "password123", "rol": "admin" }
+{ "nombre": "asesor1", "contraseña": "password123", "rol": "asesor" }
+{ "nombre": "asesor2", "contraseña": "password456", "rol": "asesor" }
+
+ */

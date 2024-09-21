@@ -1,13 +1,25 @@
 import { connection } from '../20240912_COD_db/20240912_COD_dbConnection.js'
 
-// Obtener recomendaciones activas
-export const obtenerRecomendacionesActivas = async () => {
+// Obtener recomendaciones activas basadas en el rol
+export const obtenerRecomendacionesActivas = async (rol) => {
   try {
     const pool = await connection;
-    const [rows] = await pool.execute('CALL obtenerRecomendacionesActivas()');
-    return rows;
+    const [rows] = await pool.execute('CALL obtenerRecomendacionesActivas(?)', [rol]);
+    return rows[0];
   } catch (error) {
     console.error('Error al obtener recomendaciones activas:', error);
+    throw error;
+  }
+};
+
+// Obtener Recomendación por ID
+export const obtenerRecomendacionPorId = async (id_recomendacion, rol) => {
+  try {
+    const pool = await connection;
+    const [rows] = await pool.execute('CALL obtenerRecomendacionPorId(?, ?)', [id_recomendacion, rol]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error al obtener recomendación por ID:', error);
     throw error;
   }
 };

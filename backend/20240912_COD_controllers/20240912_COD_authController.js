@@ -5,30 +5,13 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Iniciar sesión (Login)
-// Iniciar sesión (Login)
 export const login = async (req, res) => {
     const { nombre, contraseña } = req.body;
     const usuarios = await Usuario.obtenerUsuariosActivos();
 
     try {
-        console.log('Datos recibidos para login:', { nombre, contraseña });
-
-        // Obtener todos los usuarios activos (con la corrección en `obtenerUsuariosActivos`)
-        
-        console.log('Usuarios obtenidos desde la base de datos:', usuarios);
-
-        // Verificar la estructura de cada usuario obtenido
-        usuarios.forEach((usuario, index) => {
-            console.log(`Usuario ${index}:`, usuario); // Muestra cada usuario y su estructura completa
-        });
-
-        // Verificar todos los nombres de usuario obtenidos
-        const nombresUsuarios = usuarios.map(u => u.nombre);
-        console.log('Nombres de usuario obtenidos:', nombresUsuarios);
-
         // Buscar el usuario por nombre (insensible a mayúsculas)
         const usuario = usuarios.find(u => u.nombre === nombre);
-        console.log('Usuario encontrado:', usuario);
 
         if (!usuario) {
             console.log('Usuario no encontrado en la base de datos con el nombre:', nombre);
@@ -37,7 +20,6 @@ export const login = async (req, res) => {
 
         // Comparar la contraseña ingresada con la almacenada
         const isMatch = await bcrypt.compare(contraseña, usuario.contraseña);
-        console.log('Comparación de contraseña:', isMatch);
 
         if (!isMatch) {
             console.log('Contraseña incorrecta para el usuario:', nombre);

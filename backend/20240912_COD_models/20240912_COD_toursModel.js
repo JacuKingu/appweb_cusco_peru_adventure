@@ -1,13 +1,25 @@
 import { connection } from "../20240912_COD_db/20240912_COD_dbConnection.js";
 
-// Obtener tours activos
-export const obtenerToursActivos = async () => {
+// Obtener tours activos basados en el rol
+export const obtenerToursActivos = async (rol) => {
   try {
     const pool = await connection;
-    const [rows] = await pool.execute('CALL obtenerToursActivos()');
-    return rows;
+    const [rows] = await pool.execute('CALL obtenerToursActivos(?)', [rol]);
+    return rows[0];
   } catch (error) {
     console.error('Error al obtener tours activos:', error);
+    throw error;
+  }
+};
+
+// Obtener Tour por ID
+export const obtenerTourPorId = async (id_tour, rol) => {
+  try {
+    const pool = await connection;
+    const [rows] = await pool.execute('CALL obtenerTourPorId(?, ?)', [id_tour, rol]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error al obtener tour por ID:', error);
     throw error;
   }
 };

@@ -1,13 +1,25 @@
-import { connection } from '../20240912_COD_db/20240912_COD_dbConnection.js'
+import { connection } from '../20240912_COD_db/20240912_COD_dbConnection.js';
 
-// Obtener grupos activos
-export const obtenerGruposActivos = async () => {
+// Obtener grupos activos basados en el rol
+export const obtenerGruposActivos = async (rol) => {
   try {
     const pool = await connection;
-    const [rows] = await pool.execute('CALL obtenerGruposActivos()');
-    return rows;
+    const [rows] = await pool.execute('CALL obtenerGruposActivos(?)', [rol]);
+    return rows[0];
   } catch (error) {
     console.error('Error al obtener grupos activos:', error);
+    throw error;
+  }
+};
+
+// Obtener Grupo por ID
+export const obtenerGrupoPorId = async (id_grupo, rol) => {
+  try {
+    const pool = await connection;
+    const [rows] = await pool.execute('CALL obtenerGrupoPorId(?, ?)', [id_grupo, rol]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error al obtener grupo por ID:', error);
     throw error;
   }
 };

@@ -1,13 +1,25 @@
 import { connection } from '../20240912_COD_db/20240912_COD_dbConnection.js'
 
-// Obtener reservas activas
-export const obtenerReservasActivas = async () => {
+// Obtener reservas activas basadas en el rol
+export const obtenerReservasActivas = async (rol) => {
   try {
     const pool = await connection;
-    const [rows] = await pool.execute('CALL obtenerReservasActivas()');
-    return rows;
+    const [rows] = await pool.execute('CALL obtenerReservasActivas(?)', [rol]);
+    return rows[0];
   } catch (error) {
     console.error('Error al obtener reservas activas:', error);
+    throw error;
+  }
+};
+
+// Obtener Reserva por ID
+export const obtenerReservaPorId = async (id_reserva, rol) => {
+  try {
+    const pool = await connection;
+    const [rows] = await pool.execute('CALL obtenerReservaPorId(?, ?)', [id_reserva, rol]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error al obtener reserva por ID:', error);
     throw error;
   }
 };

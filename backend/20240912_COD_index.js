@@ -33,6 +33,7 @@ app.use('/appweb/pdf',pdfRoutes);
 app.use('/appweb/recomendacion',recomendacionesRoutes);
 app.use('/appweb/reserva',reservasRoutes);
 app.use('/appweb/usuario',usuarioRoutes);
+app.use('/appweb/tour',toursRoutes);
 
 //Manejo de errores
 app.use(errorHandler);

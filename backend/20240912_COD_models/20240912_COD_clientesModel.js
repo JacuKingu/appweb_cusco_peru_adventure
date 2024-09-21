@@ -1,18 +1,30 @@
 import { connection } from "../20240912_COD_db/20240912_COD_dbConnection.js";
 
-//Obtener Clientes activos
-export const obtenerClientesActivos = async () => {
+// Obtener Clientes activos basados en el rol
+export const obtenerClientesActivos = async (rol) => {
     try {
         const pool = await connection;
-        const [rows] = await pool.execute('CALL obtenerClientesActivos()');
-        return rows;
+        const [rows] = await pool.execute('CALL obtenerClientesActivos(?)', [rol]);
+        return rows[0];
     } catch (error) {
         console.error('Error al obtener clientes activos:', error);
         throw error;
     }
 };
 
-//Insertar un nuevo Cliente
+// Obtener Cliente por ID
+export const obtenerClientePorId = async (id_cliente, rol) => {
+    try {
+        const pool = await connection;
+        const [rows] = await pool.execute('CALL obtenerClientePorId(?, ?)', [id_cliente, rol]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al obtener cliente por ID:', error);
+        throw error;
+    }
+};
+
+// Insertar un nuevo Cliente
 export const insertarCliente = async (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) => {
     try {
         const pool = await connection;
@@ -27,7 +39,7 @@ export const insertarCliente = async (nombre, apellido, email, telefono, fecha_n
     }
 };
 
-//Actualizar un Cliente existente
+// Actualizar un Cliente existente
 export const actualizarCliente = async (id_cliente, nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) => {
     try {
         const pool = await connection;
@@ -42,7 +54,7 @@ export const actualizarCliente = async (id_cliente, nombre, apellido, email, tel
     }
 };
 
-//Eliminar logicamente un CLiente
+// Eliminar lógicamente un Cliente
 export const eliminarCliente = async (id_cliente) => {
     try {
         const pool = await connection;
