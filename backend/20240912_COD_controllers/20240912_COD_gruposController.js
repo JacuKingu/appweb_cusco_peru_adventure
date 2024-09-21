@@ -4,9 +4,12 @@ import * as gruposModel from '../20240912_COD_models/20240912_COD_gruposModel.js
 export const obtenerGrupos = async (req, res) => {
     try {
         const grupos = await gruposModel.obtenerGruposActivos();
-        res.status(200).json(grupos);
+        res.status(200).json({
+            success:true,
+            data:grupos
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener grupos' });
+        res.status(500).json({ success:false, error: 'Error al obtener grupos' });
     }
 };
 

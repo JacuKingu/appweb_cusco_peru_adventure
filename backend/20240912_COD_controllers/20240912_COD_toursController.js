@@ -4,9 +4,26 @@ import * as toursModel from '../20240912_COD_models/20240912_COD_toursModel.js';
 export const obtenerTours = async (req, res) => {
     try {
         const tours = await toursModel.obtenerToursActivos();
-        res.status(200).json(tours);
+        res.status(200).json({
+            success: true,
+            data: tours
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener tours' });
+        res.status(500).json({ success: false, error: 'Error al obtener tours' });
+    }
+};
+
+// Obtener un tour por ID
+export const obtenerTourPorId = async (req, res) => {
+    const { id_tour } = req.params;
+    try {
+        const tour = await toursModel.obtenerTourPorId(id_tour);
+        if (!tour) {
+            return res.status(404).json({ mensaje: 'Tour no encontrado' });
+        }
+        res.status(200).json({ success: true, data: tour });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Error al obtener tour' });
     }
 };
 
@@ -33,7 +50,7 @@ export const actualizarTour = async (req, res) => {
     }
 };
 
-// Eliminar un tour 
+// Eliminar un tour
 export const eliminarTour = async (req, res) => {
     const { id_tour } = req.params;
     try {

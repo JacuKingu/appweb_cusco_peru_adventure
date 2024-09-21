@@ -4,9 +4,26 @@ import * as reservasModel from '../20240912_COD_models/20240912_COD_reservasMode
 export const obtenerReservas = async (req, res) => {
     try {
         const reservas = await reservasModel.obtenerReservasActivas();
-        res.status(200).json(reservas);
+        res.status(200).json({
+            success: true,
+            data: reservas
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener reservas' });
+        res.status(500).json({ success: false, error: 'Error al obtener reservas' });
+    }
+};
+
+// Obtener una reserva por ID
+export const obtenerReservaPorId = async (req, res) => {
+    const { id_reserva } = req.params;
+    try {
+        const reserva = await reservasModel.obtenerReservaPorId(id_reserva);
+        if (!reserva) {
+            return res.status(404).json({ mensaje: 'Reserva no encontrada' });
+        }
+        res.status(200).json({ success: true, data: reserva });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Error al obtener reserva' });
     }
 };
 
@@ -33,7 +50,7 @@ export const actualizarReserva = async (req, res) => {
     }
 };
 
-// Eliminar una reserva 
+// Eliminar una reserva
 export const eliminarReserva = async (req, res) => {
     const { id_reserva } = req.params;
     try {

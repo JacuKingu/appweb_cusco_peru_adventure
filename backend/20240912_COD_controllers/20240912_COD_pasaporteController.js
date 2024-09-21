@@ -4,9 +4,26 @@ import * as pasaporteModel from '../20240912_COD_models/20240912_COD_pasaporteMo
 export const obtenerPasaportes = async (req, res) => {
     try {
         const pasaportes = await pasaporteModel.obtenerPasaportesActivos();
-        res.status(200).json(pasaportes);
+        res.status(200).json({
+            success: true,
+            data: pasaportes
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener pasaportes' });
+        res.status(500).json({ success: false, error: 'Error al obtener pasaportes' });
+    }
+};
+
+// Obtener un pasaporte por ID
+export const obtenerPasaportePorId = async (req, res) => {
+    const { id_pasaporte } = req.params;
+    try {
+        const pasaporte = await pasaporteModel.obtenerPasaportePorId(id_pasaporte);
+        if (!pasaporte) {
+            return res.status(404).json({ mensaje: 'Pasaporte no encontrado' });
+        }
+        res.status(200).json({ success: true, data: pasaporte });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Error al obtener pasaporte' });
     }
 };
 

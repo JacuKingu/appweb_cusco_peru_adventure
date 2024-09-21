@@ -1,4 +1,4 @@
-import * as Usuario from '../20240912_COD_models/20240912_COD_usuariosModel.js';
+import * as Auth from '../20240912_COD_models/20240912_COD_authModel.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // Iniciar sesión (Login)
 export const login = async (req, res) => {
     const { nombre, contraseña } = req.body;
-    const usuarios = await Usuario.obtenerUsuariosActivos();
+    const usuarios = await Auth.obtenerUsuariosActivos();
 
     try {
         // Buscar el usuario por nombre (insensible a mayúsculas)
@@ -52,7 +52,7 @@ export const signup = async (req, res) => {
         console.log('Contraseña encriptada:', hashedPassword); // Verifica que la contraseña se encripta correctamente
 
         // Insertar el usuario en la base de datos con la contraseña encriptada
-        const result = await Usuario.insertarUsuario(nombre, hashedPassword, rol);
+        const result = await Auth.insertarUsuario(nombre, hashedPassword, rol);
         console.log('Resultado de la inserción en la base de datos:', result); // Verifica si la inserción fue exitosa
 
         res.status(201).json({ message: 'Usuario registrado exitosamente', result });

@@ -365,6 +365,59 @@ BEGIN
     UPDATE usuarios SET activo = 0 WHERE id_usuario = id;
 END //
 
+CREATE PROCEDURE loginUsuario(
+    IN nombre_usuario VARCHAR(50),
+    OUT mensaje VARCHAR(255),
+    OUT rol_usuario ENUM('admin', 'asesor'),
+    OUT id_usuario INT,
+    OUT contraseña_hash VARCHAR(255)
+)
+BEGIN
+    DECLARE usuario_activado TINYINT(1) DEFAULT 0;
+
+    -- Verificar si el usuario existe y obtener datos relevantes
+    SELECT id_usuario, rol, activo, contraseña 
+    INTO id_usuario, rol_usuario, usuario_activado, contraseña_hash
+    FROM usuarios 
+    WHERE nombre = nombre_usuario;
+
+    -- Si el usuario no existe
+    IF id_usuario IS NULL THEN
+        SET mensaje = 'Usuario no encontrado.';
+    ELSEIF usuario_activado = 0 THEN
+        -- Si el usuario no está activado
+        SET mensaje = 'Usuario no activado. Por favor, contacta al administrador.';
+    ELSE
+        -- Si el usuario existe y está activado
+        SET mensaje = 'Usuario encontrado. Contraseña verificada externamente.';
+    END IF;
+END //
+
+CREATE PROCEDURE signupUsuario(
+    IN nombre_usuario VARCHAR(50),
+    IN contraseña_usuario VARCHAR(255), -- Contraseña encriptada
+    IN rol_usuario ENUM('admin', 'asesor'),
+    OUT mensaje VARCHAR(255)
+)
+BEGIN
+    DECLARE duplicado INT DEFAULT 0;
+
+    -- Verificar si el nombre de usuario ya existe
+    SELECT COUNT(*) INTO duplicado 
+    FROM usuarios 
+    WHERE nombre = nombre_usuario;
+
+    IF duplicado > 0 THEN
+        SET mensaje = 'El nombre de usuario ya está en uso. Por favor, elige otro.';
+    ELSE
+        -- Insertar el nuevo usuario con activo = 0
+        INSERT INTO usuarios (nombre, contraseña, rol, activo) 
+        VALUES (nombre_usuario, contraseña_usuario, rol_usuario, 0);
+
+        SET mensaje = 'Registro exitoso. Tu cuenta ha sido creada y está pendiente de activación.';
+    END IF;
+END //
+
 DELIMITER ;
 
 

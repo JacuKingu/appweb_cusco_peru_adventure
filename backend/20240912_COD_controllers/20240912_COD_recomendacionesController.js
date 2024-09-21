@@ -4,9 +4,26 @@ import * as recomendacionesModel from '../20240912_COD_models/20240912_COD_recom
 export const obtenerRecomendaciones = async (req, res) => {
     try {
         const recomendaciones = await recomendacionesModel.obtenerRecomendacionesActivas();
-        res.status(200).json(recomendaciones);
+        res.status(200).json({
+            success: true,
+            data: recomendaciones
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener recomendaciones' });
+        res.status(500).json({ success: false, error: 'Error al obtener recomendaciones' });
+    }
+};
+
+// Obtener una recomendación por ID
+export const obtenerRecomendacionPorId = async (req, res) => {
+    const { id_recomendacion } = req.params;
+    try {
+        const recomendacion = await recomendacionesModel.obtenerRecomendacionPorId(id_recomendacion);
+        if (!recomendacion) {
+            return res.status(404).json({ mensaje: 'Recomendación no encontrada' });
+        }
+        res.status(200).json({ success: true, data: recomendacion });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Error al obtener recomendación' });
     }
 };
 
