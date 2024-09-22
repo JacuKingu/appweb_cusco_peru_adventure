@@ -1,30 +1,31 @@
-import * as gruposModel from '../20240912_COD_models/20240912_COD_gruposModel.js';
+import * as gruposService from '../20240912_COD_services/20240912_COD_gruposServices.js';
 
-// Obtener todos los grupos activos
+// Obtener todos los grupos activos basados en el rol
 export const obtenerGrupos = async (req, res) => {
     try {
-        const grupos = await gruposModel.obtenerGruposActivos();
+        const rol = req.usuario.rol; // Obtener el rol del usuario autenticado
+        const grupos = await gruposService.obtenerGruposPorRol(rol);
         res.status(200).json({
             success: true,
             data: grupos
         });
     } catch (error) {
-        res.status(500).json({ success: false, error: 'Error al obtener grupos' });
+        console.error('Error al obtener grupos:', error);
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// Obtener un grupo por ID
+// Obtener un grupo por ID considerando el rol
 export const obtenerGrupoPorId = async (req, res) => {
     const { id_grupo } = req.params;
-    const rol = req.usuario.rol
+    const rol = req.usuario.rol; // Obtener el rol del usuario autenticado
+
     try {
-        const grupo = await gruposModel.obtenerGrupoPorId(id_grupo,rol);
-        if (!grupo) {
-            return res.status(404).json({ mensaje: 'Grupo no encontrado o no tienes permiso para verlo' });
-        }
+        const grupo = await gruposService.obtenerGrupoPorIdYRol(id_grupo, rol);
         res.status(200).json({ success: true, data: grupo });
     } catch (error) {
-        res.status(500).json({ success: false, error: 'Error al obtener grupo' });
+        console.error('Error al obtener grupo por ID:', error);
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 
@@ -32,10 +33,11 @@ export const obtenerGrupoPorId = async (req, res) => {
 export const insertarGrupo = async (req, res) => {
     const { id_pdf, nombre_grupo } = req.body;
     try {
-        await gruposModel.insertarGrupo(id_pdf, nombre_grupo);
-        res.status(201).json({ mensaje: 'Grupo insertado exitosamente' });
+        await gruposService.insertarGrupo(id_pdf, nombre_grupo);
+        res.status(201).json({ message: 'Grupo insertado exitosamente' });
     } catch (error) {
-        res.status(500).json({ error: 'Error al insertar grupo' });
+        console.error('Error al insertar grupo:', error);
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -44,20 +46,22 @@ export const actualizarGrupo = async (req, res) => {
     const { id_grupo } = req.params;
     const { id_pdf, nombre_grupo } = req.body;
     try {
-        await gruposModel.actualizarGrupo(id_grupo, id_pdf, nombre_grupo);
-        res.status(200).json({ mensaje: 'Grupo actualizado exitosamente' });
+        await gruposService.actualizarGrupo(id_grupo, id_pdf, nombre_grupo);
+        res.status(200).json({ message: 'Grupo actualizado exitosamente' });
     } catch (error) {
-        res.status(500).json({ error: 'Error al actualizar grupo' });
+        console.error('Error al actualizar grupo:', error);
+        res.status(500).json({ message: error.message });
     }
 };
 
-// Eliminar un grupo (lógicamente)
+// Eliminar un grupo lógicamente
 export const eliminarGrupo = async (req, res) => {
     const { id_grupo } = req.params;
     try {
-        await gruposModel.eliminarGrupo(id_grupo);
-        res.status(200).json({ mensaje: 'Grupo eliminado exitosamente' });
+        await gruposService.eliminarGrupo(id_grupo);
+        res.status(200).json({ message: 'Grupo eliminado exitosamente' });
     } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar grupo' });
+        console.error('Error al eliminar grupo:', error);
+        res.status(500).json({ message: error.message });
     }
 };

@@ -1,5 +1,5 @@
 import express from 'express';
-import { login,signup } from '../20240912_COD_controllers/20240912_COD_authController.js';
+import { login, signup } from '../20240912_COD_controllers/20240912_COD_authController.js';
 import rateLimit from 'express-rate-limit'; 
 import { body } from 'express-validator';
 

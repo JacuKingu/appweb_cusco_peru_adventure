@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@components/*": [
+                "./20240912_COD_src/20240912_COD_components/*"
+            ],
+            "@pages/*": [
+                "./20240912_COD_src/20240912_COD_pages/*"
+            ],
+            "@services/*": [
+                "./20240912_COD_src/20240912_COD_services/*"
+            ],
+            "@routes/*": [
+                "./20240912_COD_src/20240912_COD_routes/*"
+            ]
+        }
+    },
+    "include": [
+        "20240912_COD_src"
+    ]
+}
