@@ -3,7 +3,8 @@ import * as pasaporteModel from '../20240912_COD_models/20240912_COD_pasaporteMo
 // Obtener todos los pasaportes activos
 export const obtenerPasaportes = async (req, res) => {
     try {
-        const pasaportes = await pasaporteModel.obtenerPasaportesActivos();
+        const rol = req.usuario.rol
+        const pasaportes = await pasaporteModel.obtenerPasaportesActivos(rol);
         res.status(200).json({
             success: true,
             data: pasaportes
@@ -16,10 +17,11 @@ export const obtenerPasaportes = async (req, res) => {
 // Obtener un pasaporte por ID
 export const obtenerPasaportePorId = async (req, res) => {
     const { id_pasaporte } = req.params;
+    const rol = req.usuario.rol
     try {
-        const pasaporte = await pasaporteModel.obtenerPasaportePorId(id_pasaporte);
+        const pasaporte = await pasaporteModel.obtenerPasaportePorId(id_pasaporte,rol);
         if (!pasaporte) {
-            return res.status(404).json({ mensaje: 'Pasaporte no encontrado' });
+            return res.status(404).json({ mensaje: 'Pasaporte no encontrado o no tienes permiso para verlo' });
         }
         res.status(200).json({ success: true, data: pasaporte });
     } catch (error) {

@@ -32,21 +32,22 @@ export const login = async (req, res) => {
     }
 };
 
-// Registrar un nuevo usuario (Signup)
 export const signup = async (req, res) => {
     const { nombre, contraseña, rol } = req.body;
 
     try {
-        // Encriptar la contraseña
+        // Encriptar la contraseña antes de enviar al procedimiento almacenado
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(contraseña, salt);
 
-        // Llamar al modelo signupUsuario para insertar un nuevo usuario
+        // Llamar al modelo para registrar el usuario
         const mensaje = await Auth.signupUsuario(nombre, hashedPassword, rol);
 
+        // Enviar la respuesta con el mensaje devuelto por el procedimiento almacenado
         res.status(201).json({ message: mensaje });
     } catch (error) {
         console.error('Error al registrar usuario:', error);
         res.status(500).json({ message: 'Error al registrar usuario' });
     }
 };
+

@@ -373,22 +373,35 @@ CREATE PROCEDURE loginUsuario(
     OUT contraseña_hash VARCHAR(255)
 )
 BEGIN
-    DECLARE usuario_activado TINYINT(1) DEFAULT 0;
+    DECLARE usuario_existe INT DEFAULT 0;
+    DECLARE usuario_activo TINYINT(1);
 
-    -- Verificar si el usuario existe y obtener datos relevantes
-    SELECT id_usuario, rol, activo, contraseña 
-    INTO id_usuario, rol_usuario, usuario_activado, contraseña_hash
+    -- Verificar si el usuario existe y obtener el valor de activo
+    SELECT COUNT(*), activo 
+    INTO usuario_existe, usuario_activo 
     FROM usuarios 
     WHERE nombre = nombre_usuario;
 
-    -- Si el usuario no existe
-    IF id_usuario IS NULL THEN
-        SET mensaje = 'Usuario no encontrado.';
-    ELSEIF usuario_activado = 0 THEN
-        -- Si el usuario no está activado
-        SET mensaje = 'Usuario no activado. Por favor, contacta al administrador.';
+    IF usuario_existe = 0 THEN
+        -- Si el usuario no existe, establecer mensaje
+        SET mensaje = 'Usuario no encontrado o no tienes permiso para verlo';
+        SET rol_usuario = NULL;
+        SET id_usuario = NULL;
+        SET contraseña_hash = NULL;
+    ELSEIF usuario_activo = 0 THEN
+        -- Si el usuario existe pero no está activado, establecer mensaje
+        SET mensaje = 'Usuario no activado';
+        SET rol_usuario = NULL;
+        SET id_usuario = NULL;
+        SET contraseña_hash = NULL;
     ELSE
-        -- Si el usuario existe y está activado
+        -- Si el usuario existe y está activo, obtener sus datos
+        SELECT id_usuario, rol, contraseña 
+        INTO id_usuario, rol_usuario, contraseña_hash
+        FROM usuarios 
+        WHERE nombre = nombre_usuario;
+
+        -- Establecer el mensaje de éxito
         SET mensaje = 'Usuario encontrado. Contraseña verificada externamente.';
     END IF;
 END //
@@ -412,9 +425,9 @@ BEGIN
     ELSE
         -- Insertar el nuevo usuario con activo = 0
         INSERT INTO usuarios (nombre, contraseña, rol, activo) 
-        VALUES (nombre_usuario, contraseña_usuario, rol_usuario, 0);
+        VALUES (nombre_usuario, contraseña_usuario, rol_usuario, 1);
 
-        SET mensaje = 'Registro exitoso. Tu cuenta ha sido creada y está pendiente de activación.';
+        SET mensaje = 'Registro exitoso. La cuenta ha sido creada.';
     END IF;
 END //
 

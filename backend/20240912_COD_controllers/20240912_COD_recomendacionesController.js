@@ -3,7 +3,8 @@ import * as recomendacionesModel from '../20240912_COD_models/20240912_COD_recom
 // Obtener todas las recomendaciones activas
 export const obtenerRecomendaciones = async (req, res) => {
     try {
-        const recomendaciones = await recomendacionesModel.obtenerRecomendacionesActivas();
+        const rol = req.usuario.rol
+        const recomendaciones = await recomendacionesModel.obtenerRecomendacionesActivas(rol);
         res.status(200).json({
             success: true,
             data: recomendaciones
@@ -16,8 +17,9 @@ export const obtenerRecomendaciones = async (req, res) => {
 // Obtener una recomendación por ID
 export const obtenerRecomendacionPorId = async (req, res) => {
     const { id_recomendacion } = req.params;
+    const rol = req.usuario.rol
     try {
-        const recomendacion = await recomendacionesModel.obtenerRecomendacionPorId(id_recomendacion);
+        const recomendacion = await recomendacionesModel.obtenerRecomendacionPorId(id_recomendacion,rol);
         if (!recomendacion) {
             return res.status(404).json({ mensaje: 'Recomendación no encontrada' });
         }

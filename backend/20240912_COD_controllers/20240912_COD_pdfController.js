@@ -3,7 +3,8 @@ import * as pdfModel from '../20240912_COD_models/20240912_COD_pdfModel.js';
 // Obtener todos los PDFs activos
 export const obtenerPdfs = async (req, res) => {
     try {
-        const pdfs = await pdfModel.obtenerPdfsActivos();
+        const rol = req.usuario.rol
+        const pdfs = await pdfModel.obtenerPdfsActivos(rol);
         res.status(200).json({
             success: true,
             data: pdfs
@@ -16,10 +17,11 @@ export const obtenerPdfs = async (req, res) => {
 // Obtener un PDF por ID
 export const obtenerPdfPorId = async (req, res) => {
     const { id_pdf } = req.params;
+    const rol = req.usuario.rol
     try {
-        const pdf = await pdfModel.obtenerPdfPorId(id_pdf);
+        const pdf = await pdfModel.obtenerPdfPorId(id_pdf,rol);
         if (!pdf) {
-            return res.status(404).json({ mensaje: 'PDF no encontrado' });
+            return res.status(404).json({ mensaje: 'PDF no encontrado o no tienes permiso para verlo' });
         }
         res.status(200).json({ success: true, data: pdf });
     } catch (error) {

@@ -19,10 +19,21 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: ' http://localhost:5173' }));
-app.use(helmet());
+// Configuración de CORS
+const corsOptions = {
+    origin: ['http://localhost:5173', 'http://localhost:3001'], // Agregar dominios permitidos
+    optionsSuccessStatus: 200, // Para navegadores antiguos
+    credentials: true // Habilitar cookies y headers con credenciales
+};
+app.use(cors(corsOptions));
 
-app.use(express.json());
+// Seguridad con Helmet
+app.use(helmet({
+    contentSecurityPolicy: false, // Desactivar CSP si usas fuentes externas (opcional)
+    crossOriginEmbedderPolicy: false // Necesario para algunos casos de CORS
+}));
+
+app.use(express.json({ limit: '10mb' }));
 
 //Uso de rutas
 app.use('/appweb/auth',authRoutes);
@@ -34,6 +45,11 @@ app.use('/appweb/recomendacion',recomendacionesRoutes);
 app.use('/appweb/reserva',reservasRoutes);
 app.use('/appweb/usuario',usuarioRoutes);
 app.use('/appweb/tour',toursRoutes);
+
+// Middleware para manejar rutas no encontradas
+app.use((req, res, next) => {
+    res.status(404).json({ message: 'Ruta no encontrada' });
+});
 
 //Manejo de errores
 app.use(errorHandler);

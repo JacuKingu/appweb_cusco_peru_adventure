@@ -3,7 +3,8 @@ import * as clientesModel from '../20240912_COD_models/20240912_COD_clientesMode
 // Obtener todos los clientes activos
 export const obtenerClientes = async (req, res) => {
     try {
-        const clientes = await clientesModel.obtenerClientesActivos();
+        const rol = req.usuario.rol
+        const clientes = await clientesModel.obtenerClientesActivos(rol);
         res.status(200).json({
             success: true,
             data: clientes
@@ -16,10 +17,11 @@ export const obtenerClientes = async (req, res) => {
 // Obtener un cliente por ID
 export const obtenerClientePorId = async (req, res) => {
     const { id_cliente } = req.params;
+    const rol = req.usuario.rol
     try {
-        const cliente = await clientesModel.obtenerClientePorId(id_cliente);
+        const cliente = await clientesModel.obtenerClientePorId(id_cliente,rol);
         if (!cliente) {
-            return res.status(404).json({ mensaje: 'Cliente no encontrado' });
+            return res.status(404).json({ mensaje: 'Cliente no encontrado o no tienes permiso para verlo' });
         }
         res.status(200).json({ success: true, data: cliente });
     } catch (error) {

@@ -3,7 +3,8 @@ import * as reservasModel from '../20240912_COD_models/20240912_COD_reservasMode
 // Obtener todas las reservas activas
 export const obtenerReservas = async (req, res) => {
     try {
-        const reservas = await reservasModel.obtenerReservasActivas();
+        const rol = req.usuario.rol
+        const reservas = await reservasModel.obtenerReservasActivas(rol);
         res.status(200).json({
             success: true,
             data: reservas
@@ -16,8 +17,9 @@ export const obtenerReservas = async (req, res) => {
 // Obtener una reserva por ID
 export const obtenerReservaPorId = async (req, res) => {
     const { id_reserva } = req.params;
+    const rol = req.usuario.rol
     try {
-        const reserva = await reservasModel.obtenerReservaPorId(id_reserva);
+        const reserva = await reservasModel.obtenerReservaPorId(id_reserva,rol);
         if (!reserva) {
             return res.status(404).json({ mensaje: 'Reserva no encontrada' });
         }

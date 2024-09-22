@@ -4,7 +4,8 @@ import bcrypt from 'bcrypt';
 // Obtener todos los usuarios activos
 export const obtenerUsuarios = async (req, res) => {
   try {
-    const usuarios = await usuariosModel.obtenerUsuariosActivos();
+    const rol = req.usuario.rol
+    const usuarios = await usuariosModel.obtenerUsuariosActivos(rol);
     res.status(200).json({
       success: true,
       data: usuarios
@@ -17,10 +18,11 @@ export const obtenerUsuarios = async (req, res) => {
 // Obtener un usuario por ID
 export const obtenerUsuarioPorId = async (req, res) => {
   const { id_usuario } = req.params;
+  const rol = req.usuario.rol
   try {
-    const usuario = await usuariosModel.obtenerUsuarioPorId(id_usuario);
+    const usuario = await usuariosModel.obtenerUsuarioPorId(id_usuario,rol);
     if (!usuario) {
-      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+      return res.status(404).json({ mensaje: 'Usuario no encontrado o no tienes permiso para verlo' });
     }
     res.status(200).json({ success: true, data: usuario });
   } catch (error) {

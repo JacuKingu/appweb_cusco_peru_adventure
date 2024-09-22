@@ -5,11 +5,26 @@ export const obtenerGrupos = async (req, res) => {
     try {
         const grupos = await gruposModel.obtenerGruposActivos();
         res.status(200).json({
-            success:true,
-            data:grupos
+            success: true,
+            data: grupos
         });
     } catch (error) {
-        res.status(500).json({ success:false, error: 'Error al obtener grupos' });
+        res.status(500).json({ success: false, error: 'Error al obtener grupos' });
+    }
+};
+
+// Obtener un grupo por ID
+export const obtenerGrupoPorId = async (req, res) => {
+    const { id_grupo } = req.params;
+    const rol = req.usuario.rol
+    try {
+        const grupo = await gruposModel.obtenerGrupoPorId(id_grupo,rol);
+        if (!grupo) {
+            return res.status(404).json({ mensaje: 'Grupo no encontrado o no tienes permiso para verlo' });
+        }
+        res.status(200).json({ success: true, data: grupo });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Error al obtener grupo' });
     }
 };
 
