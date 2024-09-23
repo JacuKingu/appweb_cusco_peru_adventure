@@ -8,7 +8,7 @@ const router = express.Router();
 // Limitar el número de intentos de inicio de sesión
 const loginLimiter = rateLimit({
     windowMs: 5 * 60 * 1000, // 5 minutos
-    max: 5, // Limitar a 5 intentos por IP cada 5 minutos
+    max: 15, // Limitar a 5 intentos por IP cada 5 minutos
     message: 'Demasiados intentos de inicio de sesión. Por favor, inténtelo de nuevo después de 5 minutos.',
     standardHeaders: true, // Retorna la información de limitación en los headers `RateLimit-*`
     legacyHeaders: false, // Desactiva los headers `X-RateLimit-*`

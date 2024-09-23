@@ -1,0 +1,18 @@
+/* 20240912_COD_styles/20240912_COD_layout.css */
+.layout {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px; /* Ancho del menú lateral */
+    background-color: #2d3748; /* Fondo oscuro */
+    color: #fff; /* Texto blanco */
+    padding: 20px;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f7fafc; /* Fondo claro */
+}
