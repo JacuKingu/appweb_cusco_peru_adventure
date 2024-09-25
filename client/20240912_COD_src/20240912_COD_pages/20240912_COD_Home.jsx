@@ -1,4 +1,3 @@
-// 20240912_COD_Home.jsx
 import React from 'react';
 
 const Home = () => {

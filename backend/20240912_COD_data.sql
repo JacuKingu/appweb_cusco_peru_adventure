@@ -91,6 +91,16 @@ CREATE TABLE usuarios (
     activo TINYINT(1) DEFAULT 1 
 );
 
+CREATE TABLE ocr_procesos (
+    id_proceso INT AUTO_INCREMENT PRIMARY KEY,
+    id_pdf INT NOT NULL,
+    estado VARCHAR(50) NOT NULL DEFAULT 'pendiente',
+    mensaje TEXT,
+    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_pdf) REFERENCES pdf(id_pdf)
+);
+
+
 DELIMITER //
 
 -- Procedimientos para la tabla de pdf
@@ -161,107 +171,107 @@ BEGIN
     UPDATE tours SET activo = 0 WHERE id_tour = id;
 END //
 
--- Procedimientos para la tabla de grupos
-CREATE PROCEDURE insertarGrupo(IN id_pdf INT, IN nombre VARCHAR(100))
-BEGIN
-    INSERT INTO grupos (id_pdf, grupo) VALUES (id_pdf, nombre);
-END //
+    -- Procedimientos para la tabla de grupos
+    CREATE PROCEDURE insertarGrupo(IN id_pdf INT, IN nombre VARCHAR(100))
+    BEGIN
+        INSERT INTO grupos (id_pdf, grupo) VALUES (id_pdf, nombre);
+    END //
 
-CREATE PROCEDURE obtenerGruposActivos(IN rol ENUM('admin', 'asesor'))
-BEGIN
-    IF rol = 'asesor' THEN
-        SELECT * FROM grupos WHERE activo = 1;
-    ELSE
-        SELECT * FROM grupos;
-    END IF;
-END //
+    CREATE PROCEDURE obtenerGruposActivos(IN rol ENUM('admin', 'asesor'))
+    BEGIN
+        IF rol = 'asesor' THEN
+            SELECT * FROM grupos WHERE activo = 1;
+        ELSE
+            SELECT * FROM grupos;
+        END IF;
+    END //
 
-CREATE PROCEDURE obtenerGrupoPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
-BEGIN
-    IF rol = 'asesor' THEN
-        SELECT * FROM grupos WHERE id_grupo = id AND activo = 1;
-    ELSE
-        SELECT * FROM grupos WHERE id_grupo = id;
-    END IF;
-END //
+    CREATE PROCEDURE obtenerGrupoPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+    BEGIN
+        IF rol = 'asesor' THEN
+            SELECT * FROM grupos WHERE id_grupo = id AND activo = 1;
+        ELSE
+            SELECT * FROM grupos WHERE id_grupo = id;
+        END IF;
+    END //
 
-CREATE PROCEDURE actualizarGrupo(IN id INT, IN nuevo_id_pdf INT, IN nuevo_nombre VARCHAR(100))
-BEGIN
-    UPDATE grupos SET id_pdf = nuevo_id_pdf, grupo = nuevo_nombre WHERE id_grupo = id AND activo = 1;
-END //
+    CREATE PROCEDURE actualizarGrupo(IN id INT, IN nuevo_id_pdf INT, IN nuevo_nombre VARCHAR(100))
+    BEGIN
+        UPDATE grupos SET id_pdf = nuevo_id_pdf, grupo = nuevo_nombre WHERE id_grupo = id AND activo = 1;
+    END //
 
-CREATE PROCEDURE eliminarGrupo(IN id INT)
-BEGIN
-    UPDATE grupos SET activo = 0 WHERE id_grupo = id;
-END //
+    CREATE PROCEDURE eliminarGrupo(IN id INT)
+    BEGIN
+        UPDATE grupos SET activo = 0 WHERE id_grupo = id;
+    END //
 
--- Procedimientos para la tabla de clientes
-CREATE PROCEDURE insertarCliente(IN nombre VARCHAR(100), IN apellido VARCHAR(100), IN email VARCHAR(100), IN telefono VARCHAR(15), IN fecha_nacimiento DATE, IN id_grupo INT)
-BEGIN
-    INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
-END //
+    -- Procedimientos para la tabla de clientes
+    CREATE PROCEDURE insertarCliente(IN nombre VARCHAR(100), IN apellido VARCHAR(100), IN email VARCHAR(100), IN telefono VARCHAR(15), IN fecha_nacimiento DATE, IN id_grupo INT)
+    BEGIN
+        INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
+    END //
 
-CREATE PROCEDURE obtenerClientesActivos(IN rol ENUM('admin', 'asesor'))
-BEGIN
-    IF rol = 'asesor' THEN
-        SELECT * FROM clientes WHERE activo = 1;
-    ELSE
-        SELECT * FROM clientes;
-    END IF;
-END //
+    CREATE PROCEDURE obtenerClientesActivos(IN rol ENUM('admin', 'asesor'))
+    BEGIN
+        IF rol = 'asesor' THEN
+            SELECT * FROM clientes WHERE activo = 1;
+        ELSE
+            SELECT * FROM clientes;
+        END IF;
+    END //
 
-CREATE PROCEDURE obtenerClientePorId(IN id INT, IN rol ENUM('admin', 'asesor'))
-BEGIN
-    IF rol = 'asesor' THEN
-        SELECT * FROM clientes WHERE id_cliente = id AND activo = 1;
-    ELSE
-        SELECT * FROM clientes WHERE id_cliente = id;
-    END IF;
-END //
+    CREATE PROCEDURE obtenerClientePorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+    BEGIN
+        IF rol = 'asesor' THEN
+            SELECT * FROM clientes WHERE id_cliente = id AND activo = 1;
+        ELSE
+            SELECT * FROM clientes WHERE id_cliente = id;
+        END IF;
+    END //
 
-CREATE PROCEDURE actualizarCliente(IN id INT, IN nuevo_nombre VARCHAR(100), IN nuevo_apellido VARCHAR(100), IN nuevo_email VARCHAR(100), IN nuevo_telefono VARCHAR(15), IN nueva_fecha_nacimiento DATE, IN nuevo_id_grupo INT)
-BEGIN
-    UPDATE clientes SET nombre = nuevo_nombre, apellido = nuevo_apellido, email = nuevo_email, telefono = nuevo_telefono, fecha_nacimiento = nueva_fecha_nacimiento, id_grupo = nuevo_id_grupo WHERE id_cliente = id AND activo = 1;
-END //
+    CREATE PROCEDURE actualizarCliente(IN id INT, IN nuevo_nombre VARCHAR(100), IN nuevo_apellido VARCHAR(100), IN nuevo_email VARCHAR(100), IN nuevo_telefono VARCHAR(15), IN nueva_fecha_nacimiento DATE, IN nuevo_id_grupo INT)
+    BEGIN
+        UPDATE clientes SET nombre = nuevo_nombre, apellido = nuevo_apellido, email = nuevo_email, telefono = nuevo_telefono, fecha_nacimiento = nueva_fecha_nacimiento, id_grupo = nuevo_id_grupo WHERE id_cliente = id AND activo = 1;
+    END //
 
-CREATE PROCEDURE eliminarCliente(IN id INT)
-BEGIN
-    UPDATE clientes SET activo = 0 WHERE id_cliente = id;
-END //
+    CREATE PROCEDURE eliminarCliente(IN id INT)
+    BEGIN
+        UPDATE clientes SET activo = 0 WHERE id_cliente = id;
+    END //
 
--- Procedimientos para la tabla de pasaporte
-CREATE PROCEDURE insertarPasaporte(IN id_cliente INT, IN numero VARCHAR(20), IN pais VARCHAR(100), IN fecha_expiracion DATE)
-BEGIN
-    INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (id_cliente, numero, pais, fecha_expiracion);
-END //
+    -- Procedimientos para la tabla de pasaporte
+    CREATE PROCEDURE insertarPasaporte(IN id_cliente INT, IN numero VARCHAR(20), IN pais VARCHAR(100), IN fecha_expiracion DATE)
+    BEGIN
+        INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (id_cliente, numero, pais, fecha_expiracion);
+    END //
 
-CREATE PROCEDURE obtenerPasaportesActivos(IN rol ENUM('admin', 'asesor'))
-BEGIN
-    IF rol = 'asesor' THEN
-        SELECT * FROM pasaporte WHERE activo = 1;
-    ELSE
-        SELECT * FROM pasaporte;
-    END IF;
-END //
+    CREATE PROCEDURE obtenerPasaportesActivos(IN rol ENUM('admin', 'asesor'))
+    BEGIN
+        IF rol = 'asesor' THEN
+            SELECT * FROM pasaporte WHERE activo = 1;
+        ELSE
+            SELECT * FROM pasaporte;
+        END IF;
+    END //
 
-CREATE PROCEDURE obtenerPasaportePorId(IN id INT, IN rol ENUM('admin', 'asesor'))
-BEGIN
-    IF rol = 'asesor' THEN
-        SELECT * FROM pasaporte WHERE id_pasaporte = id AND activo = 1;
-    ELSE
-        SELECT * FROM pasaporte WHERE id_pasaporte = id;
-    END IF;
-END //
+    CREATE PROCEDURE obtenerPasaportePorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+    BEGIN
+        IF rol = 'asesor' THEN
+            SELECT * FROM pasaporte WHERE id_pasaporte = id AND activo = 1;
+        ELSE
+            SELECT * FROM pasaporte WHERE id_pasaporte = id;
+        END IF;
+    END //
 
-CREATE PROCEDURE actualizarPasaporte(IN id INT, IN nuevo_id_cliente INT, IN nuevo_numero VARCHAR(20), IN nuevo_pais VARCHAR(100), IN nueva_fecha_expiracion DATE)
-BEGIN
-    UPDATE pasaporte SET id_cliente = nuevo_id_cliente, numero_pasaporte = nuevo_numero, pais_emision = nuevo_pais, fecha_expiracion = nueva_fecha_expiracion WHERE id_pasaporte = id AND activo = 1;
-END //
+    CREATE PROCEDURE actualizarPasaporte(IN id INT, IN nuevo_id_cliente INT, IN nuevo_numero VARCHAR(20), IN nuevo_pais VARCHAR(100), IN nueva_fecha_expiracion DATE)
+    BEGIN
+        UPDATE pasaporte SET id_cliente = nuevo_id_cliente, numero_pasaporte = nuevo_numero, pais_emision = nuevo_pais, fecha_expiracion = nueva_fecha_expiracion WHERE id_pasaporte = id AND activo = 1;
+    END //
 
-CREATE PROCEDURE eliminarPasaporte(IN id INT)
-BEGIN
-    UPDATE pasaporte SET activo = 0 WHERE id_pasaporte = id;
-END //
+    CREATE PROCEDURE eliminarPasaporte(IN id INT)
+    BEGIN
+        UPDATE pasaporte SET activo = 0 WHERE id_pasaporte = id;
+    END //
 
 -- Procedimientos para la tabla de recomendaciones
 CREATE PROCEDURE insertarRecomendacion(IN id_cliente INT, IN id_tour INT, IN contenido TEXT)

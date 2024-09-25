@@ -1,4 +1,3 @@
-// 20240912_COD_reservasServices.js
 import api from './20240912_COD_Api';
 
 // Servicio para obtener todas las reservas activas

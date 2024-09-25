@@ -1,4 +1,3 @@
-// 20240912_COD_pdfServices.js
 import api from './20240912_COD_Api'; // Importa la instancia configurada de axios
 
 // Servicio para obtener todos los PDFs activos basados en el rol

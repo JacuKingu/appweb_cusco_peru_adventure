@@ -4,7 +4,9 @@ import * as toursService from '../20240912_COD_services/20240912_COD_toursServic
 export const obtenerTours = async (req, res) => {
     try {
         const rol = req.usuario.rol; // Obtener el rol del usuario autenticado
+        console.log("Rol recibido: ",rol);
         const tours = await toursService.obtenerToursActivos(rol);
+        
         res.status(200).json({
             success: true,
             data: tours

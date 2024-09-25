@@ -14,6 +14,7 @@ import recomendacionesRoutes from './20240912_COD_routes/20240912_COD_recomendac
 import reservasRoutes from './20240912_COD_routes/20240912_COD_reservasRoutes.js';
 import toursRoutes from './20240912_COD_routes/20240912_COD_toursRoutes.js';
 import usuarioRoutes from './20240912_COD_routes/20240912_COD_usuariosRoutes.js';
+import ocrRoutes from './20240912_COD_routes/20240912_COD_ocrRoutes.js';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ const app = express();
 // Configuración de CORS
 const corsOptions = {
     origin: ['http://localhost:5173', 'http://localhost:3001'], // Agregar dominios permitidos
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     optionsSuccessStatus: 200, // Para navegadores antiguos
     credentials: true // Habilitar cookies y headers con credenciales
 };
@@ -45,6 +47,7 @@ app.use('/appweb/recomendacion',recomendacionesRoutes);
 app.use('/appweb/reserva',reservasRoutes);
 app.use('/appweb/usuario',usuarioRoutes);
 app.use('/appweb/tour',toursRoutes);
+app.use('/appweb/ocr', ocrRoutes);
 
 // Middleware para manejar rutas no encontradas
 app.use((req, res, next) => {

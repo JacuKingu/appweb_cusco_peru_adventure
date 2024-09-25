@@ -1,7 +1,6 @@
-// 20240912_COD_Reservations.jsx
 import React from 'react';
 
-const Reservations = () => {
+const Reservacion = () => {
   return (
     <div className="min-h-screen p-6 bg-gray-100">
       <h1 className="text-3xl font-bold mb-6">Gestión de Reservas</h1>
@@ -11,4 +10,4 @@ const Reservations = () => {
   );
 };
 
-export default Reservations;
+export default Reservacion;

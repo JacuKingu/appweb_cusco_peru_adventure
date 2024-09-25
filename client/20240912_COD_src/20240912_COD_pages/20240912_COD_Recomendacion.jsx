@@ -1,4 +1,3 @@
-// 20240912_COD_Recommendations.jsx
 import React from 'react';
 
 const Recommendations = () => {

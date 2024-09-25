@@ -4,6 +4,7 @@ import * as toursModel from '../20240912_COD_models/20240912_COD_toursModel.js';
 export const obtenerToursActivos = async (rol) => {
     try {
         const tours = await toursModel.obtenerToursActivos(rol);
+        console.log('Tours obtenidos:', tours); // Verificar los datos obtenidos
         return tours;
     } catch (error) {
         console.error('Error en obtenerToursActivos:', error);

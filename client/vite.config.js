@@ -10,6 +10,9 @@ export default defineConfig({
       '@pages': path.resolve(__dirname, './20240912_COD_src/20240912_COD_pages'),
       '@services': path.resolve(__dirname, './20240912_COD_src/20240912_COD_services'),
       '@routes': path.resolve(__dirname, './20240912_COD_src/20240912_COD_routes'),
+      '@context': path.resolve(__dirname,'./20240912_COD_src/20240912_COD_context'),
+      '@layouts': path.resolve(__dirname,'./20240912_COD_src/20240912_COD_layouts'),
+      '@hooks': path.resolve(__dirname,'./20240912_COD_src/20240912_COD_hooks'),
     },
   },
 });

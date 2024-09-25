@@ -16,6 +16,15 @@
             ],
             "@styles/*":[
                 "./20240912_COD_src/20240912_COD_styles/*"
+            ],
+            "@context/*":[
+                "./20240912_COD_src/20240912_COD_context/*"
+            ],
+            "@layouts/*":[
+                "./20240912_COD_src/20240912_COD_layouts/*"
+            ],
+            "@hooks/*":[
+                "./20240912_COD_src/20240912_COD_hooks/*"
             ]
         }
     },

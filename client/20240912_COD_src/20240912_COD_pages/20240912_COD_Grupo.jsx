@@ -1,4 +1,3 @@
-// 20240912_COD_Groups.jsx
 import React from 'react';
 
 const Groups = () => {

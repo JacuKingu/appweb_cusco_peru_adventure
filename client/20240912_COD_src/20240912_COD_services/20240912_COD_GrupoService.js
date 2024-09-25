@@ -1,4 +1,3 @@
-// 20240912_COD_gruposServices.js
 import api from './20240912_COD_Api';
 
 // Servicio para obtener todos los grupos activos

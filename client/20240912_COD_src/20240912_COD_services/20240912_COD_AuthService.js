@@ -1,4 +1,3 @@
-// 20240912_COD_authServices.js
 import api from './20240912_COD_Api';
 
 // Servicio para iniciar sesión y obtener un token
