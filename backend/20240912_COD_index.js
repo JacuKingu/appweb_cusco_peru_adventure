@@ -14,7 +14,6 @@ import recomendacionesRoutes from './20240912_COD_routes/20240912_COD_recomendac
 import reservasRoutes from './20240912_COD_routes/20240912_COD_reservasRoutes.js';
 import toursRoutes from './20240912_COD_routes/20240912_COD_toursRoutes.js';
 import usuarioRoutes from './20240912_COD_routes/20240912_COD_usuariosRoutes.js';
-import ocrRoutes from './20240912_COD_routes/20240912_COD_ocrRoutes.js';
 
 dotenv.config();
 
@@ -47,7 +46,6 @@ app.use('/appweb/recomendacion',recomendacionesRoutes);
 app.use('/appweb/reserva',reservasRoutes);
 app.use('/appweb/usuario',usuarioRoutes);
 app.use('/appweb/tour',toursRoutes);
-app.use('/appweb/ocr', ocrRoutes);
 
 // Middleware para manejar rutas no encontradas
 app.use((req, res, next) => {
