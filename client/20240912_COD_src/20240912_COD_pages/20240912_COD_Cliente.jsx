@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { 
-    obtenerClientesPorRol, 
-    obtenerClientePorIdYRol, 
-    insertarCliente, 
-    actualizarCliente, 
+    obtenerClientesPorRol,
+    obtenerClientePorIdYRol,
+    insertarCliente,
+    actualizarCliente,
     eliminarCliente 
 } from '@services/20240912_COD_ClienteService';
+import { AuthContext } from '@context/20240912_COD_AuthContext';
 
 const Clientes = () => {
+    const { user } = useContext(AuthContext);
     const [clientes, setClientes] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
@@ -20,10 +22,33 @@ const Clientes = () => {
         fecha_nacimiento: '',
         id_grupo: ''
     });
+    useEffect(() => {
+        let isMounted = true;
+        const cargarClienteSeguro = async () => {
+            if (isMounted) {
+                await cargarClientes();
+            }
+        };
+        cargarClienteSeguro();
+        return () => {
+            isMounted = false;
+        };
+    },[]);
 
     useEffect(() => {
-        cargarClientes(); // Cargar clientes al montar el componente
-    }, []);
+        if (clienteActual) {
+          setFormValues({
+            nombre: clienteActual.nombre || clienteActual.cliente || '',
+            apellido: clienteActual.apellido || '',
+            email: clienteActual.email || '',
+            telefono: clienteActual.telefono || '',
+            fecha: clienteActual.fecha_nacimiento || '',
+            grupo: clienteActual.id_grupo || ''
+          });
+        } else {
+          limpiarFormulario();
+        }
+      }, [clienteActual]);
 
     const cargarClientes = async () => {
         setLoading(true);
@@ -31,7 +56,13 @@ const Clientes = () => {
         try {
             const rol = 'admin'; // Cambia según tu lógica de roles
             const response = await obtenerClientesPorRol(rol);
-            setClientes(response);
+            console.log('Respuesta de la API:' , response)
+            if (response.success && Array.isArray(response.data)){
+                setClientes(response.data);
+            }else{
+                setClientes([]);
+            }
+            
         } catch (error) {
             setError('Error al cargar los clientes: ' + error.message);
         } finally {
