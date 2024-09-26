@@ -4,13 +4,15 @@ import { AuthContext } from '../20240912_COD_context/20240912_COD_AuthContext';
 import Login from '@pages/20240912_COD_Login';
 import Home from '@pages/20240912_COD_Home';
 import Cliente from '@pages/20240912_COD_Cliente';
-import Reservacion from '@pages/20240912_COD_Reservacion';
-import Grupo from '@pages/20240912_COD_Grupo';
+import Reservas from '@pages/20240912_COD_Reservacion';
+import Grupos from '@pages/20240912_COD_Grupo';
 import Tour from '@pages/20240912_COD_Tour';
-import Pasaporte from '@pages/20240912_COD_Pasaporte';
-import Recomendacion from '@pages/20240912_COD_Recomendacion';
-import Usuario from '@pages/20240912_COD_Usuario';
+import Pasaportes from '@pages/20240912_COD_Pasaporte';
+import Recomendaciones from '@pages/20240912_COD_Recomendacion';
+import Usuarios from '@pages/20240912_COD_Usuario';
+import Pdf from '@pages/20240912_COD_Pdf';
 import MainLayout from '@layouts/20240912_COD_MainLayout';
+import Registrar from '@pages/20240912_COD_Registrar';
 
 const PrivateRoute = ({ children }) => {
     const { isAuthenticated } = useContext(AuthContext);
@@ -22,17 +24,20 @@ const AppRoutes = () => (
         <Routes>
             {/* Ruta pública para login */}
             <Route path="/login" element={<Login />} />
+            <Route path="/registrar" element={<Registrar />} />
+
             
             {/* Rutas protegidas dentro del MainLayout */}
             <Route path="/" element={<PrivateRoute><MainLayout /></PrivateRoute>}>
                 <Route path="home" element={<Home />} />
                 <Route path="clientes" element={<Cliente />} />
-                <Route path="reservaciones" element={<Reservacion />} />
-                <Route path="grupos" element={<Grupo />} />
+                <Route path="reservaciones" element={<Reservas />} />
+                <Route path="grupos" element={<Grupos />} />
                 <Route path="tour" element={<Tour />} />
-                <Route path="pasaportes" element={<Pasaporte />} />
-                <Route path="recomendaciones" element={<Recomendacion />} />
-                <Route path="usuarios" element={<Usuario />} />
+                <Route path="pasaportes" element={<Pasaportes />} />
+                <Route path="recomendaciones" element={<Recomendaciones />} />
+                <Route path="pdf" element={<Pdf />} />
+                <Route path="usuarios" element={<Usuarios />} />
                 {/* Puedes agregar más rutas aquí */}
             </Route>
             

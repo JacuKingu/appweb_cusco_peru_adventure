@@ -18,12 +18,13 @@ export const obtenerPdfPorIdYRol = async (id_pdf, rol) => {
         if (!response.data) {
             throw new Error('PDF no encontrado o no tienes permiso para verlo');
         }
-        return response.data;
+        return response.data; // El contenido del PDF debería estar en base64
     } catch (error) {
         console.error('Error en obtenerPdfPorIdYRol (Servicio):', error);
         throw new Error(error.response ? error.response.data.message : 'Error al obtener el PDF por ID');
     }
 };
+
 
 // Servicio para insertar un nuevo PDF
 export const insertarPdf = async (nombre_archivo, contenido) => {
@@ -41,6 +42,26 @@ export const insertarPdf = async (nombre_archivo, contenido) => {
     } catch (error) {
         console.error('Error en insertarPdf (Servicio):', error);
         throw new Error(error.response ? error.response.data.message : 'Error al insertar el PDF');
+    }
+};
+
+export const cargarPdf = async (archivo) => {
+    try {
+        // Crear un FormData para enviar el archivo
+        const formData = new FormData();
+        formData.append('archivo', archivo);
+
+        // Enviar el archivo al backend usando axios
+        const response = await api.post('/pdf/cargar', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        return response.data.mensaje; // Retorna el mensaje de éxito
+    } catch (error) {
+        console.error('Error al cargar el PDF (Frontend):', error);
+        throw new Error(error.response ? error.response.data.error : 'Error al cargar el PDF');
     }
 };
 

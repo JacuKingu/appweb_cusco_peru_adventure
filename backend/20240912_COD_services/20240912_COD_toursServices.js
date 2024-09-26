@@ -29,10 +29,33 @@ export const obtenerTourPorIdYRol = async (id_tour, rol) => {
 // Servicio para insertar un nuevo tour
 export const insertarTour = async (nombre, descripcion, duracion, precio, categoria) => {
     try {
+        console.log('recepcion de dato la ingresar tour: ',{
+            nombre, descripcion,duracion,precio,categoria
+        })
         await toursModel.insertarTour(nombre, descripcion, duracion, precio, categoria);
     } catch (error) {
         console.error('Error en insertarTour:', error);
         throw new Error('Error al insertar el tour');
+    }
+};
+
+export const cargarPdf = async (archivo) => {
+    try {
+        // Crear un FormData para enviar el archivo
+        const formData = new FormData();
+        formData.append('archivo', archivo);
+
+        // Enviar el archivo al backend usando axios
+        const response = await api.post('/pdf/cargar', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        return response.data.mensaje; // Retorna el mensaje de éxito
+    } catch (error) {
+        console.error('Error al cargar el PDF (Frontend):', error);
+        throw new Error(error.response ? error.response.data.error : 'Error al cargar el PDF');
     }
 };
 

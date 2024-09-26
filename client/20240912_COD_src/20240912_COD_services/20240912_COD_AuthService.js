@@ -21,6 +21,7 @@ export const loginUsuario = async (nombre, contraseña) => {
 export const signupUsuario = async (nombre, contraseña, rol) => {
     try {
         const response = await api.post('/auth/signup', { nombre, contraseña, rol });
+        console.log('para ver que datos van: ',response);
         return response.data.message; // Devuelve el mensaje de éxito
     } catch (error) {
         console.error('Error en signupUsuario (Frontend):', error);

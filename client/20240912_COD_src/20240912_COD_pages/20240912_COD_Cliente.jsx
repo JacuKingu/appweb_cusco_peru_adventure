@@ -9,7 +9,7 @@ import {
 import { AuthContext } from '@context/20240912_COD_AuthContext';
 
 const Clientes = () => {
-    const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext); // Obtiene el usuario autenticado del contexto
     const [clientes, setClientes] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
@@ -22,6 +22,7 @@ const Clientes = () => {
         fecha_nacimiento: '',
         id_grupo: ''
     });
+
     useEffect(() => {
         let isMounted = true;
         const cargarClienteSeguro = async () => {
@@ -38,12 +39,12 @@ const Clientes = () => {
     useEffect(() => {
         if (clienteActual) {
           setFormValues({
-            nombre: clienteActual.nombre || clienteActual.cliente || '',
+            nombre: clienteActual.nombre || '',
             apellido: clienteActual.apellido || '',
             email: clienteActual.email || '',
             telefono: clienteActual.telefono || '',
-            fecha: clienteActual.fecha_nacimiento || '',
-            grupo: clienteActual.id_grupo || ''
+            fecha_nacimiento: clienteActual.fecha_nacimiento || '',
+            id_grupo: clienteActual.id_grupo || ''
           });
         } else {
           limpiarFormulario();
@@ -54,12 +55,12 @@ const Clientes = () => {
         setLoading(true);
         setError('');
         try {
-            const rol = 'admin'; // Cambia según tu lógica de roles
+            const rol = user?.rol || 'admin'; // Usa el rol del usuario autenticado o admin por defecto
             const response = await obtenerClientesPorRol(rol);
-            console.log('Respuesta de la API:' , response)
-            if (response.success && Array.isArray(response.data)){
+            console.log('Respuesta de la API:', response);
+            if (response.success && Array.isArray(response.data)) {
                 setClientes(response.data);
-            }else{
+            } else {
                 setClientes([]);
             }
             
@@ -78,13 +79,23 @@ const Clientes = () => {
         e.preventDefault();
         setError('');
         try {
+            const valoresLimpios = {
+                nombre: formValues.nombre || null,
+                apellido: formValues.apellido || null,
+                email: formValues.email || null,
+                telefono: formValues.telefono || null,
+                fecha_nacimiento: formValues.fecha_nacimiento || null,
+                id_grupo: formValues.id_grupo !== undefined ? formValues.id_grupo : null
+            };
+            console.log('Ingreso de datos:', valoresLimpios);
+
             if (clienteActual) {
                 // Actualizar cliente
-                await actualizarCliente(clienteActual.id_cliente, ...Object.values(formValues));
+                await actualizarCliente(clienteActual.id_cliente, ...Object.values(valoresLimpios));
                 setError('Cliente actualizado con éxito');
             } else {
                 // Insertar nuevo cliente
-                await insertarCliente(...Object.values(formValues));
+                await insertarCliente(...Object.values(valoresLimpios));
                 setError('Cliente agregado con éxito');
             }
             cargarClientes(); // Recargar la lista de clientes
@@ -96,10 +107,22 @@ const Clientes = () => {
 
     const manejarEdicion = async (id_cliente) => {
         try {
-            const rol = 'admin'; // Cambia según tu lógica de roles
+            const rol = user?.rol || 'admin'; // Usa el rol del usuario autenticado o admin por defecto
+            console.log("Este es el rol:", rol);
             const cliente = await obtenerClientePorIdYRol(id_cliente, rol);
-            setClienteActual(cliente); // Establecer el cliente actual para edición
-            setFormValues(cliente); // Llenar el formulario con los datos del cliente
+            if (cliente) {
+                setClienteActual(cliente);
+                setFormValues({
+                    nombre: cliente.nombre || '',
+                    apellido: cliente.apellido || '',
+                    email: cliente.email || '',
+                    telefono: cliente.telefono || '',
+                    fecha_nacimiento: cliente.fecha_nacimiento || '',
+                    id_grupo: cliente.id_grupo || ''
+                });
+            } else {
+                setError('Error: No se encontraron datos para este cliente.');
+            }
         } catch (error) {
             setError('Error al cargar el cliente: ' + error.message);
         }

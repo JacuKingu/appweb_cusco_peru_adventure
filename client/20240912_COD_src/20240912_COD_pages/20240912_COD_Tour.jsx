@@ -76,11 +76,19 @@ const Tour = () => {
     e.preventDefault();
     setError('');
     try {
+      const valoresLimpios = {
+        nombre: formValues.nombre || null,
+        descripcion: formValues.descripcion || null,
+        duracion: formValues.duracion !== undefined ? formValues.duracion : null,
+        precio: formValues.precio !== undefined ? formValues.precio : null,
+        categoria: formValues.categoria || null
+      };
+      console.log('ingreso de datos: ', valoresLimpios);
       if (tourActual) {
-        await actualizarTour(tourActual.id_tour, ...Object.values(formValues));
+        await actualizarTour(tourActual.id_tour, ...Object.values(valoresLimpios));
         setError('Tour actualizado con éxito');
       } else {
-        await insertarTour(...Object.values(formValues));
+        await insertarTour(...Object.values(valoresLimpios));
         setError('Tour agregado con éxito');
       }
       cargarTours();

@@ -16,19 +16,17 @@ export const obtenerPdfs = async (req, res) => {
 
 // Obtener un PDF por ID considerando el rol
 export const obtenerPdfPorId = async (req, res) => {
-    const { id_pdf } = req.params;
-    const rol = req.usuario.rol; // Obtener el rol del usuario autenticado
-
     try {
+        const { id_pdf } = req.params;
+        const { rol } = req.query;
         const pdf = await pdfService.obtenerPdfPorIdYRol(id_pdf, rol);
-        if (!pdf) {
-            return res.status(404).json({ mensaje: 'PDF no encontrado o no tienes permiso para verlo' });
-        }
-        res.status(200).json({ success: true, data: pdf });
+        res.status(200).json(pdf);
     } catch (error) {
-        res.status(500).json({ success: false, error: 'Error al obtener PDF' });
+        console.error('Error en obtenerPdfPorId:', error);
+        res.status(500).json({ message: error.message });
     }
 };
+
 
 // Insertar un nuevo PDF
 export const insertarPdf = async (req, res) => {
@@ -47,8 +45,7 @@ export const insertarPdf = async (req, res) => {
 // Cargar un nuevo PDF y guardarlo en la base de datos
 export const cargarPdf = async (req, res) => {
     try {
-        // `req.file` contiene la información del archivo cargado por multer
-        const archivo = req.file.originalname;
+        const archivo = req.file.originalname; // Nombre del archivo
         const contenido = req.file.buffer; // Contenido del archivo en formato BLOB
 
         // Insertar el archivo en la base de datos
@@ -60,6 +57,7 @@ export const cargarPdf = async (req, res) => {
         res.status(500).json({ error: 'Error al cargar PDF' });
     }
 };
+
 
 
 // Actualizar un PDF

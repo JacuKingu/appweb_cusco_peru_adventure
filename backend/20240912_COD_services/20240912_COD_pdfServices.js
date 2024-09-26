@@ -12,18 +12,23 @@ export const obtenerPdfsPorRol = async (rol) => {
 };
 
 // Servicio para obtener un PDF por ID considerando el rol
+// pdfServices.js - Codificar el contenido en base64 antes de enviarlo
 export const obtenerPdfPorIdYRol = async (id_pdf, rol) => {
     try {
         const pdf = await pdfModel.obtenerPdfPorId(id_pdf, rol);
         if (!pdf) {
             throw new Error('PDF no encontrado o no tienes permiso para verlo');
         }
+        // Codificar el contenido binario en base64 antes de enviarlo
+        pdf.contenido = Buffer.from(pdf.contenido).toString('base64');
         return pdf;
     } catch (error) {
         console.error('Error en obtenerPdfPorIdYRol (Servicio):', error);
         throw new Error('Error al obtener el PDF por ID');
     }
 };
+
+
 
 // Servicio para insertar un nuevo PDF
 export const insertarPdf = async (nombre_archivo, contenido) => {

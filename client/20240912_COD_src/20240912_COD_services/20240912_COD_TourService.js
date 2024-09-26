@@ -25,6 +25,13 @@ export const obtenerTourPorIdYRol = async (id_tour, rol) => {
 // Servicio para insertar un nuevo tour
 export const insertarTour = async (nombre, descripcion, duracion, precio, categoria) => {
     try {
+        console.log('Datos enviados al backend para insertar tour:', {
+            nombre,
+            descripcion,
+            duracion,
+            precio,
+            categoria
+        });
         const response = await api.post('/tour', { nombre, descripcion, duracion, precio, categoria });
         return response.data.message; // Devuelve el mensaje de éxito
     } catch (error) {

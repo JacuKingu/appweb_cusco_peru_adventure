@@ -33,9 +33,10 @@ export const obtenerTourPorId = async (req, res) => {
 
 // Insertar un nuevo tour
 export const insertarTour = async (req, res) => {
-    const { nombre_tour, descripcion, duracion, precio, categoria } = req.body;
+    const { nombre, descripcion, duracion, precio, categoria } = req.body;
+    console.log('Datos recibidos controller:', { nombre, descripcion, duracion, precio, categoria });
     try {
-        await toursService.insertarTour(nombre_tour, descripcion, duracion, precio, categoria);
+        await toursService.insertarTour(nombre, descripcion, duracion, precio, categoria);
         res.status(201).json({ message: 'Tour insertado exitosamente' });
     } catch (error) {
         console.error('Error al insertar tour:', error);
@@ -46,9 +47,9 @@ export const insertarTour = async (req, res) => {
 // Actualizar un tour existente
 export const actualizarTour = async (req, res) => {
     const { id_tour } = req.params;
-    const { nombre_tour, descripcion, duracion, precio, categoria } = req.body;
+    const { nombre, descripcion, duracion, precio, categoria } = req.body;
     try {
-        await toursService.actualizarTour(id_tour, nombre_tour, descripcion, duracion, precio, categoria);
+        await toursService.actualizarTour(id_tour, nombre, descripcion, duracion, precio, categoria);
         res.status(200).json({ message: 'Tour actualizado exitosamente' });
     } catch (error) {
         console.error('Error al actualizar tour:', error);

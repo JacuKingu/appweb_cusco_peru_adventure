@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { loginUsuario } from '../20240912_COD_services/20240912_COD_AuthService';
 import { AuthContext } from '../20240912_COD_context/20240912_COD_AuthContext';
 
@@ -7,20 +7,20 @@ const Login = () => {
     const [nombre, setNombre] = useState('');
     const [contraseña, setContraseña] = useState('');
     const [mostrarContraseña, setMostrarContraseña] = useState(false);
-    const [error, setError] = useState(''); // Nuevo estado para el mensaje de error
+    const [error, setError] = useState('');
     const { setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError(''); // Limpiar el mensaje de error al enviar el formulario
+        setError(''); 
         try {
             const { token } = await loginUsuario(nombre, contraseña);
             localStorage.setItem('authToken', token);
             setAuth(true);
             navigate('/home');
         } catch (error) {
-            setError('Error en el inicio de sesión: ' + error.message); // Establecer el mensaje de error
+            setError('Error en el inicio de sesión: ' + error.message); 
         }
     };
 
@@ -35,6 +35,7 @@ const Login = () => {
                         onChange={(e) => setNombre(e.target.value)} 
                         placeholder="Nombre" 
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        autoComplete='username'
                     />
                 </div>
                 <div className="mb-6 relative">
@@ -44,6 +45,7 @@ const Login = () => {
                         onChange={(e) => setContraseña(e.target.value)} 
                         placeholder="Contraseña" 
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        autoComplete='current-password'
                     />
                     <button 
                         type="button" 
@@ -53,13 +55,18 @@ const Login = () => {
                         {mostrarContraseña ? '🔓' : '🔒'} 
                     </button>
                 </div>
-                {/* {error && <p className="text-red-500 mb-4">{error}</p>}  */}
+                {error && <p className="text-red-500 mb-4">{error}</p>}
                 <button 
                     type="submit" 
                     className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
                 >
                     Iniciar Sesión
                 </button>
+                <div className="mt-4 text-center">
+                    <Link to="/registrar" className="text-blue-500 hover:underline">
+                        Regístrate aquí
+                    </Link>
+                </div>
             </form>
         </div>
     );
