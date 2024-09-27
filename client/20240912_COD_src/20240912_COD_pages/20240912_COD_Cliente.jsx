@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { 
+import {
     obtenerClientesPorRol,
     obtenerClientePorIdYRol,
     insertarCliente,
     actualizarCliente,
-    eliminarCliente 
+    eliminarCliente
 } from '@services/20240912_COD_ClienteService';
 import { AuthContext } from '@context/20240912_COD_AuthContext';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
+import { formatoFecha } from '@utils/20240912_COD_utils';
 
 const Clientes = () => {
     const { user } = useContext(AuthContext); // Obtiene el usuario autenticado del contexto
@@ -35,36 +36,42 @@ const Clientes = () => {
         return () => {
             isMounted = false;
         };
-    },[]);
+    }, []);
 
     useEffect(() => {
         if (clienteActual) {
-          setFormValues({
-            nombre: clienteActual.nombre || '',
-            apellido: clienteActual.apellido || '',
-            email: clienteActual.email || '',
-            telefono: clienteActual.telefono || '',
-            fecha_nacimiento: clienteActual.fecha_nacimiento || '',
-            id_grupo: clienteActual.id_grupo || ''
-          });
+            setFormValues({
+                nombre: clienteActual.nombre || '',
+                apellido: clienteActual.apellido || '',
+                email: clienteActual.email || '',
+                telefono: clienteActual.telefono || '',
+                fecha_nacimiento: formatoFecha(clienteActual.fecha_nacimiento) || '',
+                id_grupo: clienteActual.id_grupo || ''
+            });
         } else {
-          limpiarFormulario();
+            limpiarFormulario();
         }
-      }, [clienteActual]);
+    }, [clienteActual]);
 
     const cargarClientes = async () => {
         setLoading(true);
         setError('');
         try {
-            const rol = user?.rol || 'admin'; // Usa el rol del usuario autenticado o admin por defecto
+            const rol = localStorage.getItem('rolUser'); // Usa el rol del usuario autenticado
             const response = await obtenerClientesPorRol(rol);
             console.log('Respuesta de la API:', response);
+    
             if (response.success && Array.isArray(response.data)) {
-                setClientes(response.data);
+                // Formatear las fechas de cada cliente usando la función formatoFecha
+                const clientesFormateados = response.data.map(cliente => ({
+                    ...cliente,
+                    fecha_nacimiento: formatoFecha(cliente.fecha_nacimiento) // Formatear la fecha
+                }));
+                
+                setClientes(clientesFormateados);
             } else {
                 setClientes([]);
             }
-            
         } catch (error) {
             setError('Error al cargar los clientes: ' + error.message);
         } finally {
@@ -108,18 +115,24 @@ const Clientes = () => {
 
     const manejarEdicion = async (id_cliente) => {
         try {
-            const rol = user?.rol || 'admin'; // Usa el rol del usuario autenticado o admin por defecto
+            const rol = localStorage.getItem('rolUser'); // Usa el rol del usuario autenticado o admin por defecto
             console.log("Este es el rol:", rol);
             const cliente = await obtenerClientePorIdYRol(id_cliente, rol);
-            if (cliente) {
-                setClienteActual(cliente);
+            console.log('este es el cliente:', cliente);
+            console.log('estos datos enviados de cliente:', { id_cliente, rol });
+
+            if (cliente.success && cliente.data && cliente.data.length > 0) {
+                const datosCliente = cliente.data[0]; // Accede al primer cliente en el array
+                console.log('esta el fecha:', datosCliente.fecha_nacimiento);
+                const fechaFormato = formatoFecha(datosCliente.fecha_nacimiento);
+                setClienteActual(datosCliente);
                 setFormValues({
-                    nombre: cliente.nombre || '',
-                    apellido: cliente.apellido || '',
-                    email: cliente.email || '',
-                    telefono: cliente.telefono || '',
-                    fecha_nacimiento: cliente.fecha_nacimiento || '',
-                    id_grupo: cliente.id_grupo || ''
+                    nombre: datosCliente.nombre || '',
+                    apellido: datosCliente.apellido || '',
+                    email: datosCliente.email || '',
+                    telefono: datosCliente.telefono || '',
+                    fecha_nacimiento: fechaFormato || '',
+                    id_grupo: datosCliente.id_grupo || ''
                 });
             } else {
                 setError('Error: No se encontraron datos para este cliente.');
@@ -151,85 +164,85 @@ const Clientes = () => {
         });
     };
 
-    if (loading) return <SpineLoader/>;
+    if (loading) return <SpineLoader />;
 
     return (
         <div className="p-8">
             <h1 className="text-2xl font-bold mb-4">Gestión de Clientes</h1>
-            
+
             {/* Formulario para agregar/actualizar cliente */}
             <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
                 <h2 className="text-xl font-bold mb-4">{clienteActual ? 'Actualizar Cliente' : 'Agregar Cliente'}</h2>
                 <div className="mb-4">
-                    <input 
-                        type="text" 
-                        name="nombre" 
-                        value={formValues.nombre} 
-                        onChange={manejarCambio} 
-                        placeholder="Nombre" 
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    <input
+                        type="text"
+                        name="nombre"
+                        value={formValues.nombre}
+                        onChange={manejarCambio}
+                        placeholder="Nombre"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
                 <div className="mb-4">
-                    <input 
-                        type="text" 
-                        name="apellido" 
-                        value={formValues.apellido} 
-                        onChange={manejarCambio} 
-                        placeholder="Apellido" 
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    <input
+                        type="text"
+                        name="apellido"
+                        value={formValues.apellido}
+                        onChange={manejarCambio}
+                        placeholder="Apellido"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
                 <div className="mb-4">
-                    <input 
-                        type="email" 
-                        name="email" 
-                        value={formValues.email} 
-                        onChange={manejarCambio} 
-                        placeholder="Email" 
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    <input
+                        type="email"
+                        name="email"
+                        value={formValues.email}
+                        onChange={manejarCambio}
+                        placeholder="Email"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
                 <div className="mb-4">
-                    <input 
-                        type="tel" 
-                        name="telefono" 
-                        value={formValues.telefono} 
-                        onChange={manejarCambio} 
-                        placeholder="Teléfono" 
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    <input
+                        type="tel"
+                        name="telefono"
+                        value={formValues.telefono}
+                        onChange={manejarCambio}
+                        placeholder="Teléfono"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
                 <div className="mb-4">
-                    <input 
-                        type="date" 
-                        name="fecha_nacimiento" 
-                        value={formValues.fecha_nacimiento} 
-                        onChange={manejarCambio} 
-                        placeholder="Fecha de Nacimiento" 
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    <input
+                        type="date"
+                        name="fecha_nacimiento"
+                        value={formValues.fecha_nacimiento}
+                        onChange={manejarCambio}
+                        placeholder="Fecha de Nacimiento"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
                 <div className="mb-4">
-                    <input 
-                        type="number" 
-                        name="id_grupo" 
-                        value={formValues.id_grupo} 
-                        onChange={manejarCambio} 
-                        placeholder="ID del Grupo" 
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    <input
+                        type="number"
+                        name="id_grupo"
+                        value={formValues.id_grupo}
+                        onChange={manejarCambio}
+                        placeholder="ID del Grupo"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
                 >
                     {clienteActual ? 'Actualizar' : 'Agregar'}
                 </button>
                 {clienteActual && (
-                    <button 
-                        type="button" 
-                        onClick={limpiarFormulario} 
+                    <button
+                        type="button"
+                        onClick={limpiarFormulario}
                         className="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 mt-4"
                     >
                         Cancelar
@@ -265,14 +278,14 @@ const Clientes = () => {
                             <td className="py-2 px-4 border-b border-gray-200">{cliente.fecha_nacimiento}</td>
                             <td className="py-2 px-4 border-b border-gray-200">{cliente.id_grupo}</td>
                             <td className="py-2 px-4 border-b border-gray-200">
-                                <button 
-                                    onClick={() => manejarEdicion(cliente.id_cliente)} 
+                                <button
+                                    onClick={() => manejarEdicion(cliente.id_cliente)}
                                     className="bg-yellow-500 text-white py-1 px-3 rounded-lg hover:bg-yellow-600 mr-2"
                                 >
                                     Editar
                                 </button>
-                                <button 
-                                    onClick={() => manejarEliminacion(cliente.id_cliente)} 
+                                <button
+                                    onClick={() => manejarEliminacion(cliente.id_cliente)}
                                     className="bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600"
                                 >
                                     Eliminar

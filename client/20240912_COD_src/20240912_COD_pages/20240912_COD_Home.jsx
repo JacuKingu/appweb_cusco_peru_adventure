@@ -1,5 +1,5 @@
-import React, { useState } from 'react'; // Agregar useState a la importación
-import { cargarPdf } from '@services/20240912_COD_PdfService'; // Asegúrate de que la ruta del servicio esté correcta
+import React, { useState } from 'react'; 
+import { cargarPdf } from '@services/20240912_COD_PdfService'; 
 
 const Home = () => {
     const [archivo, setArchivo] = useState(''); // useState inicializado correctamente

@@ -1,8 +1,7 @@
 import express from 'express';
 import { login, signup } from '../20240912_COD_controllers/20240912_COD_authController.js';
 import rateLimit from 'express-rate-limit'; 
-import { body } from 'express-validator';
-import { validarUsuario, validarLogin } from '../20240912_COD_middlewares/20240912_COD_validationMiddleware.js'
+import { validarUsuario, validarLogin, manejarErroresDeValidacion } from '../20240912_COD_middlewares/20240912_COD_validationMiddleware.js'
 
 const router = express.Router();
 
@@ -16,9 +15,9 @@ const loginLimiter = rateLimit({
 });
 
 // Ruta para iniciar sesión con limitador de intentos
-router.post('/login', loginLimiter, validarLogin , login);
+router.post('/login', loginLimiter, validarLogin, manejarErroresDeValidacion,  login);
 
 // Ruta para registrar un nuevo usuario con validaciones
-router.post('/signup', validarUsuario , signup);
+router.post('/signup', validarUsuario, manejarErroresDeValidacion, signup);
 
 export default router;

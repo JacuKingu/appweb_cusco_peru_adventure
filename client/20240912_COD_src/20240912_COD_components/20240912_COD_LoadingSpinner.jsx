@@ -3,7 +3,6 @@ import '../20240912_COD_styles/20240912_COD_spinnerLoader.css';
 
 const SpineLoader = () => {
     return (
-        /*  <div class="loader"></div> */
         <div className="container">
             <div className="cloud front">
                 <span className="left-front"></span>

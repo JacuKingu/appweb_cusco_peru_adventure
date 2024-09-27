@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import { connection,iniciarDatabase } from './20240912_COD_db/20240912_COD_dbConnection.js';
 //Middleware
 import { errorHandler } from './20240912_COD_middlewares/20240912_COD_errorHandler.js';
 //Rutas
@@ -57,6 +58,14 @@ app.use(errorHandler);
 
 //puerto
 const PORT = process.env.PORT;
-app.listen(PORT,()=>{
-console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+
+iniciarDatabase().then(() =>{
+    app.listen(PORT,()=>{
+        console.log(`Servidor corriendo en el puerto ${PORT}`);
+        });
+}).catch((error) =>{
+    console.log('No se pudo iniciar la base de datos:', error);
+    process.exit(1);
+})
+
+

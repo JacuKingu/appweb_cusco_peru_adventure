@@ -1,8 +1,4 @@
-CREATE DATABASE cpa;
-USE cpa;
-
--- Tabla de pdf con almacenamiento de contenido
-CREATE TABLE pdf (
+CREATE TABLE IF NOT EXISTS pdf (
     id_pdf INT AUTO_INCREMENT PRIMARY KEY,
     archivo VARCHAR(255) NOT NULL,
     contenido LONGBLOB,
@@ -10,8 +6,7 @@ CREATE TABLE pdf (
     activo TINYINT(1) DEFAULT 1
 );
 
--- Tabla de tours
-CREATE TABLE tours (
+CREATE TABLE IF NOT EXISTS tours (
     id_tour INT AUTO_INCREMENT PRIMARY KEY,
     tour VARCHAR(100) NOT NULL,
     descripcion TEXT,
@@ -21,8 +16,7 @@ CREATE TABLE tours (
     activo TINYINT(1) DEFAULT 1
 );
 
--- Tabla de Grupos de Viaje
-CREATE TABLE grupos (
+CREATE TABLE IF NOT EXISTS grupos (
     id_grupo INT AUTO_INCREMENT PRIMARY KEY,
     id_pdf INT,
     grupo VARCHAR(100),
@@ -31,8 +25,7 @@ CREATE TABLE grupos (
     FOREIGN KEY (id_pdf) REFERENCES pdf(id_pdf)
 );
 
--- Tabla de Clientes
-CREATE TABLE clientes (
+CREATE TABLE IF NOT EXISTS clientes (
     id_cliente INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
@@ -45,8 +38,7 @@ CREATE TABLE clientes (
     FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo)
 );
 
--- Tabla de pasaporte
-CREATE TABLE pasaporte (
+CREATE TABLE IF NOT EXISTS pasaporte (
     id_pasaporte INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT,
     numero_pasaporte VARCHAR(20) UNIQUE NOT NULL,
@@ -57,8 +49,7 @@ CREATE TABLE pasaporte (
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
 
--- Tabla de Recomendaciones
-CREATE TABLE recomendaciones (
+CREATE TABLE IF NOT EXISTS recomendaciones (
     id_recomendacion INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT,
     id_tour INT,
@@ -69,8 +60,7 @@ CREATE TABLE recomendaciones (
     FOREIGN KEY (id_tour) REFERENCES tours(id_tour)
 );
 
--- Tabla de reservas
-CREATE TABLE reservas (
+CREATE TABLE IF NOT EXISTS reservas (
     id_reserva INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT,
     id_tour INT,
@@ -81,8 +71,7 @@ CREATE TABLE reservas (
     FOREIGN KEY (id_tour) REFERENCES tours(id_tour)
 );
 
--- Tabla de Usuarios Administrativos
-CREATE TABLE usuarios (
+CREATE TABLE IF NOT EXISTS usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) UNIQUE NOT NULL,
     contraseña VARCHAR(255) NOT NULL,
@@ -91,7 +80,7 @@ CREATE TABLE usuarios (
     activo TINYINT(1) DEFAULT 1 
 );
 
-CREATE TABLE ocr_procesos (
+CREATE TABLE IF NOT EXISTS ocr_procesos (
     id_proceso INT AUTO_INCREMENT PRIMARY KEY,
     id_pdf INT NOT NULL,
     estado VARCHAR(50) NOT NULL DEFAULT 'pendiente',
@@ -100,15 +89,14 @@ CREATE TABLE ocr_procesos (
     FOREIGN KEY (id_pdf) REFERENCES pdf(id_pdf)
 );
 
-
-DELIMITER //
-
 -- Procedimientos para la tabla de pdf
+DROP PROCEDURE IF EXISTS insertarPdf;
 CREATE PROCEDURE insertarPdf(IN nombre VARCHAR(255), IN contenido BLOB)
 BEGIN
     INSERT INTO pdf (archivo, contenido) VALUES (nombre, contenido);
-END //
+END;
 
+DROP PROCEDURE IF EXISTS obtenerPdfsActivos;
 CREATE PROCEDURE obtenerPdfsActivos(IN rol ENUM('admin', 'asesor'))
 BEGIN
     IF rol = 'asesor' THEN
@@ -116,33 +104,16 @@ BEGIN
     ELSE
         SELECT * FROM pdf;
     END IF;
-END //
-
-CREATE PROCEDURE obtenerPdfPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
-BEGIN
-    IF rol = 'asesor' THEN
-        SELECT * FROM pdf WHERE id_pdf = id AND activo = 1;
-    ELSE
-        SELECT * FROM pdf WHERE id_pdf = id;
-    END IF;
-END //
-
-CREATE PROCEDURE actualizarPdf(IN id INT, IN nuevo_nombre VARCHAR(255), IN nuevo_contenido BLOB)
-BEGIN
-    UPDATE pdf SET archivo = nuevo_nombre, contenido = nuevo_contenido WHERE id_pdf = id AND activo = 1;
-END //
-
-CREATE PROCEDURE eliminarPdf(IN id INT)
-BEGIN
-    UPDATE pdf SET activo = 0 WHERE id_pdf = id;
-END //
+END;
 
 -- Procedimientos para la tabla de tours
+DROP PROCEDURE IF EXISTS insertarTour;
 CREATE PROCEDURE insertarTour(IN nombre VARCHAR(100), IN descripcion TEXT, IN duracion INT, IN precio DECIMAL(10, 2), IN categoria VARCHAR(50))
 BEGIN
     INSERT INTO tours (tour, descripcion, duracion, precio, categoria) VALUES (nombre, descripcion, duracion, precio, categoria);
-END //
+END;
 
+DROP PROCEDURE IF EXISTS obtenerToursActivos;
 CREATE PROCEDURE obtenerToursActivos(IN rol ENUM('admin', 'asesor'))
 BEGIN
     IF rol = 'asesor' THEN
@@ -150,8 +121,9 @@ BEGIN
     ELSE
         SELECT * FROM tours;
     END IF;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS obtenerTourPorId;
 CREATE PROCEDURE obtenerTourPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
 BEGIN
     IF rol = 'asesor' THEN
@@ -159,126 +131,145 @@ BEGIN
     ELSE
         SELECT * FROM tours WHERE id_tour = id;
     END IF;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS actualizarTour;
 CREATE PROCEDURE actualizarTour(IN id INT, IN nuevo_nombre VARCHAR(100), IN nueva_descripcion TEXT, IN nueva_duracion INT, IN nuevo_precio DECIMAL(10, 2), IN nueva_categoria VARCHAR(50))
 BEGIN
     UPDATE tours SET tour = nuevo_nombre, descripcion = nueva_descripcion, duracion = nueva_duracion, precio = nuevo_precio, categoria = nueva_categoria WHERE id_tour = id AND activo = 1;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS eliminarTour;
 CREATE PROCEDURE eliminarTour(IN id INT)
 BEGIN
     UPDATE tours SET activo = 0 WHERE id_tour = id;
-END //
+END;
 
-    -- Procedimientos para la tabla de grupos
-    CREATE PROCEDURE insertarGrupo(IN id_pdf INT, IN nombre VARCHAR(100))
-    BEGIN
-        INSERT INTO grupos (id_pdf, grupo) VALUES (id_pdf, nombre);
-    END //
+-- Procedimientos para la tabla de grupos
+DROP PROCEDURE IF EXISTS insertarGrupo;
+CREATE PROCEDURE insertarGrupo(IN id_pdf INT, IN nombre VARCHAR(100))
+BEGIN
+    INSERT INTO grupos (id_pdf, grupo) VALUES (id_pdf, nombre);
+END;
 
-    CREATE PROCEDURE obtenerGruposActivos(IN rol ENUM('admin', 'asesor'))
-    BEGIN
-        IF rol = 'asesor' THEN
-            SELECT * FROM grupos WHERE activo = 1;
-        ELSE
-            SELECT * FROM grupos;
-        END IF;
-    END //
+DROP PROCEDURE IF EXISTS obtenerGruposActivos;
+CREATE PROCEDURE obtenerGruposActivos(IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM grupos WHERE activo = 1;
+    ELSE
+        SELECT * FROM grupos;
+    END IF;
+END;
 
-    CREATE PROCEDURE obtenerGrupoPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
-    BEGIN
-        IF rol = 'asesor' THEN
-            SELECT * FROM grupos WHERE id_grupo = id AND activo = 1;
-        ELSE
-            SELECT * FROM grupos WHERE id_grupo = id;
-        END IF;
-    END //
+DROP PROCEDURE IF EXISTS obtenerGrupoPorId;
+CREATE PROCEDURE obtenerGrupoPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM grupos WHERE id_grupo = id AND activo = 1;
+    ELSE
+        SELECT * FROM grupos WHERE id_grupo = id;
+    END IF;
+END;
 
-    CREATE PROCEDURE actualizarGrupo(IN id INT, IN nuevo_id_pdf INT, IN nuevo_nombre VARCHAR(100))
-    BEGIN
-        UPDATE grupos SET id_pdf = nuevo_id_pdf, grupo = nuevo_nombre WHERE id_grupo = id AND activo = 1;
-    END //
+DROP PROCEDURE IF EXISTS actualizarGrupo;
+CREATE PROCEDURE actualizarGrupo(IN id INT, IN nuevo_id_pdf INT, IN nuevo_nombre VARCHAR(100))
+BEGIN
+    UPDATE grupos SET id_pdf = nuevo_id_pdf, grupo = nuevo_nombre WHERE id_grupo = id AND activo = 1;
+END;
 
-    CREATE PROCEDURE eliminarGrupo(IN id INT)
-    BEGIN
-        UPDATE grupos SET activo = 0 WHERE id_grupo = id;
-    END //
+DROP PROCEDURE IF EXISTS eliminarGrupo;
+CREATE PROCEDURE eliminarGrupo(IN id INT)
+BEGIN
+    UPDATE grupos SET activo = 0 WHERE id_grupo = id;
+END;
 
-    -- Procedimientos para la tabla de clientes
-    CREATE PROCEDURE insertarCliente(IN nombre VARCHAR(100), IN apellido VARCHAR(100), IN email VARCHAR(100), IN telefono VARCHAR(15), IN fecha_nacimiento DATE, IN id_grupo INT)
-    BEGIN
-        INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
-    END //
+-- Procedimientos para la tabla de clientes
+DROP PROCEDURE IF EXISTS insertarCliente;
+CREATE PROCEDURE insertarCliente(IN nombre VARCHAR(100), IN apellido VARCHAR(100), IN email VARCHAR(100), IN telefono VARCHAR(15), IN fecha_nacimiento DATE, IN id_grupo INT)
+BEGIN
+    INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
+END;
 
-    CREATE PROCEDURE obtenerClientesActivos(IN rol ENUM('admin', 'asesor'))
-    BEGIN
-        IF rol = 'asesor' THEN
-            SELECT * FROM clientes WHERE activo = 1;
-        ELSE
-            SELECT * FROM clientes;
-        END IF;
-    END //
+DROP PROCEDURE IF EXISTS obtenerClientesActivos;
+CREATE PROCEDURE obtenerClientesActivos(IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM clientes WHERE activo = 1;
+    ELSE
+        SELECT * FROM clientes;
+    END IF;
+END;
 
-    CREATE PROCEDURE obtenerClientePorId(IN id INT, IN rol ENUM('admin', 'asesor'))
-    BEGIN
-        IF rol = 'asesor' THEN
-            SELECT * FROM clientes WHERE id_cliente = id AND activo = 1;
-        ELSE
-            SELECT * FROM clientes WHERE id_cliente = id;
-        END IF;
-    END //
+DROP PROCEDURE IF EXISTS obtenerClientePorId;
+CREATE PROCEDURE obtenerClientePorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM clientes WHERE id_cliente = id AND activo = 1;
+    ELSE
+        SELECT * FROM clientes WHERE id_cliente = id;
+    END IF;
+END;
 
-    CREATE PROCEDURE actualizarCliente(IN id INT, IN nuevo_nombre VARCHAR(100), IN nuevo_apellido VARCHAR(100), IN nuevo_email VARCHAR(100), IN nuevo_telefono VARCHAR(15), IN nueva_fecha_nacimiento DATE, IN nuevo_id_grupo INT)
-    BEGIN
-        UPDATE clientes SET nombre = nuevo_nombre, apellido = nuevo_apellido, email = nuevo_email, telefono = nuevo_telefono, fecha_nacimiento = nueva_fecha_nacimiento, id_grupo = nuevo_id_grupo WHERE id_cliente = id AND activo = 1;
-    END //
+DROP PROCEDURE IF EXISTS actualizarCliente;
+CREATE PROCEDURE actualizarCliente(IN id INT, IN nuevo_nombre VARCHAR(100), IN nuevo_apellido VARCHAR(100), IN nuevo_email VARCHAR(100), IN nuevo_telefono VARCHAR(15), IN nueva_fecha_nacimiento DATE, IN nuevo_id_grupo INT)
+BEGIN
+    UPDATE clientes SET nombre = nuevo_nombre, apellido = nuevo_apellido, email = nuevo_email, telefono = nuevo_telefono, fecha_nacimiento = nueva_fecha_nacimiento, id_grupo = nuevo_id_grupo WHERE id_cliente = id AND activo = 1;
+END;
 
-    CREATE PROCEDURE eliminarCliente(IN id INT)
-    BEGIN
-        UPDATE clientes SET activo = 0 WHERE id_cliente = id;
-    END //
+DROP PROCEDURE IF EXISTS eliminarCliente;
+CREATE PROCEDURE eliminarCliente(IN id INT)
+BEGIN
+    UPDATE clientes SET activo = 0 WHERE id_cliente = id;
+END;
 
-    -- Procedimientos para la tabla de pasaporte
-    CREATE PROCEDURE insertarPasaporte(IN id_cliente INT, IN numero VARCHAR(20), IN pais VARCHAR(100), IN fecha_expiracion DATE)
-    BEGIN
-        INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (id_cliente, numero, pais, fecha_expiracion);
-    END //
+-- Procedimientos para la tabla de pasaporte
+DROP PROCEDURE IF EXISTS insertarPasaporte;
+CREATE PROCEDURE insertarPasaporte(IN id_cliente INT, IN numero VARCHAR(20), IN pais VARCHAR(100), IN fecha_expiracion DATE)
+BEGIN
+    INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (id_cliente, numero, pais, fecha_expiracion);
+END;
 
-    CREATE PROCEDURE obtenerPasaportesActivos(IN rol ENUM('admin', 'asesor'))
-    BEGIN
-        IF rol = 'asesor' THEN
-            SELECT * FROM pasaporte WHERE activo = 1;
-        ELSE
-            SELECT * FROM pasaporte;
-        END IF;
-    END //
+DROP PROCEDURE IF EXISTS obtenerPasaportesActivos;
+CREATE PROCEDURE obtenerPasaportesActivos(IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM pasaporte WHERE activo = 1;
+    ELSE
+        SELECT * FROM pasaporte;
+    END IF;
+END;
 
-    CREATE PROCEDURE obtenerPasaportePorId(IN id INT, IN rol ENUM('admin', 'asesor'))
-    BEGIN
-        IF rol = 'asesor' THEN
-            SELECT * FROM pasaporte WHERE id_pasaporte = id AND activo = 1;
-        ELSE
-            SELECT * FROM pasaporte WHERE id_pasaporte = id;
-        END IF;
-    END //
+DROP PROCEDURE IF EXISTS obtenerPasaportePorId;
+CREATE PROCEDURE obtenerPasaportePorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM pasaporte WHERE id_pasaporte = id AND activo = 1;
+    ELSE
+        SELECT * FROM pasaporte WHERE id_pasaporte = id;
+    END IF;
+END;
 
-    CREATE PROCEDURE actualizarPasaporte(IN id INT, IN nuevo_id_cliente INT, IN nuevo_numero VARCHAR(20), IN nuevo_pais VARCHAR(100), IN nueva_fecha_expiracion DATE)
-    BEGIN
-        UPDATE pasaporte SET id_cliente = nuevo_id_cliente, numero_pasaporte = nuevo_numero, pais_emision = nuevo_pais, fecha_expiracion = nueva_fecha_expiracion WHERE id_pasaporte = id AND activo = 1;
-    END //
+DROP PROCEDURE IF EXISTS actualizarPasaporte;
+CREATE PROCEDURE actualizarPasaporte(IN id INT, IN nuevo_id_cliente INT, IN nuevo_numero VARCHAR(20), IN nuevo_pais VARCHAR(100), IN nueva_fecha_expiracion DATE)
+BEGIN
+    UPDATE pasaporte SET id_cliente = nuevo_id_cliente, numero_pasaporte = nuevo_numero, pais_emision = nuevo_pais, fecha_expiracion = nueva_fecha_expiracion WHERE id_pasaporte = id AND activo = 1;
+END;
 
-    CREATE PROCEDURE eliminarPasaporte(IN id INT)
-    BEGIN
-        UPDATE pasaporte SET activo = 0 WHERE id_pasaporte = id;
-    END //
+DROP PROCEDURE IF EXISTS eliminarPasaporte;
+CREATE PROCEDURE eliminarPasaporte(IN id INT)
+BEGIN
+    UPDATE pasaporte SET activo = 0 WHERE id_pasaporte = id;
+END;
 
 -- Procedimientos para la tabla de recomendaciones
+DROP PROCEDURE IF EXISTS insertarRecomendacion;
 CREATE PROCEDURE insertarRecomendacion(IN id_cliente INT, IN id_tour INT, IN contenido TEXT)
 BEGIN
     INSERT INTO recomendaciones (id_cliente, id_tour, contenido) VALUES (id_cliente, id_tour, contenido);
-END //
+END;
 
+DROP PROCEDURE IF EXISTS obtenerRecomendacionesActivas;
 CREATE PROCEDURE obtenerRecomendacionesActivas(IN rol ENUM('admin', 'asesor'))
 BEGIN
     IF rol = 'asesor' THEN
@@ -286,8 +277,9 @@ BEGIN
     ELSE
         SELECT * FROM recomendaciones;
     END IF;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS obtenerRecomendacionPorId;
 CREATE PROCEDURE obtenerRecomendacionPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
 BEGIN
     IF rol = 'asesor' THEN
@@ -295,24 +287,28 @@ BEGIN
     ELSE
         SELECT * FROM recomendaciones WHERE id_recomendacion = id;
     END IF;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS actualizarRecomendacion;
 CREATE PROCEDURE actualizarRecomendacion(IN id INT, IN nuevo_id_cliente INT, IN nuevo_id_tour INT, IN nuevo_contenido TEXT)
 BEGIN
     UPDATE recomendaciones SET id_cliente = nuevo_id_cliente, id_tour = nuevo_id_tour, contenido = nuevo_contenido WHERE id_recomendacion = id AND activo = 1;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS eliminarRecomendacion;
 CREATE PROCEDURE eliminarRecomendacion(IN id INT)
 BEGIN
     UPDATE recomendaciones SET activo = 0 WHERE id_recomendacion = id;
-END //
+END;
 
 -- Procedimientos para la tabla de reservas
+DROP PROCEDURE IF EXISTS insertarReserva;
 CREATE PROCEDURE insertarReserva(IN id_cliente INT, IN id_tour INT, IN estado ENUM('pendiente', 'confirmada', 'cancelada'))
 BEGIN
     INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (id_cliente, id_tour, estado);
-END //
+END;
 
+DROP PROCEDURE IF EXISTS obtenerReservasActivas;
 CREATE PROCEDURE obtenerReservasActivas(IN rol ENUM('admin', 'asesor'))
 BEGIN
     IF rol = 'asesor' THEN
@@ -320,8 +316,9 @@ BEGIN
     ELSE
         SELECT * FROM reservas;
     END IF;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS obtenerReservaPorId;
 CREATE PROCEDURE obtenerReservaPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
 BEGIN
     IF rol = 'asesor' THEN
@@ -329,24 +326,28 @@ BEGIN
     ELSE
         SELECT * FROM reservas WHERE id_reserva = id;
     END IF;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS actualizarReserva;
 CREATE PROCEDURE actualizarReserva(IN id INT, IN nuevo_id_cliente INT, IN nuevo_id_tour INT, IN nuevo_estado ENUM('pendiente', 'confirmada', 'cancelada'))
 BEGIN
     UPDATE reservas SET id_cliente = nuevo_id_cliente, id_tour = nuevo_id_tour, estado = nuevo_estado WHERE id_reserva = id AND activo = 1;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS eliminarReserva;
 CREATE PROCEDURE eliminarReserva(IN id INT)
 BEGIN
     UPDATE reservas SET activo = 0 WHERE id_reserva = id;
-END //
+END;
 
 -- Procedimientos para la tabla de usuarios
+DROP PROCEDURE IF EXISTS insertarUsuario;
 CREATE PROCEDURE insertarUsuario(IN nombre VARCHAR(50), IN contraseña VARCHAR(255), IN rol ENUM('admin', 'asesor'))
 BEGIN
     INSERT INTO usuarios (nombre, contraseña, rol) VALUES (nombre, contraseña, rol);
-END //
+END;
 
+DROP PROCEDURE IF EXISTS obtenerUsuariosActivos;
 CREATE PROCEDURE obtenerUsuariosActivos(IN rol ENUM('admin', 'asesor'))
 BEGIN
     IF rol = 'asesor' THEN
@@ -354,8 +355,9 @@ BEGIN
     ELSE
         SELECT * FROM usuarios;
     END IF;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS obtenerUsuarioPorId;
 CREATE PROCEDURE obtenerUsuarioPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
 BEGIN
     IF rol = 'asesor' THEN
@@ -363,18 +365,21 @@ BEGIN
     ELSE
         SELECT * FROM usuarios WHERE id_usuario = id;
     END IF;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS actualizarUsuario;
 CREATE PROCEDURE actualizarUsuario(IN id INT, IN nuevo_nombre VARCHAR(50), IN nueva_contraseña VARCHAR(255), IN nuevo_rol ENUM('admin', 'asesor'))
 BEGIN
     UPDATE usuarios SET nombre = nuevo_nombre, contraseña = nueva_contraseña, rol = nuevo_rol WHERE id_usuario = id AND activo = 1;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS eliminarUsuario;
 CREATE PROCEDURE eliminarUsuario(IN id INT)
 BEGIN
     UPDATE usuarios SET activo = 0 WHERE id_usuario = id;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS loginUsuario;
 CREATE PROCEDURE loginUsuario(
     IN nombre_usuario VARCHAR(50),
     OUT mensaje VARCHAR(255),
@@ -414,8 +419,9 @@ BEGIN
         -- Establecer el mensaje de éxito
         SET mensaje = 'Usuario encontrado. Contraseña verificada externamente.';
     END IF;
-END //
+END;
 
+DROP PROCEDURE IF EXISTS signupUsuario;
 CREATE PROCEDURE signupUsuario(
     IN nombre_usuario VARCHAR(50),
     IN contraseña_usuario VARCHAR(255), -- Contraseña encriptada
@@ -439,10 +445,10 @@ BEGIN
 
         SET mensaje = 'Registro exitoso. La cuenta ha sido creada.';
     END IF;
-END //
+END;
 
-DELIMITER ;
-INSERt INTO usuarios (nombre, contraseña, rol) VALUES ('admin','cuscoperuadventure$_2024_','admin')
+-- Insertar usuario administrador inicial
+INSERT IGNORE INTO usuarios (nombre, contraseña, rol) VALUES ('admin','cuscoperuadventure$_2024_','admin');
 
 
 /* 

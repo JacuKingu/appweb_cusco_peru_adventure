@@ -18,8 +18,9 @@ const Login = () => {
         setError('');
         setCargando(true); // Iniciar carga
         try {
-            const { token } = await loginUsuario(nombre, contraseña);
+            const { token,rol } = await loginUsuario(nombre, contraseña);
             localStorage.setItem('authToken', token);
+            localStorage.setItem('rolUser',rol)
             setAuth(true);
             navigate('/home');
         } catch (error) {
@@ -60,7 +61,6 @@ const Login = () => {
                         {mostrarContraseña ? '🔓' : '🔒'} 
                     </button>
                 </div>
-                <SpineLoader></SpineLoader>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <button 
                     type="submit" 

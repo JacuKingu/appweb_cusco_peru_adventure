@@ -14,34 +14,116 @@ import Pdf from '@pages/20240912_COD_Pdf';
 import MainLayout from '@layouts/20240912_COD_MainLayout';
 import Registrar from '@pages/20240912_COD_Registrar';
 
-const PrivateRoute = ({ children }) => {
+// Componente para rutas privadas basado en autenticación y rol
+const PrivateRoute = ({ children, roles }) => {
     const { isAuthenticated } = useContext(AuthContext);
-    return isAuthenticated ? children : <Navigate to="/login" />;
+    const rolUsuario = localStorage.getItem('rolUser'); // Obtiene el rol del usuario del localStorage
+
+    // Verifica si el usuario está autenticado y tiene el rol adecuado
+    if (!isAuthenticated) {
+        return <Navigate to="/login" />;
+    }
+
+    // Si se proporcionan roles específicos, verifica si el usuario tiene uno de esos roles
+    if (roles && !roles.includes(rolUsuario)) {
+        return <Navigate to="/home" />; // Redirige si no tiene el rol adecuado
+    }
+
+    return children;
 };
 
+// Definición de las rutas
 const AppRoutes = () => (
     <Router>
         <Routes>
-            {/* Ruta pública para login */}
+            {/* Rutas públicas */}
             <Route path="/login" element={<Login />} />
-            <Route path="/registrar" element={<Registrar />} />
+            {/* <Route path="/registrar" element={<Registrar />} /> */}
+            <Route
+                    path="/registrar"
+                    element={
+                        <PrivateRoute roles={['admin']}>
+                            <Registrar />
+                        </PrivateRoute>
+                    }
+                />
 
-            
-            {/* Rutas protegidas dentro del MainLayout */}
-            <Route path="/" element={<PrivateRoute><MainLayout /></PrivateRoute>}>
-                <Route path="home" element={<Home />} />
-                <Route path="clientes" element={<Cliente />} />
-                <Route path="reservaciones" element={<Reservas />} />
-                <Route path="grupos" element={<Grupos />} />
-                <Route path="tour" element={<Tour />} />
-                <Route path="pasaportes" element={<Pasaportes />} />
-                <Route path="recomendaciones" element={<Recomendaciones />} />
+            {/* Rutas protegidas */}
+            <Route
+                path="/"
+                element={
+                    <PrivateRoute>
+                        <MainLayout />
+                    </PrivateRoute>
+                }
+            >
+                <Route
+                    path="home"
+                    element={
+                        <PrivateRoute roles={['admin', 'asesor']}>
+                            <Home />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="clientes"
+                    element={
+                        <PrivateRoute roles={['admin', 'asesor']}>
+                            <Cliente />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="reservaciones"
+                    element={
+                        <PrivateRoute roles={['admin', 'asesor']}>
+                            <Reservas />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="grupos"
+                    element={
+                        <PrivateRoute roles={['admin', 'asesor']}>
+                            <Grupos />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="tour"
+                    element={
+                        <PrivateRoute roles={['admin', 'asesor']}>
+                            <Tour />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="pasaportes"
+                    element={
+                        <PrivateRoute roles={['admin', 'asesor']}>
+                            <Pasaportes />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="recomendaciones"
+                    element={
+                        <PrivateRoute roles={['admin', 'asesor']}>
+                            <Recomendaciones />
+                        </PrivateRoute>
+                    }
+                />
                 <Route path="pdf" element={<Pdf />} />
-                <Route path="usuarios" element={<Usuarios />} />
-                {/* Puedes agregar más rutas aquí */}
+                <Route
+                    path="usuarios"
+                    element={
+                        <PrivateRoute roles={['admin']}>
+                            <Usuarios />
+                        </PrivateRoute>
+                    }
+                />
             </Route>
-            
-            {/* Redirección a login si no se encuentra la ruta */}
             <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
     </Router>

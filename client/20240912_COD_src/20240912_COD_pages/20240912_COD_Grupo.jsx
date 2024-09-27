@@ -17,7 +17,7 @@ const Grupos = () => {
   const [grupoActual, setGrupoActual] = useState(null); // Para editar un grupo específico
   const [formValues, setFormValues] = useState({ // Valores del formulario
     id_pdf: '',
-    nombre_grupo: ''
+    grupo: ''
   });
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const Grupos = () => {
     if (grupoActual) {
       setFormValues({
         id_pdf: grupoActual.id_pdf || '',
-        nombre_grupo: grupoActual.nombre_grupo || ''
+        grupo: grupoActual.grupo || ''
       });
     } else {
       limpiarFormulario();
@@ -48,7 +48,7 @@ const Grupos = () => {
     setLoading(true);
     setError('');
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       const response = await obtenerGruposPorRol(rol);
       console.log('Respuesta de la API:', response);
       if (response.success && Array.isArray(response.data)) {
@@ -89,13 +89,15 @@ const Grupos = () => {
 
   const manejarEdicion = async (id_grupo) => {
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       const grupo = await obtenerGrupoPorIdYRol(id_grupo, rol);
-      if (grupo) {
-        setGrupoActual(grupo);
+      if (grupo.success && grupo.data && grupo.data.length > 0) {
+        const datosGrupo = grupo.data[0];
+        console.log('estos son los datos de grupo:', datosGrupo);
+        setGrupoActual(datosGrupo);
         setFormValues({
-          id_pdf: grupo.id_pdf || '',
-          nombre_grupo: grupo.nombre_grupo || ''
+          id_pdf: datosGrupo.id_pdf || '',
+          grupo: datosGrupo.grupo || ''
         });
       } else {
         setError('Error: No se encontraron datos para este grupo.');
@@ -119,7 +121,7 @@ const Grupos = () => {
     setGrupoActual(null);
     setFormValues({
       id_pdf: '',
-      nombre_grupo: ''
+      grupo: ''
     });
   };
 
@@ -145,8 +147,8 @@ const Grupos = () => {
         <div className="mb-4">
           <input
             type="text"
-            name="nombre_grupo"
-            value={formValues.nombre_grupo}
+            name="grupo"
+            value={formValues.grupo}
             onChange={manejarCambio}
             placeholder="Nombre del Grupo"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -187,7 +189,7 @@ const Grupos = () => {
             <tr key={grupo.id_grupo}>
               <td className="py-2 px-4 border-b border-gray-200">{grupo.id_grupo}</td>
               <td className="py-2 px-4 border-b border-gray-200">{grupo.id_pdf}</td>
-              <td className="py-2 px-4 border-b border-gray-200">{grupo.nombre_grupo}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{grupo.grupo}</td>
               <td className="py-2 px-4 border-b border-gray-200">
                 <button
                   onClick={() => manejarEdicion(grupo.id_grupo)}

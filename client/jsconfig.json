@@ -20,8 +20,8 @@
             "@layouts/*":[
                 "./20240912_COD_src/20240912_COD_layouts/*"
             ],
-            "@hooks/*":[
-                "./20240912_COD_src/20240912_COD_hooks/*"
+            "@utils/*":[
+                "./20240912_COD_src/20240912_COD_utils/*"
             ]
         }
     },

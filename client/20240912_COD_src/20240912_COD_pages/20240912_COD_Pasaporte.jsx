@@ -8,6 +8,7 @@ import {
 } from '@services/20240912_COD_PasaporteService';
 import { AuthContext } from '@context/20240912_COD_AuthContext';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
+import { formatoFecha } from '@utils/20240912_COD_utils';
 
 const Pasaportes = () => {
   const { user } = useContext(AuthContext); // Obtener el usuario autenticado del contexto
@@ -43,7 +44,7 @@ const Pasaportes = () => {
         id_cliente: pasaporteActual.id_cliente || '',
         numero_pasaporte: pasaporteActual.numero_pasaporte || '',
         pais_emision: pasaporteActual.pais_emision || '',
-        fecha_expiracion: pasaporteActual.fecha_expiracion || ''
+        fecha_expiracion: formatoFecha(pasaporteActual.fecha_expiracion) || ''
       });
     } else {
       limpiarFormulario(); // Limpia el formulario si `pasaporteActual` es `null` o `undefined`
@@ -55,10 +56,14 @@ const Pasaportes = () => {
     setLoading(true);
     setError('');
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       const response = await obtenerPasaportesPorRol(rol);
       console.log('Respuesta de la API:', response);
       if (response.success && Array.isArray(response.data)) {
+        const pasaporteFormato = response.data.map(pasaporte => ({
+          ...pasaporte,
+          fecha_expiracion: formatoFecha(pasaporte.fecha_expiracion)
+        }))
         setPasaportes(response.data);
       } else {
         setPasaportes([]);
@@ -107,15 +112,20 @@ const Pasaportes = () => {
   // Manejar edición de un pasaporte
   const manejarEdicion = async (id_pasaporte) => {
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       const pasaporte = await obtenerPasaportePorIdYRol(id_pasaporte, rol);
-      setPasaporteActual(pasaporte); // Establecer el pasaporte actual para edición
-      setFormValues({
-        id_cliente: pasaporte.id_cliente || '',
-        numero_pasaporte: pasaporte.numero_pasaporte || '',
-        pais_emision: pasaporte.pais_emision || '',
-        fecha_expiracion: pasaporte.fecha_expiracion || ''
-      });
+      console.log('este es el pasaporte:', pasaporte);
+      if (pasaporte.success && pasaporte.data && pasaporte.data.length > 0) {
+        const datosPasaporte = pasaporte.data[0];
+        const expiracionFormato = formatoFecha(datosPasaporte.fecha_expiracion);
+        setPasaporteActual(datosPasaporte);
+        setFormValues({
+          id_cliente: datosPasaporte.id_cliente || '',
+          numero_pasaporte: datosPasaporte.numero_pasaporte || '',
+          pais_emision: datosPasaporte.pais_emision || '',
+          fecha_expiracion: expiracionFormato || ''
+        });
+      }
     } catch (error) {
       setError('Error al cargar el pasaporte: ' + error.message);
     }
@@ -143,7 +153,7 @@ const Pasaportes = () => {
     });
   };
 
-  if (loading) return <SpineLoader/>;
+  if (loading) return <SpineLoader />;
 
   return (
     <div className="p-8">

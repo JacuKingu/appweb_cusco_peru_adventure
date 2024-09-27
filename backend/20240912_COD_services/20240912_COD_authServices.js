@@ -22,7 +22,7 @@ export const loginUsuario = async (nombre, contraseña) => {
         }
 
         // Generar un token JWT
-        const token = jwt.sign({ id_usuario, rol }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id_usuario, rol }, JWT_SECRET, { expiresIn: '8h' });
 
         // Devolver el token y los datos del usuario
         return { token, id_usuario, rol };

@@ -50,7 +50,7 @@ const Usuarios = () => {
     setLoading(true);
     setError('');
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       const response = await obtenerUsuariosPorRol(rol);
       console.log('Respuesta de la API:', response);
       if (response.success && Array.isArray(response.data)) {
@@ -91,14 +91,15 @@ const Usuarios = () => {
 
   const manejarEdicion = async (id_usuario) => {
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       const usuario = await obtenerUsuarioPorIdYRol(id_usuario, rol);
-      if (usuario) {
-        setUsuarioActual(usuario);
+      if (usuario.success && usuario.data && usuario.data.length > 0) {
+        const datosUsuario = usuario.data[0];
+        setUsuarioActual(datosUsuario);
         setFormValues({
-          nombre: usuario.nombre || '',
-          contraseña: '',
-          rol: usuario.rol || 'usuario'
+          nombre: datosUsuario.nombre,
+          contraseña:  '',
+          rol: datosUsuario.rol
         });
       } else {
         setError('Error: No se encontraron datos para este usuario.');
@@ -123,7 +124,7 @@ const Usuarios = () => {
     setFormValues({
       nombre: '',
       contraseña: '',
-      rol: 'usuario'
+      rol: ''
     });
   };
 
@@ -143,7 +144,8 @@ const Usuarios = () => {
             value={formValues.nombre}
             onChange={manejarCambio}
             placeholder="Nombre"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rouned-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            autoComplete='username'
           />
         </div>
         <div className="mb-4">
@@ -164,7 +166,8 @@ const Usuarios = () => {
             onChange={manejarCambio}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="usuario">Usuario</option>
+            <option value="">Seleccionar</option>
+            <option value="asesor">Asesor</option>
             <option value="admin">Administrador</option>
           </select>
         </div>

@@ -15,7 +15,6 @@ const api = axios.create({
 // Interceptor para agregar token de autenticación a cada solicitud
 api.interceptors.request.use(
     (config) => {
-        // Obtener el token del almacenamiento local (localStorage)
         const token = localStorage.getItem('authToken');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
@@ -36,7 +35,7 @@ api.interceptors.response.use(
         // Manejo global de errores
         if (error.response && error.response.status === 401) {
             // Redirigir al login si el token es inválido o ha expirado
-            window.location.href = '/';
+            window.location.href = '/login';
         }
         return Promise.reject(error);
     }

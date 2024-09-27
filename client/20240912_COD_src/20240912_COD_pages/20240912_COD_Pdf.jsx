@@ -45,7 +45,7 @@ const Pdfs = () => {
         setLoading(true);
         setError('');
         try {
-            const rol = user?.rol || 'admin';
+            const rol = localStorage.getItem('rolUser');
             const response = await obtenerPdfsPorRol(rol);
             console.log('Respuesta de la API:', response);
             if (response.success && Array.isArray(response.data)) {

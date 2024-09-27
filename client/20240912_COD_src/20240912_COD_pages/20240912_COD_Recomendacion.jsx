@@ -50,7 +50,8 @@ const Recomendaciones = () => {
     setLoading(true);
     setError('');
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = user?.rol; // Obtiene el rol del usuario autenticado
+      console.log('esta es el rol del usuario:', user)
       const response = await obtenerRecomendacionesPorRol(rol);
       console.log('Respuesta de la API:', response);
       if (response.success && Array.isArray(response.data)) {
@@ -91,14 +92,15 @@ const Recomendaciones = () => {
 
   const manejarEdicion = async (id_recomendacion) => {
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       const recomendacion = await obtenerRecomendacionPorIdYRol(id_recomendacion, rol);
-      if (recomendacion) {
-        setRecomendacionActual(recomendacion);
+      if (recomendacion.success && recomendacion.data && recomendacion.data.length > 0) {
+        const datosRecomendacion = recomendacion.data[0];
+        setRecomendacionActual(datosRecomendacion);
         setFormValues({
-          id_cliente: recomendacion.id_cliente || '',
-          id_tour: recomendacion.id_tour || '',
-          contenido: recomendacion.contenido || ''
+          id_cliente: datosRecomendacion.id_cliente || '',
+          id_tour: datosRecomendacion.id_tour || '',
+          contenido: datosRecomendacion.contenido || ''
         });
       } else {
         setError('Error: No se encontraron datos para esta recomendación.');

@@ -50,7 +50,7 @@ const Reservas = () => {
     setLoading(true);
     setError('');
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       const response = await obtenerReservasPorRol(rol);
       console.log('Respuesta de la API:', response);
       if (response.success && Array.isArray(response.data)) {
@@ -72,6 +72,13 @@ const Reservas = () => {
   const manejarSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    // Verificar que todos los campos estén completos
+    if (!formValues.id_cliente || !formValues.id_tour || !formValues.estado) {
+      setError('Por favor, complete todos los campos antes de enviar.');
+      return;
+    }
+
     try {
       if (reservaActual) {
         // Actualizar reserva
@@ -91,14 +98,15 @@ const Reservas = () => {
 
   const manejarEdicion = async (id_reserva) => {
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       const reserva = await obtenerReservaPorIdYRol(id_reserva, rol);
-      if (reserva) {
-        setReservaActual(reserva);
+      if (reserva.success && reserva.data && reserva.data.length > 0) {
+        const datosReserva = reserva.data[0];
+        setReservaActual(datosReserva);
         setFormValues({
-          id_cliente: reserva.id_cliente || '',
-          id_tour: reserva.id_tour || '',
-          estado: reserva.estado || ''
+          id_cliente: datosReserva.id_cliente || '',
+          id_tour: datosReserva.id_tour || '',
+          estado: datosReserva.estado || ''
         });
       } else {
         setError('Error: No se encontraron datos para esta reserva.');
@@ -127,7 +135,7 @@ const Reservas = () => {
     });
   };
 
-  if (loading) return <SpineLoader/>;
+  if (loading) return <SpineLoader />;
 
   return (
     <div className="p-8">
@@ -157,14 +165,17 @@ const Reservas = () => {
           />
         </div>
         <div className="mb-4">
-          <input
-            type="text"
+          <select
             name="estado"
             value={formValues.estado}
             onChange={manejarCambio}
-            placeholder="Estado"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          >
+            <option value="">Seleccionar estado</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="confirmada">Confirmada</option>
+            <option value="cancelada">Cancelada</option>
+          </select>
         </div>
         <button
           type="submit"

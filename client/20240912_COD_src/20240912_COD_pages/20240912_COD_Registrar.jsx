@@ -21,15 +21,9 @@ const Registrar = () => {
             setError('Por favor, complete todos los campos y seleccione un rol.');
             return;
         }
-
-        // Verificar los valores antes de enviar la solicitud
-        console.log('Valores enviados:', { nombre, contraseña, rol });
-
         try {
             // Hacer la solicitud para registrar el usuario
             const message = await signupUsuario(nombre, contraseña, rol);
-            console.log('Respuesta del servicio:', message); // Verificar la respuesta del servicio
-
             setExito(message); // Mostrar mensaje de éxito
 
             // Redirigir después de 2 segundos
@@ -37,9 +31,7 @@ const Registrar = () => {
                 navigate('/login'); 
             }, 2000);
         } catch (error) {
-            // Verificar el error devuelto
-            console.error('Error en el registro:', error);
-            setError('Error en el registro: ' + error.message);
+            setError(error.message);
         }
     };
 

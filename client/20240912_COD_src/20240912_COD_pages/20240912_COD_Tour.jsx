@@ -54,7 +54,7 @@ const Tour = () => {
     setLoading(true);
     setError('');
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       const response = await obtenerToursActivos(rol);
       console.log('Respuesta de la API:', response);
       if (response.success && Array.isArray(response.data)) {
@@ -101,17 +101,18 @@ const Tour = () => {
 
   const manejarEdicion = async (id_tour) => {
     try {
-      const rol = user?.rol || 'admin'; // Obtiene el rol del usuario autenticado
+      const rol = localStorage.getItem('rolUser');
       console.log("este es el rol: ", rol);
       const tour = await obtenerTourPorIdYRol(id_tour, rol);
-      if (tour) {
-        setTourActual(tour);
+      if (tour.success && tour.data && tour.data.length > 0) {
+        const datosTour = tour.data[0];
+        setTourActual(datosTour);
         setFormValues({
-          nombre: tour.tour || '',
-          descripcion: tour.descripcion || '',
-          duracion: tour.duracion || '',
-          precio: tour.precio || '',
-          categoria: tour.categoria || ''
+          nombre: datosTour.tour || '',
+          descripcion: datosTour.descripcion || '',
+          duracion: datosTour.duracion || '',
+          precio: datosTour.precio || '',
+          categoria: datosTour.categoria || ''
         });
       } else {
         setError('Error: No se encontraron datos para este tour.');
