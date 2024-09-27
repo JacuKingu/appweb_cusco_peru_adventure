@@ -7,6 +7,7 @@ import {
   eliminarTour
 } from '@services/20240912_COD_TourService';
 import { AuthContext } from '../20240912_COD_context/20240912_COD_AuthContext';
+import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
 const Tour = () => {
   const { user } = useContext(AuthContext); // Obtener el usuario autenticado del contexto
@@ -141,7 +142,7 @@ const Tour = () => {
     });
   };
 
-  if (loading) return <p className="text-center mt-6">Cargando...</p>;
+  if (loading) return <SpineLoader/>;
 
   return (
     <div className="p-8">

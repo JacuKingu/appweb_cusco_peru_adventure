@@ -442,6 +442,7 @@ BEGIN
 END //
 
 DELIMITER ;
+INSERt INTO usuarios (nombre, contraseña, rol) VALUES ('admin','cuscoperuadventure$_2024_','admin')
 
 
 /* 

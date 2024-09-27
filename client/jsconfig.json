@@ -14,9 +14,6 @@
             "@routes/*": [
                 "./20240912_COD_src/20240912_COD_routes/*"
             ],
-            "@styles/*":[
-                "./20240912_COD_src/20240912_COD_styles/*"
-            ],
             "@context/*":[
                 "./20240912_COD_src/20240912_COD_context/*"
             ],

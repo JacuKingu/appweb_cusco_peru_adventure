@@ -7,6 +7,7 @@ import {
   eliminarRecomendacion
 } from '@services/20240912_COD_RecomendacionService'; // Ajusta la ruta según tu estructura
 import { AuthContext } from '@context/20240912_COD_AuthContext'; // Ajusta la ruta según tu estructura
+import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
 const Recomendaciones = () => {
   const { user } = useContext(AuthContext); // Obtener el usuario autenticado del contexto
@@ -126,7 +127,7 @@ const Recomendaciones = () => {
     });
   };
 
-  if (loading) return <p className="text-center mt-6">Cargando...</p>;
+  if (loading) return <SpineLoader/>;
 
   return (
     <div className="p-8">

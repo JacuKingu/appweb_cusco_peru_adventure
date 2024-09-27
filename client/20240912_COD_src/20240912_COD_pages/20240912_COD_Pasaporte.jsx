@@ -7,6 +7,7 @@ import {
   eliminarPasaporte
 } from '@services/20240912_COD_PasaporteService';
 import { AuthContext } from '@context/20240912_COD_AuthContext';
+import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
 const Pasaportes = () => {
   const { user } = useContext(AuthContext); // Obtener el usuario autenticado del contexto
@@ -142,7 +143,7 @@ const Pasaportes = () => {
     });
   };
 
-  if (loading) return <p className="text-center mt-6">Cargando...</p>;
+  if (loading) return <SpineLoader/>;
 
   return (
     <div className="p-8">

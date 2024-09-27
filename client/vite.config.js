@@ -12,7 +12,7 @@ export default defineConfig({
       '@routes': path.resolve(__dirname, './20240912_COD_src/20240912_COD_routes'),
       '@context': path.resolve(__dirname,'./20240912_COD_src/20240912_COD_context'),
       '@layouts': path.resolve(__dirname,'./20240912_COD_src/20240912_COD_layouts'),
-      '@hooks': path.resolve(__dirname,'./20240912_COD_src/20240912_COD_hooks'),
+      '@hooks': path.resolve(__dirname,'./20240912_COD_src/20240912_COD_hooks')
     },
   },
 });

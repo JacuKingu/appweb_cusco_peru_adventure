@@ -7,7 +7,7 @@ export const login = async (req, res) => {
     try {
         // Llamar al servicio loginUsuario para validar las credenciales y obtener el token
         const { token, id_usuario, rol } = await authService.loginUsuario(nombre, contraseña);
-        res.json({ message: 'Inicio de sesión exitoso', token });
+        res.json({ message: 'Inicio de sesión exitoso', token, rol });
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         res.status(401).json({ message: error.message });

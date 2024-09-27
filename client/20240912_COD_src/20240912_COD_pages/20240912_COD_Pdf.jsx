@@ -4,6 +4,7 @@ import {
     eliminarPdf
 } from '@services/20240912_COD_PdfService';
 import { AuthContext } from '@context/20240912_COD_AuthContext';
+import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
 const Pdfs = () => {
     const { user } = useContext(AuthContext);
@@ -85,7 +86,7 @@ const Pdfs = () => {
         return null;
     };
 
-    if (loading) return <p className="text-center mt-6">Cargando...</p>;
+    if (loading) return <SpineLoader/>;
 
     return (
         <div className="p-8">

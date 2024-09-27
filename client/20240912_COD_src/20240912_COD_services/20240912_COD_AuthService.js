@@ -4,18 +4,18 @@ import api from './20240912_COD_Api';
 export const loginUsuario = async (nombre, contraseña) => {
     try {
         const response = await api.post('/auth/login', { nombre, contraseña });
-
-        // Devuelve un objeto con el token y el mensaje
+        console.log('quiero ver que como va:', response.data);
         return {
             token: response.data.token,
-            message: response.data.message
+            message: response.data.message,
+            rol: response.data.rol
         };
+
     } catch (error) {
         console.error('Error en loginUsuario (Frontend):', error);
         throw new Error(error.response ? error.response.data.message : 'Error de conexión');
     }
 };
-
 
 // Servicio para registrar un nuevo usuario
 export const signupUsuario = async (nombre, contraseña, rol) => {

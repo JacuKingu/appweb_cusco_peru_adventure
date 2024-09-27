@@ -2,25 +2,30 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { loginUsuario } from '../20240912_COD_services/20240912_COD_AuthService';
 import { AuthContext } from '../20240912_COD_context/20240912_COD_AuthContext';
+import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
 const Login = () => {
     const [nombre, setNombre] = useState('');
     const [contraseña, setContraseña] = useState('');
     const [mostrarContraseña, setMostrarContraseña] = useState(false);
     const [error, setError] = useState('');
+    const [cargando, setCargando] = useState(false); // Estado de carga
     const { setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError(''); 
+        setError('');
+        setCargando(true); // Iniciar carga
         try {
             const { token } = await loginUsuario(nombre, contraseña);
             localStorage.setItem('authToken', token);
             setAuth(true);
             navigate('/home');
         } catch (error) {
-            setError('Error en el inicio de sesión: ' + error.message); 
+            setError('Error en el inicio de sesión: ' + error.message);
+        } finally {
+            setCargando(false); // Finalizar carga
         }
     };
 
@@ -55,12 +60,14 @@ const Login = () => {
                         {mostrarContraseña ? '🔓' : '🔒'} 
                     </button>
                 </div>
+                <SpineLoader></SpineLoader>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <button 
                     type="submit" 
-                    className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+                    className={`w-full py-2 rounded-lg ${cargando ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`} 
+                    disabled={cargando} // Deshabilitar el botón mientras carga
                 >
-                    Iniciar Sesión
+                    {cargando ? <SpineLoader /> : 'Iniciar Sesión'} {/* Mostrar el spinner o el texto */}
                 </button>
                 <div className="mt-4 text-center">
                     <Link to="/registrar" className="text-blue-500 hover:underline">
