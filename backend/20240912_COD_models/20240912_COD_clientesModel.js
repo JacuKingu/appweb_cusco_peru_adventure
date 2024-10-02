@@ -32,7 +32,7 @@ export const insertarCliente = async (nombre, apellido, email, telefono, fecha_n
             'CALL insertarCliente(?, ?, ?, ?, ?, ?)',
             [nombre, apellido, email, telefono, fecha_nacimiento, id_grupo]
         );
-        return result;
+        return result[0];
     } catch (error) {
         console.error('Error al insertar cliente:', error);
         throw error;

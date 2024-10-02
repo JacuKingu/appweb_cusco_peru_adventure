@@ -3,6 +3,7 @@ import { insertarCliente } from '../20240912_COD_services/20240912_COD_clientesS
 import { insertarPasaporte } from '../20240912_COD_services/20240912_COD_pasaporteServices.js';
 import { insertarUltimoGrupo, obtenerGruposPorRol } from '../20240912_COD_services/20240912_COD_gruposServices.js';
 import { obtenerPdfPorId } from '../20240912_COD_services/20240912_COD_pdfServices.js';
+import { extraerDatosDelTexto } from '../20240912_COD_services/20240912_COD_OcrService.js';
 
 
 // Controlador para manejar el proceso OCR y guardar los datos extraídos
@@ -13,7 +14,6 @@ export const procesarOcrDePdf = async (req, res) => {
 
         // Obtener el PDF de la base de datos por ID
         const pdf = await obtenerPdfPorId(id_pdf, rol);
-
         if (!pdf) {
             return res.status(404).json({ message: 'PDF no encontrado' });
         }
@@ -23,63 +23,50 @@ export const procesarOcrDePdf = async (req, res) => {
             return res.status(400).json({ message: 'El PDF no tiene contenido.' });
         }
 
-        // Crear un nuevo grupo para los datos extraídos
-        const contarGrupos = async () => {
-            const rol = req.usuario.rol;
-            const grupos = await obtenerGruposPorRol(rol);
-            return grupos.length;
+        // Procesar el PDF a imágenes
+        const imagenesProcesadas = await procesarPdf(pdf.contenido); // Convierte el PDF a imágenes
+
+        // Procesar cada imagen individualmente y guardar los datos
+        for (const imagenTexto of imagenesProcesadas) {
+            // Realizar el OCR en cada imagen
+            const datosExtraidos = extraerDatosDelTexto(imagenTexto);
+            
+            console.log('Texto procesado por OCR:', imagenTexto);
+            console.log('Datos extraídos de la imagen:', datosExtraidos);
+
+            // Si no se encuentran datos suficientes, pasar a la siguiente imagen
+            if (!datosExtraidos.nombre || !datosExtraidos.apellido || !datosExtraidos.numero_pasaporte) {
+                console.log('Datos insuficientes extraídos de esta imagen. Pasando a la siguiente.');
+                continue;
+            }
+
+            // Guardar los datos extraídos (Cliente y Pasaporte)
+            const nuevoCliente = await insertarCliente(
+                datosExtraidos.nombre,
+                datosExtraidos.apellido,
+                null, // email si está disponible
+                null, // teléfono si está disponible
+                datosExtraidos.fecha_nacimiento,
+                nuevoGrupo.id_grupo
+            );
+
+            console.log('Nuevo cliente creado:', nuevoCliente);
+
+            // Insertar datos del pasaporte
+            await insertarPasaporte(
+                nuevoCliente.id_cliente,
+                datosExtraidos.numero_pasaporte,
+                datosExtraidos.pais_emision,
+                datosExtraidos.fecha_expiracion
+            );
+
+            console.log('Datos del pasaporte insertados para el cliente:', nuevoCliente.id_cliente);
         }
-
-        // Obtener el número actual de grupos
-        const numGrupos = await contarGrupos();
-
-        console.log('NUmero de grupos: ', numGrupos);
-
-        // Insertar un nuevo grupo con un número incremental
-        const nuevoGrupo = await insertarUltimoGrupo(pdf.id_pdf, 'Grupo ' + (numGrupos + 1));
-        console.log('el nuevo grupo: ', nuevoGrupo)
-        if (!nuevoGrupo || !nuevoGrupo.id_grupo) {
-            return res.status(500).json({ message: 'Error al crear el nuevo grupo.' });
-        }
-
-        console.log('Nuevo grupo creado: Grupo ' + (numGrupos + 1));
-
-
-        // Procesar el PDF a imágenes y realizar el OCR
-        const datosExtraidos = await procesarPdf(pdf.contenido); // Esta función convierte el PDF a imágenes y hace OCR
-        console.log('estos son los dato extraidos: ', [
-            datosExtraidos.nombre,
-            datosExtraidos.apellido,
-            datosExtraidos.fecha_nacimiento,
-            datosExtraidos.fecha_expiracion,
-            datosExtraidos.numero_pasaporte,
-            datosExtraidos.pais_emision,
-            nuevoGrupo.id_grupo
-        ])
-
-        // Guardar los datos extraídos en la base de datos (nombre, apellido, pasaporte, etc.)
-        const nuevoCliente = await insertarCliente(
-            datosExtraidos.nombre,
-            datosExtraidos.apellido,
-            null, // email si está disponible
-            null, // teléfono si está disponible
-            datosExtraidos.fecha_nacimiento,
-            nuevoGrupo.id_grupo
-        );
-        console.log('el nuevo lciente con ocr: ', nuevoCliente);
-
-        // Insertar datos del pasaporte
-        await insertarPasaporte(
-            nuevoCliente.id_cliente,
-            datosExtraidos.numero_pasaporte,
-            datosExtraidos.pais_emision,
-            datosExtraidos.fecha_expiracion
-        );
 
         res.status(200).json({
-            message: 'Proceso OCR completado y datos extraídos y guardados',
-            datos: datosExtraidos,
+            message: 'Proceso OCR completado y datos extraídos y guardados de cada imagen',
         });
+
     } catch (error) {
         console.error('Error durante el proceso OCR:', error);
         res.status(500).json({
