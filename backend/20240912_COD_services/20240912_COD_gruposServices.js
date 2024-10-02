@@ -35,6 +35,16 @@ export const insertarGrupo = async (id_pdf, nombre_grupo) => {
     }
 };
 
+export const insertarUltimoGrupo = async (id_pdf, nombre_grupo) => {
+    try {
+        const ultimo = await gruposModel.insertarUltimoGrupo(id_pdf, nombre_grupo);
+        return ultimo[0]
+    } catch (error) {
+        console.error('Error en insertarGrupo (Servicio):', error);
+        throw new Error('Error al insertar el grupo');
+    }
+};
+
 // Servicio para actualizar un grupo existente
 export const actualizarGrupo = async (id_grupo, id_pdf, nombre_grupo) => {
     try {

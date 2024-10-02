@@ -15,13 +15,7 @@ router.get('/', verificarToken, pdfController.obtenerPdfs);
 router.get('/:id_pdf', verificarToken, pdfController.obtenerPdfPorId);
 
 // Ruta protegida para insertar un PDF (requiere token y rol de admin o asesor)
-router.post('/', verificarToken, verificarRol(['admin', 'asesor']), pdfController.insertarPdf);
-
-// Ruta para cargar un archivo PDF
-router.post('/cargar', verificarToken, verificarRol(['admin', 'asesor']), upload.single('archivo'), pdfController.cargarPdf);
-
-// Ruta protegida para actualizar un PDF (requiere token y rol de admin o asesor)
-router.put('/:id_pdf', verificarToken, verificarRol(['admin', 'asesor']), pdfController.actualizarPdf);
+router.post('/', verificarToken, verificarRol(['admin', 'asesor']), upload.single('archivo'), pdfController.insertarPdf);
 
 // Ruta protegida para eliminar un PDF (requiere token y rol de admin o asesor)
 router.delete('/:id_pdf', verificarToken, verificarRol(['admin', 'asesor']), pdfController.eliminarPdf);

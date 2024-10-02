@@ -36,6 +36,18 @@ export const insertarGrupo = async (id_pdf, nombre_grupo) => {
   }
 };
 
+export const insertarUltimoGrupo = async (id_pdf, nombre_grupo) => {
+  try {
+      const pool = await connection;
+      // Ejecuta el procedimiento almacenado para insertar el grupo
+      const [result] = await pool.execute('CALL insertarUltimoGrupo(?, ?)', [id_pdf, nombre_grupo]);
+      return result[0]; // Verifica si el primer resultado es el grupo insertado
+  } catch (error) {
+      console.error('Error al insertar grupo:', error);
+      throw error;
+  }
+};
+
 // Actualizar un grupo existente
 export const actualizarGrupo = async (id_grupo, id_pdf, nombre_grupo) => {
   try {

@@ -41,6 +41,18 @@ export const insertarGrupo = async (req, res) => {
     }
 };
 
+export const insertarUltimoGrupo = async (req, res) => {
+    const { id_pdf, nombre_grupo } = req.body;
+    try {
+        const grupo = await gruposService.insertarGrupo(id_pdf, nombre_grupo);
+        console.log('este el ultimo grupo',grupo)
+        res.status(200).json({ success: true, data: grupo });
+    } catch (error) {
+        console.error('Error al insertar grupo:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 // Actualizar un grupo existente
 export const actualizarGrupo = async (req, res) => {
     const { id_grupo } = req.params;

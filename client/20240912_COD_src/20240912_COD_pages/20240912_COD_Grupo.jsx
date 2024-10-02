@@ -9,6 +9,7 @@ import {
 import { AuthContext } from '@context/20240912_COD_AuthContext'; // Ajusta la ruta según tu estructura
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
+
 const Grupos = () => {
   const { user } = useContext(AuthContext); // Obtener el usuario autenticado del contexto
   const [grupos, setGrupos] = useState([]);
@@ -123,7 +124,7 @@ const Grupos = () => {
       id_pdf: '',
       grupo: ''
     });
-  };
+  };  
 
   if (loading) return <SpineLoader/>;
 

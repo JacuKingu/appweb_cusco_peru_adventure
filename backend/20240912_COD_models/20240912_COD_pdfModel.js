@@ -17,7 +17,18 @@ export const obtenerPdfPorId = async (id_pdf, rol) => {
   try {
     const pool = await connection;
     const [rows] = await pool.execute('CALL obtenerPdfPorId(?, ?)', [id_pdf, rol]);
-    return rows[0];
+    if (rows.length === 0) {
+      throw new Error('PDF no encontrado');
+    }
+
+    const pdf = rows[0][0];
+    
+    // Verifica si el PDF es un buffer válido
+    if (!Buffer.isBuffer(pdf.contenido)) {
+      throw new Error('El PDF recuperado no es un buffer válido.');
+    }
+
+    return pdf; // Retornar el buffer del PDF
   } catch (error) {
     console.error('Error al obtener PDF por ID:', error);
     throw error;
@@ -32,18 +43,6 @@ export const insertarPdf = async (nombre_archivo, contenido) => {
     return result;
   } catch (error) {
     console.error('Error al insertar PDF:', error);
-    throw error;
-  }
-};
-
-// Actualizar un PDF existente
-export const actualizarPdf = async (id_pdf, nombre_archivo, contenido) => {
-  try {
-    const pool = await connection;
-    const [result] = await pool.execute('CALL actualizarPdf(?, ?, ?)', [id_pdf, nombre_archivo, contenido]);
-    return result;
-  } catch (error) {
-    console.error('Error al actualizar PDF:', error);
     throw error;
   }
 };

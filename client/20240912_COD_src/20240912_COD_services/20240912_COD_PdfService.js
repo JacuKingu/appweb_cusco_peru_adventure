@@ -12,15 +12,15 @@ export const obtenerPdfsPorRol = async (rol) => {
 };
 
 // Servicio para obtener un PDF por ID considerando el rol
-export const obtenerPdfPorIdYRol = async (id_pdf, rol) => {
+export const obtenerPdfPorId = async (id_pdf, rol) => {
     try {
         const response = await api.get(`/pdf/${id_pdf}`, { params: { rol } });
         if (!response.data) {
             throw new Error('PDF no encontrado o no tienes permiso para verlo');
         }
-        return response.data; // El contenido del PDF debería estar en base64
+        return response.data;
     } catch (error) {
-        console.error('Error en obtenerPdfPorIdYRol (Servicio):', error);
+        console.error('Error en obtenerPdfPorId (Servicio):', error);
         throw new Error(error.response ? error.response.data.message : 'Error al obtener el PDF por ID');
     }
 };

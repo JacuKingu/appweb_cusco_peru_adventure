@@ -80,18 +80,9 @@ CREATE TABLE IF NOT EXISTS usuarios (
     activo TINYINT(1) DEFAULT 1 
 );
 
-CREATE TABLE IF NOT EXISTS ocr_procesos (
-    id_proceso INT AUTO_INCREMENT PRIMARY KEY,
-    id_pdf INT NOT NULL,
-    estado VARCHAR(50) NOT NULL DEFAULT 'pendiente',
-    mensaje TEXT,
-    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_pdf) REFERENCES pdf(id_pdf)
-);
-
 -- Procedimientos para la tabla de pdf
 DROP PROCEDURE IF EXISTS insertarPdf;
-CREATE PROCEDURE insertarPdf(IN nombre VARCHAR(255), IN contenido BLOB)
+CREATE PROCEDURE insertarPdf(IN nombre VARCHAR(255), IN contenido LONGBLOB)
 BEGIN
     INSERT INTO pdf (archivo, contenido) VALUES (nombre, contenido);
 END;
@@ -104,6 +95,22 @@ BEGIN
     ELSE
         SELECT * FROM pdf;
     END IF;
+END;
+
+DROP PROCEDURE IF EXISTS obtenerPdfPorId;
+CREATE PROCEDURE obtenerPdfPorId(IN id INT, IN rol ENUM('admin', 'asesor'))
+BEGIN
+    IF rol = 'asesor' THEN
+        SELECT * FROM pdf WHERE id_pdf = id AND activo = 1;
+    ELSE
+        SELECT * FROM pdf WHERE id_pdf = id;
+    END IF;
+END;
+
+DROP PROCEDURE IF EXISTS eliminarPdf;
+CREATE PROCEDURE eliminarPdf(IN id INT)
+BEGIN
+    UPDATE pdf SET activo = 0 WHERE id_pdf = id;
 END;
 
 -- Procedimientos para la tabla de tours
@@ -151,6 +158,15 @@ CREATE PROCEDURE insertarGrupo(IN id_pdf INT, IN nombre VARCHAR(100))
 BEGIN
     INSERT INTO grupos (id_pdf, grupo) VALUES (id_pdf, nombre);
 END;
+
+DROP PROCEDURE IF EXISTS insertarUltimoGrupo;
+CREATE PROCEDURE insertarUltimoGrupo(IN id_pdf INT, IN nombre_grupo VARCHAR(100))
+BEGIN
+    INSERT INTO grupos (id_pdf, grupo)
+    VALUES (id_pdf, nombre_grupo);
+    SELECT LAST_INSERT_ID() AS id_grupo;
+END;
+
 
 DROP PROCEDURE IF EXISTS obtenerGruposActivos;
 CREATE PROCEDURE obtenerGruposActivos(IN rol ENUM('admin', 'asesor'))
@@ -446,9 +462,6 @@ BEGIN
         SET mensaje = 'Registro exitoso. La cuenta ha sido creada.';
     END IF;
 END;
-
--- Insertar usuario administrador inicial
-INSERT IGNORE INTO usuarios (nombre, contraseña, rol) VALUES ('admin','cuscoperuadventure$_2024_','admin');
 
 
 /* 
