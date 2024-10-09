@@ -1,0 +1,602 @@
+[
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 31.5,
+        "rango_edad": 12,
+        "tour_recomendado": "Machupicchu | Full Day todo inlcuido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 43.666666666666664,
+        "rango_edad": 42,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | en servicio Grupal"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 43.0,
+        "rango_edad": 11,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara,Tambomachay, Templo del Sol Qoricancha y Catedral - en Servicio Economico Grupal"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 47.0,
+        "rango_edad": 0,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara, Tambomachay, Templo del Sol Qoricancha y Catedral de Cusco En Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 51.0,
+        "rango_edad": 18,
+        "tour_recomendado": "Turismo Vivencial Cusco - Turismo Vivencial en Mullacas Misminay full day en servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 63.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Turismo Vivencial Cusco - Turismo Vivencial en Mullacas Misminay full day en servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 43.0,
+        "rango_edad": 44,
+        "tour_recomendado": "Tour Valle Sagrado de los Incas | Tour al Valle Sagrado de los Incas Full Day | Pisac, Ollantaytambo y Chinchero en Tour Economico Grupal"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 44.666666666666664,
+        "rango_edad": 39,
+        "tour_recomendado": "Tour a Caballo en Sacsayhuaman Cusco | Paseo en Caballo alrededor de Cusco Medio Dia con Cusco Peru Adventure"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 22.0,
+        "rango_edad": 0,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara,Tambomachay, Templo del Sol Qoricancha y Catedral - en Servicio Economico Grupal"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 52.333333333333336,
+        "rango_edad": 17,
+        "tour_recomendado": "Tour Laguna Humantay - Trekking Laguna Humantay full Day en Cusco Peru | Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 34.0,
+        "rango_edad": 0,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara,Tambomachay, Templo del Sol Qoricancha y Catedral - en Servicio Economico Grupal"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 39.0,
+        "rango_edad": 26,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara,Tambomachay, Templo del Sol Qoricancha y Catedral - en Servicio Economico Grupal"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 49.333333333333336,
+        "rango_edad": 32,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara,Tambomachay, Templo del Sol Qoricancha y Catedral - en Servicio Economico Grupal"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 46.5,
+        "rango_edad": 3,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 33.6,
+        "rango_edad": 13,
+        "tour_recomendado": "Tour Valle Sur Tipon Piquillaqta Andahuaylillas | Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 50.0,
+        "rango_edad": 22,
+        "tour_recomendado": "City Tour Cusco - Caminata por la antigua Ciudad Inca de Pisac, Saqsayhuaman, Qenqo, Pucapucara, Tambomachay en Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 50.4,
+        "rango_edad": 35,
+        "tour_recomendado": "Turismo Vivencial Cusco - Turismo Vivencial en Mullacas Misminay full day en servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 46.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour Valle Sur Tipon Piquillaqta Andahuaylillas | Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 47.0,
+        "rango_edad": 26,
+        "tour_recomendado": "Tour Cuatrimotos Maras, Moray y Salineras 1/2 Dia | Visite Moray, Salineras o Laguna de huaypo mas salineras en servicio grupal economico"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 41.0,
+        "rango_edad": 22,
+        "tour_recomendado": "Tour Valle Sur Tipon Piquillaqta Andahuaylillas | Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 31.0,
+        "rango_edad": 19,
+        "tour_recomendado": "Tour a caballo en Valle Sagrado | Maras Moray, Salineras y Chinchero en Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 50.8,
+        "rango_edad": 25,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | en servicio Grupal"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 25.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour a Caballo en el Valle Sagrado | Laguna de Huaypo, Mirador del Valle Sagrado y Chinchero en Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 41.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | en servicio Grupal"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 25.0,
+        "rango_edad": 12,
+        "tour_recomendado": "Tour Montaña 7 Colores Full Day | Como llegar a la montaña de 7 colores desde Cusco | En Tour Economico Grupal"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 48.0,
+        "rango_edad": 28,
+        "tour_recomendado": "Tour a Caballo en el Valle Sagrado | Laguna de Huaypo, Mirador del Valle Sagrado y Chinchero en Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 47.0,
+        "rango_edad": 26,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 41.0,
+        "rango_edad": 30,
+        "tour_recomendado": "Tours en Cuatrimotos | Tour en Cuatrimoto Killarumiyoq | mas los andenes Incas de Zurite, Qente Qenteyoc y el Pueblo Colonial de Zurite en un Tour Privado Exclusivo"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 25.666666666666668,
+        "rango_edad": 4,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara, Tambomachay, Templo del Sol Qoricancha y Catedral de Cusco En Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 36.0,
+        "rango_edad": 32,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 50.75,
+        "rango_edad": 34,
+        "tour_recomendado": "Tour Laguna Humantay - Trekking Laguna Humantay full Day en Cusco Peru | Grupal"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 34.25,
+        "rango_edad": 36,
+        "tour_recomendado": "Tour a Caballo en Sacsayhuaman Cusco | Paseo en Caballo alrededor de Cusco Medio Dia con Cusco Peru Adventure"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 48.0,
+        "rango_edad": 15,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 35.75,
+        "rango_edad": 20,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 36.5,
+        "rango_edad": 9,
+        "tour_recomendado": "Tour a Caballo en Sacsayhuaman Cusco | Paseo en Caballo alrededor de Cusco Medio Dia con Cusco Peru Adventure"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 56.0,
+        "rango_edad": 8,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 34.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tours en Cuatrimotos | Tour en Cuatrimoto Killarumiyoq | mas los andenes Incas de Zurite, Qente Qenteyoc y el Pueblo Colonial de Zurite en un Tour Privado Exclusivo"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 38.6,
+        "rango_edad": 43,
+        "tour_recomendado": "Machupicchu | Full Day todo inlcuido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 49.75,
+        "rango_edad": 32,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara, Tambomachay, Templo del Sol Qoricancha y Catedral de Cusco En Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 46.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour Valle Sur Tipon Piquillaqta Andahuaylillas | Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 35.8,
+        "rango_edad": 33,
+        "tour_recomendado": "Tour Montaña 7 Colores Full Day | Como llegar a la montaña de 7 colores desde Cusco | en Tour exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 44.0,
+        "rango_edad": 18,
+        "tour_recomendado": "Tour Valle Sagrado de los Incas | Tour al Valle Sagrado de los Incas Full Day | Pisac, Ollantaytambo y Chinchero en Tour Economico Grupal"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 59.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | en servicio Grupal"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 40.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | en servicio Grupal"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 31.8,
+        "rango_edad": 28,
+        "tour_recomendado": "Tour Valle Sur Tipon Piquillaqta Andahuaylillas | Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 45.8,
+        "rango_edad": 40,
+        "tour_recomendado": "Tour a caballo en Valle Sagrado | Maras Moray, Salineras y Chinchero en Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 52.0,
+        "rango_edad": 20,
+        "tour_recomendado": "Tour Laguna Humantay - Trekking Laguna Humantay full Day en Cusco Peru | Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 38.333333333333336,
+        "rango_edad": 5,
+        "tour_recomendado": "Tour Laguna Humantay - Trekking Laguna Humantay full Day en Cusco Peru | Grupal"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 35.0,
+        "rango_edad": 25,
+        "tour_recomendado": "Tour Cuatrimotos Laguna Huaypo | Terrazas Incas de Zurite, Pueblo Colonial de Huarocondo y Hermosas Comunidades Andinas en un Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 40.0,
+        "rango_edad": 39,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara,Tambomachay, Templo del Sol Qoricancha y Catedral - en Servicio Economico Grupal"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 43.25,
+        "rango_edad": 25,
+        "tour_recomendado": "Tour Cuatrimotos Maras, Moray y Salineras 1/2 Dia | Visite Moray, Salineras o Laguna de huaypo mas salineras en servicio grupal economico"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 48.25,
+        "rango_edad": 41,
+        "tour_recomendado": "Tour Montaña 7 Colores Full Day | Como llegar a la montaña de 7 colores desde Cusco | En Tour Economico Grupal"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 27.5,
+        "rango_edad": 11,
+        "tour_recomendado": "Tour Montaña 7 Colores Full Day | Como llegar a la montaña de 7 colores desde Cusco | en Tour exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 54.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour Laguna Humantay - Trekking Laguna Humantay full Day en Cusco Peru | Grupal"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 39.333333333333336,
+        "rango_edad": 30,
+        "tour_recomendado": "Tour Montaña 7 Colores Full Day | Como llegar a la montaña de 7 colores desde Cusco | en Tour exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 46.8,
+        "rango_edad": 38,
+        "tour_recomendado": "Turismo Vivencial Cusco - Turismo Vivencial en Cusco Peru Maras Moray, Chinchero, Mullacas Misminay en Tour Exclusivo Privado 2D/1N"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 52.8,
+        "rango_edad": 26,
+        "tour_recomendado": "Tour Laguna Humantay - Trekking Laguna Humantay full Day en Cusco Peru | Grupal"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 45.666666666666664,
+        "rango_edad": 27,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 46.4,
+        "rango_edad": 37,
+        "tour_recomendado": "Turismo Vivencial Cusco - Turismo Vivencial en Mullacas Misminay full day en servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 37.25,
+        "rango_edad": 18,
+        "tour_recomendado": "Turismo Vivencial Cusco - Turismo Vivencial en Cusco Peru Maras Moray, Chinchero, Mullacas Misminay en Tour Exclusivo Privado 2D/1N"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 52.0,
+        "rango_edad": 42,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | en servicio Grupal"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 45.5,
+        "rango_edad": 29,
+        "tour_recomendado": "Tour Laguna Humantay - Trekking Laguna Humantay full Day en Cusco Peru | Grupal"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 34.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour Cuatrimotos Laguna Huaypo | Terrazas Incas de Zurite, Pueblo Colonial de Huarocondo y Hermosas Comunidades Andinas en un Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 38.666666666666664,
+        "rango_edad": 14,
+        "tour_recomendado": "Tour Laguna Humantay - Trekking Laguna Humantay full Day en Cusco Peru | Grupal"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 47.2,
+        "rango_edad": 23,
+        "tour_recomendado": "City Tour Cusco - Caminata por la antigua Ciudad Inca de Pisac, Saqsayhuaman, Qenqo, Pucapucara, Tambomachay en Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 30.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour Valle Sagrado de los Incas | Tour al Valle Sagrado de los Incas Full Day | Pisac, Ollantaytambo y Chinchero en Tour Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 64.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 47.8,
+        "rango_edad": 33,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | en servicio Grupal"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 58.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour Cuatrimotos Laguna Huaypo | Terrazas Incas de Zurite, Pueblo Colonial de Huarocondo y Hermosas Comunidades Andinas en un Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 34.25,
+        "rango_edad": 30,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 47.8,
+        "rango_edad": 39,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | en servicio Grupal"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 49.666666666666664,
+        "rango_edad": 17,
+        "tour_recomendado": "Machupicchu | Full Day todo inlcuido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 24.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 49.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour Valle Sur Tipon Piquillaqta Andahuaylilla | Grupal"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 51.8,
+        "rango_edad": 18,
+        "tour_recomendado": "Tour Cuatrimotos Maras, Moray y Salineras 1/2 Dia | Visite Moray, Salineras o Laguna de huaypo mas salineras en servicio grupal economico"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 32.333333333333336,
+        "rango_edad": 17,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 57.4,
+        "rango_edad": 17,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara, Tambomachay, Templo del Sol Qoricancha y Catedral de Cusco En Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 49.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 33.0,
+        "rango_edad": 28,
+        "tour_recomendado": "Tour Valle Sur Tipon Piquillaqta Andahuaylilla | Grupal"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 53.0,
+        "rango_edad": 10,
+        "tour_recomendado": "Tour Valle Sagrado de los Incas | Tour al Valle Sagrado de los Incas Full Day | Pisac, Ollantaytambo y Chinchero en Tour Economico Grupal"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 43.6,
+        "rango_edad": 38,
+        "tour_recomendado": "Tour Laguna Humantay - Trekking Laguna Humantay full Day en Cusco Peru | Grupal"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 33.333333333333336,
+        "rango_edad": 33,
+        "tour_recomendado": "Tour Valle Sur Tipon Piquillaqta Andahuaylillas | Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 38.666666666666664,
+        "rango_edad": 46,
+        "tour_recomendado": "Tour a caballo en Valle Sagrado | Maras Moray, Salineras y Chinchero en Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 38.0,
+        "rango_edad": 29,
+        "tour_recomendado": "Tour Cuatrimotos Maras, Moray y Salineras 1/2 Dia | Visite Moray, Salineras o Laguna de huaypo mas salineras en servicio grupal economico"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 44.333333333333336,
+        "rango_edad": 41,
+        "tour_recomendado": "Tour Cuatrimotos Laguna Huaypo | Terrazas Incas de Zurite, Pueblo Colonial de Huarocondo y Hermosas Comunidades Andinas en un Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 39.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour a Caballo en el Valle Sagrado | Laguna de Huaypo, Mirador del Valle Sagrado y Chinchero en Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 50.0,
+        "rango_edad": 16,
+        "tour_recomendado": "City Tour Cusco - Caminata por la antigua Ciudad Inca de Pisac, Saqsayhuaman, Qenqo, Pucapucara, Tambomachay en Servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 25.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour a Caballo en Sacsayhuaman Cusco | Paseo en Caballo alrededor de Cusco Medio Dia con Cusco Peru Adventure"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 34.8,
+        "rango_edad": 31,
+        "tour_recomendado": "Tour Valle Sagrado de los Incas | Tour al Valle Sagrado de los Incas Full Day | Pisac, Ollantaytambo y Chinchero en Tour Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 28.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Turismo Vivencial Cusco - Turismo Vivencial en Cusco Peru - en el pueblo Colonial de Huarocondo en la Provincia de Anta, en servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 47.333333333333336,
+        "rango_edad": 10,
+        "tour_recomendado": "Tour Valle Sur Tipon Piquillaqta Andahuaylilla | Grupal"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 56.0,
+        "rango_edad": 14,
+        "tour_recomendado": "Tour Cuatrimotos Laguna Huaypo | Terrazas Incas de Zurite, Pueblo Colonial de Huarocondo y Hermosas Comunidades Andinas en un Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 24.0,
+        "rango_edad": 0,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara,Tambomachay, Templo del Sol Qoricancha y Catedral - en Servicio Economico Grupal"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 39.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour Montaña 7 Colores Full Day | Como llegar a la montaña de 7 colores desde Cusco | En Tour Economico Grupal"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 45.0,
+        "rango_edad": 20,
+        "tour_recomendado": "City Tour Cusco - Saqsayhuaman, Qenqo, Pucapucara,Tambomachay, Templo del Sol Qoricancha y Catedral - en Servicio Economico Grupal"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 38.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Turismo Vivencial Cusco - Turismo Vivencial en Cusco Peru - en el pueblo Colonial de Huarocondo en la Provincia de Anta, en servicio Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 41.0,
+        "rango_edad": 47,
+        "tour_recomendado": "Parapente en Cusco | Parapente en el Valle Sagrado y Rahuanqui de Anta | en servicio Grupal"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 45.6,
+        "rango_edad": 39,
+        "tour_recomendado": "Tour Laguna Humantay - Trekking Laguna Humantay full Day en Cusco Peru | Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 64.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour Valle Sagrado de los Incas | Tour al Valle Sagrado de los Incas Full Day | Pisac, Ollantaytambo y Chinchero en Tour Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 41.0,
+        "rango_edad": 16,
+        "tour_recomendado": "Turismo Vivencial Cusco - Turismo Vivencial en Cusco Peru Maras Moray, Chinchero, Mullacas Misminay en Tour Exclusivo Privado 2D/1N"
+    }
+]

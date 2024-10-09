@@ -51,13 +51,11 @@ CREATE TABLE IF NOT EXISTS pasaporte (
 
 CREATE TABLE IF NOT EXISTS recomendaciones (
     id_recomendacion INT AUTO_INCREMENT PRIMARY KEY,
-    id_cliente INT,
-    id_tour INT,
+    id_grupo INT,
     creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     contenido TEXT,
     activo TINYINT(1) DEFAULT 1, 
-    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
-    FOREIGN KEY (id_tour) REFERENCES tours(id_tour)
+    FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo)
 );
 
 CREATE TABLE IF NOT EXISTS reservas (
@@ -280,9 +278,9 @@ END;
 
 -- Procedimientos para la tabla de recomendaciones
 DROP PROCEDURE IF EXISTS insertarRecomendacion;
-CREATE PROCEDURE insertarRecomendacion(IN id_cliente INT, IN id_tour INT, IN contenido TEXT)
+CREATE PROCEDURE insertarRecomendacion(IN id_grupo INT, IN contenido TEXT)
 BEGIN
-    INSERT INTO recomendaciones (id_cliente, id_tour, contenido) VALUES (id_cliente, id_tour, contenido);
+    INSERT INTO recomendaciones (id_grupo, contenido) VALUES (id_grupo, contenido);
 END;
 
 DROP PROCEDURE IF EXISTS obtenerRecomendacionesActivas;
@@ -306,9 +304,9 @@ BEGIN
 END;
 
 DROP PROCEDURE IF EXISTS actualizarRecomendacion;
-CREATE PROCEDURE actualizarRecomendacion(IN id INT, IN nuevo_id_cliente INT, IN nuevo_id_tour INT, IN nuevo_contenido TEXT)
+CREATE PROCEDURE actualizarRecomendacion(IN id INT, IN nuevo_id_grupo INT, IN nuevo_contenido TEXT)
 BEGIN
-    UPDATE recomendaciones SET id_cliente = nuevo_id_cliente, id_tour = nuevo_id_tour, contenido = nuevo_contenido WHERE id_recomendacion = id AND activo = 1;
+    UPDATE recomendaciones SET id_grupo = nuevo_id_grupo, contenido = nuevo_contenido WHERE id_recomendacion = id AND activo = 1;
 END;
 
 DROP PROCEDURE IF EXISTS eliminarRecomendacion;

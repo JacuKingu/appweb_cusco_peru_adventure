@@ -26,9 +26,9 @@ export const obtenerRecomendacionPorIdYRol = async (id_recomendacion, rol) => {
 };
 
 // Servicio para insertar una nueva recomendación
-export const insertarRecomendacion = async (id_cliente, id_tour, contenido) => {
+export const insertarRecomendacion = async (id_grupo, contenido) => {
     try {
-        await recomendacionesModel.insertarRecomendacion(id_cliente, id_tour, contenido);
+        await recomendacionesModel.insertarRecomendacion(id_grupo, contenido);
     } catch (error) {
         console.error('Error en insertarRecomendacion (Servicio):', error);
         throw new Error('Error al insertar la recomendación');
@@ -36,9 +36,9 @@ export const insertarRecomendacion = async (id_cliente, id_tour, contenido) => {
 };
 
 // Servicio para actualizar una recomendación existente
-export const actualizarRecomendacion = async (id_recomendacion, id_cliente, id_tour, contenido) => {
+export const actualizarRecomendacion = async (id_recomendacion, id_grupo, contenido) => {
     try {
-        await recomendacionesModel.actualizarRecomendacion(id_recomendacion, id_cliente, id_tour, contenido);
+        await recomendacionesModel.actualizarRecomendacion(id_recomendacion, id_grupo, contenido);
     } catch (error) {
         console.error('Error en actualizarRecomendacion (Servicio):', error);
         throw new Error('Error al actualizar la recomendación');

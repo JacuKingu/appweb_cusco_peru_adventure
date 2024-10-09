@@ -1,9 +1,7 @@
-import { procesarPdf } from '../20240912_COD_services/20240912_COD_OcrService.js';
+import { procesarPdf, extraerDatosDelTexto } from '../20240912_COD_services/20240912_COD_OcrService.js';
 import { insertarCliente } from '../20240912_COD_services/20240912_COD_clientesServices.js';
 import { insertarPasaporte } from '../20240912_COD_services/20240912_COD_pasaporteServices.js';
-import { insertarUltimoGrupo, obtenerGruposPorRol } from '../20240912_COD_services/20240912_COD_gruposServices.js';
 import { obtenerPdfPorId } from '../20240912_COD_services/20240912_COD_pdfServices.js';
-import { extraerDatosDelTexto } from '../20240912_COD_services/20240912_COD_OcrService.js';
 
 
 // Controlador para manejar el proceso OCR y guardar los datos extraídos
