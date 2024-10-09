@@ -9,11 +9,7 @@ Este proyecto utiliza **Machine Learning** para recomendar tours a grupos de per
 
 ## Instalación
 
-1. Clona este repositorio:
-
-```bash
-git clone https://github.com/tu_usuario/nombre_proyecto.git
-cd nombre_proyecto
+1. Clona este repositorio
 
 2. Crea un entorno virtual y actívalo (en caso no funciona por powershell, puedes probar por cmd como administrador en la carpeta del archivo):
 
