@@ -29,7 +29,6 @@ export const insertarTour = async (nombre, descripcion, duracion, precio, catego
   try {
     const pool = await connection;
     const [result] = await pool.execute('CALL insertarTour(?, ?, ?, ?, ?)', [nombre, descripcion, duracion, precio, categoria]);
-    console.log('esta es mi modelo:' ,result);
     return result;
   } catch (error) {
     console.error('Error al insertar tour:', error);

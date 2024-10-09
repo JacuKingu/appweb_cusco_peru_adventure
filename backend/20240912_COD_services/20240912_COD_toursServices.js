@@ -4,7 +4,6 @@ import * as toursModel from '../20240912_COD_models/20240912_COD_toursModel.js';
 export const obtenerToursActivos = async (rol) => {
     try {
         const tours = await toursModel.obtenerToursActivos(rol);
-        console.log('Tours obtenidos:', tours); // Verificar los datos obtenidos
         return tours;
     } catch (error) {
         console.error('Error en obtenerToursActivos:', error);
@@ -29,9 +28,6 @@ export const obtenerTourPorIdYRol = async (id_tour, rol) => {
 // Servicio para insertar un nuevo tour
 export const insertarTour = async (nombre, descripcion, duracion, precio, categoria) => {
     try {
-        console.log('recepcion de dato la ingresar tour: ',{
-            nombre, descripcion,duracion,precio,categoria
-        })
         await toursModel.insertarTour(nombre, descripcion, duracion, precio, categoria);
     } catch (error) {
         console.error('Error en insertarTour:', error);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   obtenerRecomendacionesPorRol,
   obtenerRecomendacionPorIdYRol,
@@ -6,11 +6,9 @@ import {
   actualizarRecomendacion,
   eliminarRecomendacion
 } from '@services/20240912_COD_RecomendacionService'; // Ajusta la ruta según tu estructura
-import { AuthContext } from '@context/20240912_COD_AuthContext'; // Ajusta la ruta según tu estructura
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
 const Recomendaciones = () => {
-  const { user } = useContext(AuthContext); // Obtener el usuario autenticado del contexto
   const [recomendaciones, setRecomendaciones] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);

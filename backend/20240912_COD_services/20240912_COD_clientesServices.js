@@ -25,15 +25,26 @@ export const obtenerClientePorIdYRol = async (id_cliente, rol) => {
     }
 };
 
-// Servicio para insertar un nuevo cliente
 export const insertarCliente = async (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) => {
+    if (!nombre || !apellido) {
+        throw new Error('El nombre y apellido son obligatorios');
+    }
+
     try {
-        await clientesModel.insertarCliente(nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
+        await clientesModel.insertarCliente(
+            nombre || null,
+            apellido || null,
+            email || null,
+            telefono || null,
+            fecha_nacimiento || null,
+            id_grupo || null
+        );
     } catch (error) {
         console.error('Error en insertarCliente (Servicio):', error);
         throw new Error('Error al insertar el cliente');
     }
 };
+
 
 // Servicio para actualizar un cliente existente
 export const actualizarCliente = async (id_cliente, nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) => {

@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     obtenerPdfsPorRol,
     eliminarPdf
 } from '@services/20240912_COD_PdfService';
-import { AuthContext } from '@context/20240912_COD_AuthContext';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
-import * as pdfjsLib from 'pdfjs-dist';
 import 'pdfjs-dist/build/pdf.worker.min.mjs';
 
 const Pdfs = () => {
-    const { user } = useContext(AuthContext);
     const [pdfs, setPdfs] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
@@ -51,21 +48,12 @@ const Pdfs = () => {
         }
     };
 
-    const abrirPdfEnNuevaPestana = async (contenido) => {
-        if (contenido && contenido.type === 'Buffer' && Array.isArray(contenido.data)) {
+    const abrirPdfEnNuevaPestana = (contenido) => {
+        if (contenido && Array.isArray(contenido.data)) {
             try {
-                // Convertir el array de datos (contenido.data) en un Uint8Array
                 const byteArray = new Uint8Array(contenido.data);
-                
-                // Usar pdfjsLib para cargar el documento PDF
-                const loadingTask = pdfjsLib.getDocument({ data: byteArray });
-                const pdf = await loadingTask.promise;
-    
-                // Generar una URL para el archivo PDF
                 const blob = new Blob([byteArray], { type: 'application/pdf' });
                 const url = URL.createObjectURL(blob);
-    
-                // Abrir el PDF en una nueva pestaña
                 window.open(url, '_blank');
             } catch (error) {
                 console.error('Error al cargar el PDF:', error);
@@ -95,12 +83,6 @@ const Pdfs = () => {
             }
         }
     };
-
-    const abrirPdfEstático = () => {
-        const url = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
-        window.open(url, '_blank');
-    };
-
 
     if (loading) return <SpineLoader />;
 

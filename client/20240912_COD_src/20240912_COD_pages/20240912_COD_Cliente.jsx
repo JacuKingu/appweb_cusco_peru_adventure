@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     obtenerClientesPorRol,
     obtenerClientePorIdYRol,
@@ -6,12 +6,10 @@ import {
     actualizarCliente,
     eliminarCliente
 } from '@services/20240912_COD_ClienteService';
-import { AuthContext } from '@context/20240912_COD_AuthContext';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 import { formatoFecha } from '@utils/20240912_COD_utils';
 
 const Clientes = () => {
-    const { user } = useContext(AuthContext); // Obtiene el usuario autenticado del contexto
     const [clientes, setClientes] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);

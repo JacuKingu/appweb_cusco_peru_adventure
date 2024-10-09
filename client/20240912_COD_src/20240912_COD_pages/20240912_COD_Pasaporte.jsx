@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   obtenerPasaportesPorRol,
   obtenerPasaportePorIdYRol,
@@ -6,12 +6,10 @@ import {
   actualizarPasaporte,
   eliminarPasaporte
 } from '@services/20240912_COD_PasaporteService';
-import { AuthContext } from '@context/20240912_COD_AuthContext';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 import { formatoFecha } from '@utils/20240912_COD_utils';
 
 const Pasaportes = () => {
-  const { user } = useContext(AuthContext); // Obtener el usuario autenticado del contexto
   const [pasaportes, setPasaportes] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -64,7 +62,7 @@ const Pasaportes = () => {
           ...pasaporte,
           fecha_expiracion: formatoFecha(pasaporte.fecha_expiracion)
         }))
-        setPasaportes(response.data);
+        setPasaportes(pasaporteFormato);
       } else {
         setPasaportes([]);
       }

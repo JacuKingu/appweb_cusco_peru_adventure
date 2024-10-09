@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   obtenerToursActivos,
   obtenerTourPorIdYRol,
@@ -6,11 +6,9 @@ import {
   actualizarTour,
   eliminarTour
 } from '@services/20240912_COD_TourService';
-import { AuthContext } from '../20240912_COD_context/20240912_COD_AuthContext';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
 const Tour = () => {
-  const { user } = useContext(AuthContext); // Obtener el usuario autenticado del contexto
   const [tours, setTours] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -56,7 +54,6 @@ const Tour = () => {
     try {
       const rol = localStorage.getItem('rolUser');
       const response = await obtenerToursActivos(rol);
-      console.log('Respuesta de la API:', response);
       if (response.success && Array.isArray(response.data)) {
         setTours(response.data);
       } else {
@@ -84,7 +81,6 @@ const Tour = () => {
         precio: formValues.precio !== undefined ? formValues.precio : null,
         categoria: formValues.categoria || null
       };
-      console.log('ingreso de datos: ', valoresLimpios);
       if (tourActual) {
         await actualizarTour(tourActual.id_tour, ...Object.values(valoresLimpios));
         setError('Tour actualizado con éxito');
@@ -102,7 +98,6 @@ const Tour = () => {
   const manejarEdicion = async (id_tour) => {
     try {
       const rol = localStorage.getItem('rolUser');
-      console.log("este es el rol: ", rol);
       const tour = await obtenerTourPorIdYRol(id_tour, rol);
       if (tour.success && tour.data && tour.data.length > 0) {
         const datosTour = tour.data[0];

@@ -25,6 +25,7 @@ venv\Scripts\activate
 python3 -m venv venv
 source venv/bin/activate
 
+
 3. Instala dependencias:
 
 ```bash
@@ -36,3 +37,4 @@ pip install -r requirements.txt
 python app.py
 
 
+np.asfarray         np.asarray

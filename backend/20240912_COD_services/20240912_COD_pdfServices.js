@@ -29,12 +29,18 @@ export const obtenerPdfPorId = async (id_pdf, rol) => {
 // Servicio para insertar un nuevo PDF
 export const insertarPdf = async (nombre_archivo, contenido) => {
     try {
+        // Aquí sería buena práctica validar los parámetros antes de insertarlos en la base de datos
+        if (!nombre_archivo || !contenido) {
+            throw new Error('Nombre de archivo y contenido son requeridos');
+        }
+
         await pdfModel.insertarPdf(nombre_archivo, contenido);
     } catch (error) {
         console.error('Error en insertarPdf (Servicio):', error);
-        throw new Error('Error al insertar el PDF');
+        throw new Error('Error al insertar el PDF en la base de datos');
     }
 };
+
 
 // Servicio para eliminar un PDF lógicamente
 export const eliminarPdf = async (id_pdf) => {

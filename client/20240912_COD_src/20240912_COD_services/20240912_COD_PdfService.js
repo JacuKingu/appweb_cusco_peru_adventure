@@ -25,19 +25,23 @@ export const obtenerPdfPorId = async (id_pdf, rol) => {
     }
 };
 
-
 // Servicio para insertar un nuevo PDF
 export const insertarPdf = async (nombre_archivo, contenido) => {
     try {
+        // Verifica que el archivo y contenido no estén vacíos
+        if (!nombre_archivo || !contenido) {
+            throw new Error('El nombre del archivo y el contenido son requeridos');
+        }
+
         const formData = new FormData();
-        formData.append('nombre_archivo', nombre_archivo);
-        formData.append('contenido', contenido);
+        formData.append('archivo', contenido); // Aquí solo necesitas 'archivo'
 
         const response = await api.post('/pdf', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+                'Content-Type': 'multipart/form-data', // Este header es opcional, ya que el navegador lo maneja
+            },
         });
+
         return response.data.message; // Retorna el mensaje de éxito
     } catch (error) {
         console.error('Error en insertarPdf (Servicio):', error);
@@ -45,25 +49,7 @@ export const insertarPdf = async (nombre_archivo, contenido) => {
     }
 };
 
-export const cargarPdf = async (archivo) => {
-    try {
-        // Crear un FormData para enviar el archivo
-        const formData = new FormData();
-        formData.append('archivo', archivo);
 
-        // Enviar el archivo al backend usando axios
-        const response = await api.post('/pdf/cargar', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-
-        return response.data.mensaje; // Retorna el mensaje de éxito
-    } catch (error) {
-        console.error('Error al cargar el PDF (Frontend):', error);
-        throw new Error(error.response ? error.response.data.error : 'Error al cargar el PDF');
-    }
-};
 
 // Servicio para actualizar un PDF existente
 export const actualizarPdf = async (id_pdf, nombre_archivo, contenido) => {

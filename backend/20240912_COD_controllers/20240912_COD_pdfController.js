@@ -42,7 +42,7 @@ export const insertarPdf = async (req, res) => {
 
     try {
         await pdfService.insertarPdf(nombre_archivo, contenido);
-        res.status(201).json({ mensaje: 'PDF insertado exitosamente' });
+        res.status(201).json({ message: 'PDF insertado exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al insertar PDF' });
     }
@@ -55,7 +55,7 @@ export const eliminarPdf = async (req, res) => {
     const { id_pdf } = req.params;
     try {
         await pdfService.eliminarPdf(id_pdf);
-        res.status(200).json({ mensaje: 'PDF eliminado exitosamente' });
+        res.status(200).json({ message: 'PDF eliminado exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al eliminar PDF' });
     }

@@ -4,7 +4,6 @@ import * as toursService from '../20240912_COD_services/20240912_COD_toursServic
 export const obtenerTours = async (req, res) => {
     try {
         const rol = req.usuario.rol; // Obtener el rol del usuario autenticado
-        console.log("Rol recibido: ",rol);
         const tours = await toursService.obtenerToursActivos(rol);
         
         res.status(200).json({
@@ -34,7 +33,6 @@ export const obtenerTourPorId = async (req, res) => {
 // Insertar un nuevo tour
 export const insertarTour = async (req, res) => {
     const { nombre, descripcion, duracion, precio, categoria } = req.body;
-    console.log('Datos recibidos controller:', { nombre, descripcion, duracion, precio, categoria });
     try {
         await toursService.insertarTour(nombre, descripcion, duracion, precio, categoria);
         res.status(201).json({ message: 'Tour insertado exitosamente' });

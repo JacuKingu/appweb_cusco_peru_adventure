@@ -29,10 +29,14 @@ export const obtenerClientePorId = async (req, res) => {
     }
 };
 
-// Insertar un nuevo cliente
 export const insertarCliente = async (req, res) => {
     const { nombre, apellido, email, telefono, fecha_nacimiento, id_grupo } = req.body;
+
     try {
+        if (!nombre || !apellido) {
+            return res.status(400).json({ message: 'El nombre y apellido son obligatorios' });
+        }
+
         await clientesService.insertarCliente(nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
         res.status(201).json({ message: 'Cliente insertado exitosamente' });
     } catch (error) {
@@ -40,6 +44,7 @@ export const insertarCliente = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Actualizar un cliente existente
 export const actualizarCliente = async (req, res) => {

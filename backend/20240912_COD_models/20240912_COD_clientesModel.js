@@ -24,13 +24,19 @@ export const obtenerClientePorId = async (id_cliente, rol) => {
     }
 };
 
-// Insertar un nuevo Cliente
 export const insertarCliente = async (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) => {
     try {
         const pool = await connection;
         const [result] = await pool.execute(
             'CALL insertarCliente(?, ?, ?, ?, ?, ?)',
-            [nombre, apellido, email, telefono, fecha_nacimiento, id_grupo]
+            [
+                nombre || null,              // Si 'nombre' es undefined, pasa null
+                apellido || null,            // Si 'apellido' es undefined, pasa null
+                email || null,               // Si 'email' es undefined, pasa null
+                telefono || null,            // Si 'telefono' es undefined, pasa null
+                fecha_nacimiento || null,    // Si 'fecha_nacimiento' es undefined, pasa null
+                id_grupo || null             // Si 'id_grupo' es undefined, pasa null
+            ]
         );
         return result[0];
     } catch (error) {
@@ -38,6 +44,7 @@ export const insertarCliente = async (nombre, apellido, email, telefono, fecha_n
         throw error;
     }
 };
+
 
 // Actualizar un Cliente existente
 export const actualizarCliente = async (id_cliente, nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) => {

@@ -26,7 +26,8 @@ const corsOptions = {
     origin: ['http://localhost:5173', 'http://localhost:3001','http://localhost:5000'], // Agregar dominios permitidos
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     optionsSuccessStatus: 200, // Para navegadores antiguos
-    credentials: true // Habilitar cookies y headers con credenciales
+    credentials: true, // Habilitar cookies y headers con credenciales
+    allowedHeaders: ['Content-Type', 'Authorization']
 };
 app.use(cors(corsOptions));
 

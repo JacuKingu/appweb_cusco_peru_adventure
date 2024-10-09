@@ -35,7 +35,7 @@ export const insertarUsuario = async (req, res) => {
     const { nombre, contraseña, rol } = req.body;
     try {
         await usuariosService.insertarUsuario(nombre, contraseña, rol);
-        res.status(201).json({ mensaje: 'Usuario insertado exitosamente' });
+        res.status(201).json({ message: 'Usuario insertado exitosamente' });
     } catch (error) {
         console.error('Error al insertar usuario:', error);
         res.status(500).json({ message: error.message });
@@ -48,7 +48,7 @@ export const actualizarUsuario = async (req, res) => {
     const { nombre, contraseña, rol } = req.body;
     try {
         await usuariosService.actualizarUsuario(id_usuario, nombre, contraseña, rol);
-        res.status(200).json({ mensaje: 'Usuario actualizado exitosamente' });
+        res.status(200).json({ message: 'Usuario actualizado exitosamente' });
     } catch (error) {
         console.error('Error al actualizar usuario:', error);
         res.status(500).json({ message: error.message });
@@ -60,7 +60,7 @@ export const eliminarUsuario = async (req, res) => {
     const { id_usuario } = req.params;
     try {
         await usuariosService.eliminarUsuario(id_usuario);
-        res.status(200).json({ mensaje: 'Usuario eliminado exitosamente' });
+        res.status(200).json({ message: 'Usuario eliminado exitosamente' });
     } catch (error) {
         console.error('Error al eliminar usuario:', error);
         res.status(500).json({ message: error.message });

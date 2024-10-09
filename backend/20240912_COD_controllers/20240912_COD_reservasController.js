@@ -22,7 +22,7 @@ export const obtenerReservaPorId = async (req, res) => {
     try {
         const reserva = await reservasService.obtenerReservaPorIdYRol(id_reserva, rol);
         if (!reserva) {
-            return res.status(404).json({ mensaje: 'Reserva no encontrada' });
+            return res.status(404).json({ message: 'Reserva no encontrada' });
         }
         res.status(200).json({ success: true, data: reserva });
     } catch (error) {
@@ -35,7 +35,7 @@ export const insertarReserva = async (req, res) => {
     const { id_cliente, id_tour, estado } = req.body;
     try {
         await reservasService.insertarReserva(id_cliente, id_tour, estado);
-        res.status(201).json({ mensaje: 'Reserva insertada exitosamente' });
+        res.status(201).json({ message: 'Reserva insertada exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al insertar reserva' });
     }
@@ -47,7 +47,7 @@ export const actualizarReserva = async (req, res) => {
     const { id_cliente, id_tour, estado } = req.body;
     try {
         await reservasService.actualizarReserva(id_reserva, id_cliente, id_tour, estado);
-        res.status(200).json({ mensaje: 'Reserva actualizada exitosamente' });
+        res.status(200).json({ message: 'Reserva actualizada exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar reserva' });
     }
@@ -58,7 +58,7 @@ export const eliminarReserva = async (req, res) => {
     const { id_reserva } = req.params;
     try {
         await reservasService.eliminarReserva(id_reserva);
-        res.status(200).json({ mensaje: 'Reserva eliminada exitosamente' });
+        res.status(200).json({ message: 'Reserva eliminada exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al eliminar reserva' });
     }

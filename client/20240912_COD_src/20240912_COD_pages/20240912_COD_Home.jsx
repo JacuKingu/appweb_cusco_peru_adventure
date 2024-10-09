@@ -1,8 +1,8 @@
 import React, { useState } from 'react'; 
-import { cargarPdf } from '@services/20240912_COD_PdfService'; 
+import { insertarPdf } from '@services/20240912_COD_PdfService'; 
 
 const Home = () => {
-    const [archivo, setArchivo] = useState(''); // useState inicializado correctamente
+    const [archivo, setArchivo] = useState(null); // Inicializado como null en vez de una cadena vacía
     const [mensaje, setMensaje] = useState('');
     const [error, setError] = useState('');
 
@@ -21,8 +21,9 @@ const Home = () => {
         }
 
         try {
-            // Llamar al servicio para cargar el PDF
-            const mensajeExito = await cargarPdf(archivo);
+            // Llamar al servicio para cargar el PDF, pasando nombre y archivo
+            const mensajeExito = await insertarPdf(archivo.name, archivo); 
+            console.log('este es el mensaje: ', mensajeExito)
             setMensaje(mensajeExito);
         } catch (error) {
             setError('Error al cargar el archivo: ' + error.message);

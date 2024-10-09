@@ -22,7 +22,7 @@ export const obtenerRecomendacionPorId = async (req, res) => {
     try {
         const recomendacion = await recomendacionesService.obtenerRecomendacionPorIdYRol(id_recomendacion, rol);
         if (!recomendacion) {
-            return res.status(404).json({ mensaje: 'Recomendación no encontrada' });
+            return res.status(404).json({ message: 'Recomendación no encontrada' });
         }
         res.status(200).json({ success: true, data: recomendacion });
     } catch (error) {
@@ -35,7 +35,7 @@ export const insertarRecomendacion = async (req, res) => {
     const { id_grupo, contenido } = req.body;
     try {
         await recomendacionesService.insertarRecomendacion(id_grupo, contenido);
-        res.status(201).json({ mensaje: 'Recomendación insertada exitosamente' });
+        res.status(201).json({ message: 'Recomendación insertada exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al insertar recomendación' });
     }
@@ -47,7 +47,7 @@ export const actualizarRecomendacion = async (req, res) => {
     const { id_grupo, contenido } = req.body;
     try {
         await recomendacionesService.actualizarRecomendacion(id_recomendacion, id_grupo, contenido);
-        res.status(200).json({ mensaje: 'Recomendación actualizada exitosamente' });
+        res.status(200).json({ message: 'Recomendación actualizada exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar recomendación' });
     }
@@ -58,7 +58,7 @@ export const eliminarRecomendacion = async (req, res) => {
     const { id_recomendacion } = req.params;
     try {
         await recomendacionesService.eliminarRecomendacion(id_recomendacion);
-        res.status(200).json({ mensaje: 'Recomendación eliminada exitosamente' });
+        res.status(200).json({ message: 'Recomendación eliminada exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al eliminar recomendación' });
     }
