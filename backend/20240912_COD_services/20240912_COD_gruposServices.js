@@ -1,4 +1,5 @@
 import * as gruposModel from '../20240912_COD_models/20240912_COD_gruposModel.js';
+import axios from 'axios';
 
 // Servicio para obtener todos los grupos activos basados en el rol
 export const obtenerGruposPorRol = async (rol) => {
@@ -42,6 +43,28 @@ export const insertarUltimoGrupo = async (id_pdf, nombre_grupo) => {
     } catch (error) {
         console.error('Error en insertarGrupo (Servicio):', error);
         throw new Error('Error al insertar el grupo');
+    }
+};
+
+// Servicio para obtener las edades de los clientes de un grupo
+export const obtenerEdadesPorGrupo = async (id_grupo) => {
+    try {
+        const edades = await gruposModel.obtenerEdadesPorGrupo(id_grupo);
+        return edades;
+    } catch (error) {
+        console.error('Error en obtenerEdadesPorGrupo (Servicio):', error);
+        throw new Error('Error al obtener las edades del grupo');
+    }
+};
+
+// Servicio para hacer el POST al microservicio que ingresa las edades
+export const procesarEdades = async (edades) => {
+    try {
+        const response = await axios.post('http://localhost:5000/recomendar_tour', { edades });
+        return response.data;
+    } catch (error) {
+        console.error('Error al ingresar edades (Servicio):', error);
+        throw new Error('Error al comunicarse con el microservicio POST');
     }
 };
 

@@ -72,7 +72,7 @@ const Registrar = () => {
                         onChange={(e) => setRol(e.target.value)} 
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                        {/* Opción inicial para seleccionar el rol */}
+
                         <option value="">Seleccionar rol</option>
                         <option value="admin">Administrador</option>
                         <option value="asesor">Asesor</option>

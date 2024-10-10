@@ -461,6 +461,28 @@ BEGIN
     END IF;
 END;
 
+DROP PROCEDURE IF EXISTS obtenerEdadesPorGrupo;
+CREATE PROCEDURE obtenerEdadesPorGrupo(
+    IN grupo_id INT
+)
+BEGIN
+    SELECT 
+        g.grupo, 
+        GROUP_CONCAT(
+            TIMESTAMPDIFF(YEAR, c.fecha_nacimiento, CURDATE()) SEPARATOR ', '
+        ) AS edades
+    FROM 
+        clientes c
+    INNER JOIN 
+        grupos g ON c.id_grupo = g.id_grupo
+    WHERE 
+        g.id_grupo = grupo_id
+    GROUP BY 
+        g.grupo;
+END;
+
+
+
 INSERT INTO tours (tour, descripcion, duracion, precio, categoria, activo) VALUES ('Machupicchu | Full Day todo inlcuido con tren Turístico de Perú Rail o Inca Rail', 'recojo de hotel viaje en bus aprox 1 hora con 30 minutos, subir al tren viaje de 2 horas, abordar bus turistico de macupicchu pueblo a machu picchu viaje de 30 minutos, en machupicchu se recorrera todo los principales sitios turisticos en compañia del guia, tendran tiempo de tomarse fotos, se tomara el bus de retorno a machu picchu pueblo donde se almorzara luego tomaran el tren de regreso a Cusco. 
 
 Incluye todo
@@ -642,17 +664,67 @@ Poncho.
 Medicación personal.
 Cámara y batería extra.', 24, 25, 'Caminata', 1);
 
+-- Inserciones para la tabla pdf
+INSERT INTO pdf (archivo, contenido) 
+VALUES ('documento1.pdf', LOAD_FILE('/ruta/documento1.pdf')),
+       ('documento2.pdf', LOAD_FILE('/ruta/documento2.pdf')),
+       ('documento3.pdf', LOAD_FILE('/ruta/documento3.pdf')),
+       ('documento4.pdf', LOAD_FILE('/ruta/documento4.pdf')),
+       ('documento5.pdf', LOAD_FILE('/ruta/documento5.pdf'));
+
+
+INSERT INTO grupos (id_pdf, grupo) VALUES (1, 'Grupo 1');
+INSERT INTO grupos (id_pdf, grupo) VALUES (2, 'Grupo 2');
+INSERT INTO grupos (id_pdf, grupo) VALUES (3, 'Grupo 3');
+
+-- Inserciones para Grupo 1
+INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) 
+VALUES ('Juan', 'Pérez', 'juan.perez@example.com', '123456789', '1990-05-10', 1),
+       ('Luis', 'Sánchez', 'luis.sanchez@example.com', '234567890', '1988-07-13', 1),
+       ('María', 'Rodríguez', 'maria.rodriguez@example.com', '345678901', '1995-09-18', 1),
+       ('Pedro', 'López', 'pedro.lopez@example.com', '456789012', '1991-11-05', 1);
+
+-- Inserciones para Grupo 2
+INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) 
+VALUES ('Ana', 'Gómez', 'ana.gomez@example.com', '987654321', '1985-03-22', 2),
+       ('Sara', 'Torres', 'sara.torres@example.com', '876543210', '1993-08-12', 2),
+       ('Raúl', 'Molina', 'raul.molina@example.com', '765432109', '1990-01-25', 2),
+       ('Lucía', 'Ramírez', 'lucia.ramirez@example.com', '654321098', '1994-04-30', 2),
+       ('Miguel', 'Ortega', 'miguel.ortega@example.com', '543210987', '1989-12-03', 2);
+
+-- Inserciones para Grupo 3
+INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) 
+VALUES ('Carlos', 'Martínez', 'carlos.martinez@example.com', '555123456', '1992-12-15', 3),
+       ('Marta', 'Santos', 'marta.santos@example.com', '210987654', '1990-10-09', 3),
+       ('Alberto', 'Jiménez', 'alberto.jimenez@example.com', '109876543', '1993-05-28', 3);
+
+
+-- Pasaportes para el Grupo 1
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (1, 'P12345678', 'México', '2030-01-01');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (2, 'G87654321', 'Argentina', '2028-05-10');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (3, 'M09876543', 'Colombia', '2029-11-25');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (4, 'L65432109', 'Perú', '2031-07-15');
+
+-- Pasaportes para el Grupo 2
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (5, 'T54321098', 'Chile', '2026-03-18');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (6, 'V43210987', 'España', '2025-08-27');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (7, 'U32109876', 'Brasil', '2027-12-14');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (8, 'Q21098765', 'Uruguay', '2029-05-30');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (9, 'R10987654', 'Paraguay', '2030-09-01');
+
+-- Pasaportes para el Grupo 3
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (10, 'X98765432', 'Ecuador', '2032-04-20');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (11, 'Z87654321', 'Bolivia', '2026-11-17');
+INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (12, 'Y76543210', 'Venezuela', '2025-02-12');
+
+INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (1, 1, 'confirmada');
+INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (2, 2, 'pendiente');
+INSERT INTO reservas (id_cliente, id_tour, estado) VALUES (3, 3, 'cancelada');
 
 /* 
--- Tabla tours
-INSERT INTO tours (tour, descripcion, duracion, precio, categoria) VALUES ('Tour Histórico', 'Explora la historia de la ciudad.', 3, 50.00, 'Cultural');
-INSERT INTO tours (tour, descripcion, duracion, precio, categoria) VALUES ('Aventura en la Montaña', 'Senderismo y escalada.', 5, 120.00, 'Aventura');
-INSERT INTO tours (tour, descripcion, duracion, precio, categoria) VALUES ('Tour Gastronómico', 'Degustación de comida local.', 2, 35.00, 'Gastronomía');
 
 -- Tabla grupos
-INSERT INTO grupos (id_pdf, grupo) VALUES (1, 'Grupo Histórico');
-INSERT INTO grupos (id_pdf, grupo) VALUES (2, 'Grupo Aventura');
-INSERT INTO grupos (id_pdf, grupo) VALUES (3, 'Grupo Gastronómico');
+
 
 -- Tabla clientes
 INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', '123456789', '1990-05-10', 1);
@@ -660,9 +732,6 @@ INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_gr
 INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES ('Carlos', 'Martínez', 'carlos.martinez@example.com', '555123456', '1992-12-15', 3);
 
 -- Tabla pasaporte
-INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (1, 'P12345678', 'México', '2030-01-01');
-INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (2, 'G87654321', 'Argentina', '2028-05-10');
-INSERT INTO pasaporte (id_cliente, numero_pasaporte, pais_emision, fecha_expiracion) VALUES (3, 'M09876543', 'Colombia', '2029-11-25');
 
 -- Tabla recomendaciones
 INSERT INTO recomendaciones (id_cliente, id_tour, contenido) VALUES (1, 1, 'El tour fue muy informativo y entretenido.');

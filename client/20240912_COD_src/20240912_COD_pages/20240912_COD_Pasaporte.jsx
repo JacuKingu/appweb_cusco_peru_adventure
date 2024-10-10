@@ -6,63 +6,56 @@ import {
   actualizarPasaporte,
   eliminarPasaporte
 } from '@services/20240912_COD_PasaporteService';
+import { obtenerClientesPorRol } from '@services/20240912_COD_ClienteService'; // Servicio para obtener clientes
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 import { formatoFecha } from '@utils/20240912_COD_utils';
 
 const Pasaportes = () => {
   const [pasaportes, setPasaportes] = useState([]);
+  const [clientes, setClientes] = useState([]); // Estado para almacenar clientes
+  const [pasaporteActual, setPasaporteActual] = useState(null); // Define el estado para el pasaporte actual
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const [pasaporteActual, setPasaporteActual] = useState(null); // Para editar un pasaporte específico
-  const [formValues, setFormValues] = useState({ // Valores del formulario
+  const [formValues, setFormValues] = useState({
     id_cliente: '',
     numero_pasaporte: '',
     pais_emision: '',
     fecha_expiracion: ''
   });
 
-  // Cargar los pasaportes al montar el componente
+  // Cargar clientes y pasaportes al montar el componente
   useEffect(() => {
-    let isMounted = true; // Bandera para verificar si el componente está montado
-    const cargarPasaportesSeguro = async () => {
-      if (isMounted) {
-        await cargarPasaportes(); // Llama a cargarPasaportes solo si el componente está montado
-      }
+    const cargarDatos = async () => {
+      await cargarPasaportes();
+      await cargarClientes();
     };
-    cargarPasaportesSeguro();
-    return () => {
-      isMounted = false; // Limpia la bandera al desmontar el componente
-    };
+    cargarDatos();
   }, []);
 
-  // Actualizar el formulario si cambia el pasaporte actual
-  useEffect(() => {
-    if (pasaporteActual) {
-      setFormValues({
-        id_cliente: pasaporteActual.id_cliente || '',
-        numero_pasaporte: pasaporteActual.numero_pasaporte || '',
-        pais_emision: pasaporteActual.pais_emision || '',
-        fecha_expiracion: formatoFecha(pasaporteActual.fecha_expiracion) || ''
-      });
-    } else {
-      limpiarFormulario(); // Limpia el formulario si `pasaporteActual` es `null` o `undefined`
+  // Cargar clientes para el select
+  const cargarClientes = async () => {
+    try {
+      const rol = localStorage.getItem('rolUser');
+      const response = await obtenerClientesPorRol(rol);
+      if (response.success) {
+        setClientes(response.data);
+      } else {
+        setClientes([]);
+      }
+    } catch (error) {
+      setError('Error al cargar los clientes: ' + error.message);
     }
-  }, [pasaporteActual]);
+  };
 
-  // Cargar pasaportes según el rol del usuario autenticado
+  // Cargar pasaportes según el rol del usuario
   const cargarPasaportes = async () => {
     setLoading(true);
     setError('');
     try {
       const rol = localStorage.getItem('rolUser');
       const response = await obtenerPasaportesPorRol(rol);
-      console.log('Respuesta de la API:', response);
-      if (response.success && Array.isArray(response.data)) {
-        const pasaporteFormato = response.data.map(pasaporte => ({
-          ...pasaporte,
-          fecha_expiracion: formatoFecha(pasaporte.fecha_expiracion)
-        }))
-        setPasaportes(pasaporteFormato);
+      if (response.success) {
+        setPasaportes(response.data);
       } else {
         setPasaportes([]);
       }
@@ -73,59 +66,23 @@ const Pasaportes = () => {
     }
   };
 
-  // Manejar cambios en los inputs del formulario
-  const manejarCambio = (e) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
-  };
-
-  // Manejar envío del formulario
-  const manejarSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    try {
-      const valoresLimpios = {
-        id_cliente: formValues.id_cliente || null,
-        numero_pasaporte: formValues.numero_pasaporte || null,
-        pais_emision: formValues.pais_emision || null,
-        fecha_expiracion: formValues.fecha_expiracion || null
-      };
-      console.log('Ingreso de datos:', valoresLimpios);
-
-      if (pasaporteActual) {
-        // Actualizar pasaporte
-        await actualizarPasaporte(pasaporteActual.id_pasaporte, ...Object.values(valoresLimpios));
-        setError('Pasaporte actualizado con éxito');
-      } else {
-        // Insertar nuevo pasaporte
-        await insertarPasaporte(...Object.values(valoresLimpios));
-        setError('Pasaporte agregado con éxito');
-      }
-      cargarPasaportes(); // Recargar la lista de pasaportes
-      limpiarFormulario(); // Limpiar formulario
-    } catch (error) {
-      setError('Error al guardar el pasaporte: ' + error.message);
-    }
-  };
-
-  // Manejar edición de un pasaporte
+  // Manejar la edición de un pasaporte
   const manejarEdicion = async (id_pasaporte) => {
     try {
       const rol = localStorage.getItem('rolUser');
-      const pasaporte = await obtenerPasaportePorIdYRol(id_pasaporte, rol);
-      console.log('este es el pasaporte:', pasaporte);
-      if (pasaporte.success && pasaporte.data && pasaporte.data.length > 0) {
-        const datosPasaporte = pasaporte.data[0];
-        const expiracionFormato = formatoFecha(datosPasaporte.fecha_expiracion);
-        setPasaporteActual(datosPasaporte);
+      const response = await obtenerPasaportePorIdYRol(id_pasaporte, rol);
+      if (response.success && response.data) {
+        const pasaporte = response.data[0];
+        setPasaporteActual(pasaporte);
         setFormValues({
-          id_cliente: datosPasaporte.id_cliente || '',
-          numero_pasaporte: datosPasaporte.numero_pasaporte || '',
-          pais_emision: datosPasaporte.pais_emision || '',
-          fecha_expiracion: expiracionFormato || ''
+          id_cliente: pasaporte.id_cliente,
+          numero_pasaporte: pasaporte.numero_pasaporte,
+          pais_emision: pasaporte.pais_emision,
+          fecha_expiracion: formatoFecha(pasaporte.fecha_expiracion)
         });
       }
     } catch (error) {
-      setError('Error al cargar el pasaporte: ' + error.message);
+      setError('Error al cargar el pasaporte para editar: ' + error.message);
     }
   };
 
@@ -137,6 +94,36 @@ const Pasaportes = () => {
       cargarPasaportes(); // Recargar la lista de pasaportes
     } catch (error) {
       setError('Error al eliminar el pasaporte: ' + error.message);
+    }
+  };
+
+  // Manejar cambios en los inputs del formulario
+  const manejarCambio = (e) => {
+    setFormValues({ ...formValues, [e.target.name]: e.target.value });
+  };
+
+  // Manejar envío del formulario
+  const manejarSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const valoresLimpios = {
+        id_cliente: formValues.id_cliente,
+        numero_pasaporte: formValues.numero_pasaporte,
+        pais_emision: formValues.pais_emision,
+        fecha_expiracion: formValues.fecha_expiracion
+      };
+
+      if (pasaporteActual) {
+        await actualizarPasaporte(pasaporteActual.id_pasaporte, ...Object.values(valoresLimpios));
+        setError('Pasaporte actualizado con éxito');
+      } else {
+        await insertarPasaporte(...Object.values(valoresLimpios));
+        setError('Pasaporte agregado con éxito');
+      }
+      cargarPasaportes(); // Recargar la lista de pasaportes
+      limpiarFormulario();
+    } catch (error) {
+      setError('Error al guardar el pasaporte: ' + error.message);
     }
   };
 
@@ -156,20 +143,28 @@ const Pasaportes = () => {
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Gestión de Pasaportes</h1>
-      {loading && <p className="text-center">Cargando...</p>}
-      {/* Formulario para agregar/actualizar pasaporte */}
+
+
       <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
         <h2 className="text-xl font-bold mb-4">{pasaporteActual ? 'Actualizar Pasaporte' : 'Agregar Pasaporte'}</h2>
+
+
         <div className="mb-4">
-          <input
-            type="number"
+          <select
             name="id_cliente"
             value={formValues.id_cliente}
             onChange={manejarCambio}
-            placeholder="ID Cliente"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          >
+            <option value="">Selecciona un Cliente</option>
+            {clientes.map((cliente) => (
+              <option key={cliente.id_cliente} value={cliente.id_cliente}>
+                {cliente.nombre} {cliente.apellido}
+              </option>
+            ))}
+          </select>
         </div>
+
         <div className="mb-4">
           <input
             type="text"
@@ -206,25 +201,16 @@ const Pasaportes = () => {
         >
           {pasaporteActual ? 'Actualizar' : 'Agregar'}
         </button>
-        {pasaporteActual && (
-          <button
-            type="button"
-            onClick={limpiarFormulario}
-            className="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 mt-4"
-          >
-            Cancelar
-          </button>
-        )}
       </form>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      {/* Tabla de pasaportes */}
+
       <table className="min-w-full bg-white">
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID</th>
-            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID Cliente</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID Pasaporte</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Nombre Cliente</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Número de Pasaporte</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">País de Emisión</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Fecha de Expiración</th>
@@ -235,7 +221,11 @@ const Pasaportes = () => {
           {pasaportes.map((pasaporte) => (
             <tr key={pasaporte.id_pasaporte}>
               <td className="py-2 px-4 border-b border-gray-200">{pasaporte.id_pasaporte}</td>
-              <td className="py-2 px-4 border-b border-gray-200">{pasaporte.id_cliente}</td>
+              <td className="py-2 px-4 border-b border-gray-200">
+
+                {clientes.find(cliente => cliente.id_cliente === pasaporte.id_cliente)?.nombre}{" "}
+                {clientes.find(cliente => cliente.id_cliente === pasaporte.id_cliente)?.apellido}
+              </td>
               <td className="py-2 px-4 border-b border-gray-200">{pasaporte.numero_pasaporte}</td>
               <td className="py-2 px-4 border-b border-gray-200">{pasaporte.pais_emision}</td>
               <td className="py-2 px-4 border-b border-gray-200">{pasaporte.fecha_expiracion}</td>

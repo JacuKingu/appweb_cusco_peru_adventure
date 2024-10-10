@@ -172,7 +172,7 @@ const Tour = () => {
             name="duracion"
             value={formValues.duracion}
             onChange={manejarCambio}
-            placeholder="Duración (días)"
+            placeholder="Duración (horas)"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -221,7 +221,7 @@ const Tour = () => {
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Nombre</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Descripción</th>
-            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Duración</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Duración (horas)</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Precio</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Categoría</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>

@@ -6,11 +6,11 @@ import { Outlet } from 'react-router-dom';
 const MainLayout = () => {
     return (
         <div className="flex flex-col h-screen">
-            <Header /> {/* Header en la parte superior */}
+            <Header /> 
             <div className="flex flex-grow">
-                <Sidebar /> {/* Sidebar a la izquierda */}
-                <div className="ml-64 p-4 w-full"> {/* Contenido principal ajustado */}
-                    <Outlet /> {/* Renderiza las páginas según la ruta */}
+                <Sidebar /> 
+                <div className="ml-64 p-4 w-full"> 
+                    <Outlet /> 
                 </div>
             </div>
         </div>

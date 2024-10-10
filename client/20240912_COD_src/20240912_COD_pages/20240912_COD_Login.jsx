@@ -67,7 +67,7 @@ const Login = () => {
                     className={`w-full py-2 rounded-lg ${cargando ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`} 
                     disabled={cargando} // Deshabilitar el botón mientras carga
                 >
-                    {cargando ? <SpineLoader /> : 'Iniciar Sesión'} {/* Mostrar el spinner o el texto */}
+                    {cargando ? <SpineLoader /> : 'Iniciar Sesión'} 
                 </button>
                 <div className="mt-4 text-center">
                     <Link to="/registrar" className="text-blue-500 hover:underline">

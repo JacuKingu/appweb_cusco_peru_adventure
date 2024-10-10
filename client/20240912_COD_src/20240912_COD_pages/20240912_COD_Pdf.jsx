@@ -107,14 +107,14 @@ const Pdfs = () => {
                             <td className="py-2 px-4 border-b border-gray-200">{pdf.id_pdf}</td>
                             <td className="py-2 px-4 border-b border-gray-200">{pdf.archivo}</td>
                             <td className="py-2 px-4 border-b border-gray-200">
-                                {/* Previsualizar PDF */}
+
                                 <button
                                     onClick={() => abrirPdfEnNuevaPestana(pdf.contenido)}
                                     className="text-blue-500 underline mr-4"
                                 >
                                     Previsualizar PDF
                                 </button>
-                                {/* Descargar PDF */}
+
                                 <button
                                     onClick={() => descargarPdf(pdf.contenido)}
                                     className="text-blue-500 underline"

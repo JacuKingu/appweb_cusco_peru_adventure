@@ -168,7 +168,6 @@ const Clientes = () => {
         <div className="p-8">
             <h1 className="text-2xl font-bold mb-4">Gestión de Clientes</h1>
 
-            {/* Formulario para agregar/actualizar cliente */}
             <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
                 <h2 className="text-xl font-bold mb-4">{clienteActual ? 'Actualizar Cliente' : 'Agregar Cliente'}</h2>
                 <div className="mb-4">
@@ -248,10 +247,9 @@ const Clientes = () => {
                 )}
             </form>
 
-            {/* Mensaje de error */}
             {error && <p className="text-red-500 mb-4">{error}</p>}
 
-            {/* Tabla de clientes */}
+
             <table className="min-w-full bg-white">
                 <thead>
                     <tr>

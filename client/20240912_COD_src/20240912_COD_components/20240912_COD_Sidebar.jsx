@@ -8,10 +8,10 @@ const Sidebar = () => {
         <div className="w-64 h-screen bg-gray-800 text-white p-4 fixed">
             <h1 className="text-xl font-bold mb-4">Menú Principal</h1>
             <ul>
-                {/* Enlace común para todos los roles */}
 
 
-                {/* Enlaces para roles específicos */}
+
+
                 {['admin', 'asesor'].includes(rolUser) && (
                     <>
                         <li>

@@ -5,11 +5,15 @@ import {
   insertarReserva,
   actualizarReserva,
   eliminarReserva
-} from '@services/20240912_COD_ReservaService'; // Ajusta la ruta según tu estructura
+} from '@services/20240912_COD_ReservaService'; 
+import { obtenerToursActivos } from '@services/20240912_COD_TourService';
+import { obtenerClientesPorRol } from '@services/20240912_COD_ClienteService';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
 const Reservas = () => {
   const [reservas, setReservas] = useState([]);
+  const [clientes, setClientes] = useState([]); // Estado para almacenar clientes
+  const [tours, setTours] = useState([]); // Estado para almacenar tours
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [reservaActual, setReservaActual] = useState(null); // Para editar una reserva específica
@@ -21,12 +25,14 @@ const Reservas = () => {
 
   useEffect(() => {
     let isMounted = true;
-    const cargarReservasSeguro = async () => {
+    const cargarDatos = async () => {
       if (isMounted) {
         await cargarReservas();
+        await cargarClientes();
+        await cargarTours();
       }
     };
-    cargarReservasSeguro();
+    cargarDatos();
     return () => {
       isMounted = false;
     };
@@ -44,13 +50,52 @@ const Reservas = () => {
     }
   }, [reservaActual]);
 
+  // Cargar clientes para el select
+  const cargarClientes = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const rol = localStorage.getItem('rolUser'); // Usa el rol del usuario autenticado
+      const response = await obtenerClientesPorRol(rol);
+
+      if (response.success && Array.isArray(response.data)) {
+        setClientes(response.data);
+      } else {
+        setClientes([]);
+      }
+    } catch (error) {
+      setError('Error al cargar los clientes: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Cargar tours para el select
+  const cargarTours = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const rol = localStorage.getItem('rolUser');
+      const response = await obtenerToursActivos(rol);
+      if (response.success && Array.isArray(response.data)) {
+        setTours(response.data);
+      } else {
+        setTours([]);
+      }
+    } catch (error) {
+      setError('Error al cargar los tours: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Cargar reservas
   const cargarReservas = async () => {
     setLoading(true);
     setError('');
     try {
       const rol = localStorage.getItem('rolUser');
       const response = await obtenerReservasPorRol(rol);
-      console.log('Respuesta de la API:', response);
       if (response.success && Array.isArray(response.data)) {
         setReservas(response.data);
       } else {
@@ -63,10 +108,12 @@ const Reservas = () => {
     }
   };
 
+  // Manejar cambios en los inputs del formulario
   const manejarCambio = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
+  // Manejar envío del formulario
   const manejarSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -139,29 +186,42 @@ const Reservas = () => {
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Gestión de Reservas</h1>
       {loading && <p className="text-center">Cargando...</p>}
-      {/* Formulario para agregar/actualizar reserva */}
       <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
         <h2 className="text-xl font-bold mb-4">{reservaActual ? 'Actualizar Reserva' : 'Agregar Reserva'}</h2>
+
         <div className="mb-4">
-          <input
-            type="text"
+          <select
             name="id_cliente"
             value={formValues.id_cliente}
             onChange={manejarCambio}
-            placeholder="ID del Cliente"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          >
+            <option value="">Selecciona un Cliente</option>
+            {clientes.map((cliente) => (
+              <option key={cliente.id_cliente} value={cliente.id_cliente}>
+                {cliente.nombre} {cliente.apellido}
+              </option>
+            ))}
+          </select>
         </div>
+
+
         <div className="mb-4">
-          <input
-            type="text"
+          <select
             name="id_tour"
             value={formValues.id_tour}
             onChange={manejarCambio}
-            placeholder="ID del Tour"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          >
+            <option value="">Selecciona un Tour</option>
+            {tours.map((tour) => (
+              <option key={tour.id_tour} value={tour.id_tour}>
+                {tour.tour}
+              </option>
+            ))}
+          </select>
         </div>
+
         <div className="mb-4">
           <select
             name="estado"
@@ -192,16 +252,16 @@ const Reservas = () => {
         )}
       </form>
 
-      {/* Mensaje de error */}
+
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      {/* Tabla de reservas */}
+
       <table className="min-w-full bg-white">
         <thead>
           <tr>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID</th>
-            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID Cliente</th>
-            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID Tour</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Cliente</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Tour</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Estado</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>
           </tr>
@@ -210,8 +270,15 @@ const Reservas = () => {
           {reservas.map((reserva) => (
             <tr key={reserva.id_reserva}>
               <td className="py-2 px-4 border-b border-gray-200">{reserva.id_reserva}</td>
-              <td className="py-2 px-4 border-b border-gray-200">{reserva.id_cliente}</td>
-              <td className="py-2 px-4 border-b border-gray-200">{reserva.id_tour}</td>
+              <td className="py-2 px-4 border-b border-gray-200">
+
+                {clientes.find(cliente => cliente.id_cliente === reserva.id_cliente)?.nombre}{" "}
+                {clientes.find(cliente => cliente.id_cliente === reserva.id_cliente)?.apellido}
+              </td>
+              <td className="py-2 px-4 border-b border-gray-200">
+
+                {tours.find(tour => tour.id_tour === reserva.id_tour)?.tour}
+              </td>
               <td className="py-2 px-4 border-b border-gray-200">{reserva.estado}</td>
               <td className="py-2 px-4 border-b border-gray-200">
                 <button

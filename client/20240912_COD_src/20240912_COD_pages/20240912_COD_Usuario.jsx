@@ -5,7 +5,7 @@ import {
   insertarUsuario,
   actualizarUsuario,
   eliminarUsuario
-} from '@services/20240912_COD_UsuarioService'; // Ajusta la ruta según tu estructura
+} from '@services/20240912_COD_UsuarioService'; 
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
 const Usuarios = () => {
@@ -132,7 +132,7 @@ const Usuarios = () => {
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Gestión de Usuarios</h1>
       {loading && <p className="text-center">Cargando...</p>}
-      {/* Formulario para agregar/actualizar usuario */}
+
       <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
         <h2 className="text-xl font-bold mb-4">{usuarioActual ? 'Actualizar Usuario' : 'Agregar Usuario'}</h2>
         <div className="mb-4">
@@ -186,10 +186,9 @@ const Usuarios = () => {
         )}
       </form>
 
-      {/* Mensaje de error */}
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      {/* Tabla de usuarios */}
+
       <table className="min-w-full bg-white">
         <thead>
           <tr>

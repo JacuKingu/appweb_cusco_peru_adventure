@@ -48,6 +48,18 @@ export const insertarUltimoGrupo = async (id_pdf, nombre_grupo) => {
   }
 };
 
+// Obtener las edades de los clientes de un grupo específico
+export const obtenerEdadesPorGrupo = async (id_grupo) => {
+  try {
+    const pool = await connection;
+    const [rows] = await pool.execute('CALL obtenerEdadesPorGrupo(?)', [id_grupo]);
+    return rows[0];  // Devuelve las edades del grupo
+  } catch (error) {
+    console.error('Error al obtener las edades por grupo:', error);
+    throw error;
+  }
+};
+
 // Actualizar un grupo existente
 export const actualizarGrupo = async (id_grupo, id_pdf, nombre_grupo) => {
   try {

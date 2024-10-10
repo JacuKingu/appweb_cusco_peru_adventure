@@ -1,5 +1,5 @@
-from flask import Flask, request, jsonify  # type: ignore 
-import joblib  # type: ignore 
+from flask import Flask, request, jsonify  
+import joblib  
 import numpy as np  
 # Crear la aplicación Flask
 app = Flask(__name__)

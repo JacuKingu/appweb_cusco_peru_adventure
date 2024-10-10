@@ -23,9 +23,9 @@ export const obtenerRecomendacionPorIdYRol = async (id_recomendacion, rol) => {
 };
 
 // Servicio para insertar una nueva recomendación
-export const insertarRecomendacion = async (id_cliente, id_tour, contenido) => {
+export const insertarRecomendacion = async (id_grupo, contenido) => {
     try {
-        const response = await api.post('/recomendacion', { id_cliente, id_tour, contenido });
+        const response = await api.post('/recomendacion', { id_grupo, contenido });
         return response.data.message; // Devuelve el mensaje de éxito
     } catch (error) {
         console.error('Error en insertarRecomendacion (Frontend):', error);
@@ -33,10 +33,22 @@ export const insertarRecomendacion = async (id_cliente, id_tour, contenido) => {
     }
 };
 
-// Servicio para actualizar una recomendación existente
-export const actualizarRecomendacion = async (id_recomendacion, id_cliente, id_tour, contenido) => {
+
+// Servicio para obtener y procesar las edades de un grupo
+export const obtenerYProcesarEdades = async (id_grupo) => {
     try {
-        const response = await api.put(`/recomendacion/${id_recomendacion}`, { id_cliente, id_tour, contenido });
+        const response = await api.get(`/grupo/procesar-edades/${id_grupo}`);
+        return response.data; 
+    } catch (error) {
+        console.error('Error en obtenerYProcesarEdades (Frontend):', error);
+        throw new Error(error.response ? error.response.data.message : 'Error al obtener y procesar las edades');
+    }
+};
+
+// Servicio para actualizar una recomendación existente
+export const actualizarRecomendacion = async (id_recomendacion, id_grupo, contenido) => {
+    try {
+        const response = await api.put(`/recomendacion/${id_recomendacion}`, { id_grupo, contenido });
         return response.data.message; // Devuelve el mensaje de éxito
     } catch (error) {
         console.error('Error en actualizarRecomendacion (Frontend):', error);

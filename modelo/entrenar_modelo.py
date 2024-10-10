@@ -1,7 +1,7 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split # type: ignore
-from sklearn.ensemble import RandomForestClassifier # type: ignore
-import joblib # type: ignore
+from sklearn.model_selection import train_test_split 
+from sklearn.ensemble import RandomForestClassifier 
+import joblib 
 import json
 
 # Cargar el archivo JSON
