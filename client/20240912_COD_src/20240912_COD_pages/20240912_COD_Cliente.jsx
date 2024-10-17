@@ -8,6 +8,7 @@ import {
 } from '@services/20240912_COD_ClienteService';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 import { formatoFecha } from '@utils/20240912_COD_utils';
+import ConfirmarModal from '@components/20240912_COD_ConfirmarModal';
 
 const Clientes = () => {
     const [clientes, setClientes] = useState([]);
@@ -22,6 +23,9 @@ const Clientes = () => {
         fecha_nacimiento: '',
         id_grupo: ''
     });
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [modalAction, setModalAction] = useState(null);
+    const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
 
     useEffect(() => {
         let isMounted = true;
@@ -58,14 +62,14 @@ const Clientes = () => {
             const rol = localStorage.getItem('rolUser'); // Usa el rol del usuario autenticado
             const response = await obtenerClientesPorRol(rol);
             console.log('Respuesta de la API:', response);
-    
+
             if (response.success && Array.isArray(response.data)) {
                 // Formatear las fechas de cada cliente usando la función formatoFecha
                 const clientesFormateados = response.data.map(cliente => ({
                     ...cliente,
                     fecha_nacimiento: formatoFecha(cliente.fecha_nacimiento) // Formatear la fecha
                 }));
-                
+
                 setClientes(clientesFormateados);
             } else {
                 setClientes([]);
@@ -84,31 +88,16 @@ const Clientes = () => {
     const manejarSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        try {
-            const valoresLimpios = {
-                nombre: formValues.nombre || null,
-                apellido: formValues.apellido || null,
-                email: formValues.email || null,
-                telefono: formValues.telefono || null,
-                fecha_nacimiento: formValues.fecha_nacimiento || null,
-                id_grupo: formValues.id_grupo !== undefined ? formValues.id_grupo : null
-            };
-            console.log('Ingreso de datos:', valoresLimpios);
 
-            if (clienteActual) {
-                // Actualizar cliente
-                await actualizarCliente(clienteActual.id_cliente, ...Object.values(valoresLimpios));
-                setError('Cliente actualizado con éxito');
-            } else {
-                // Insertar nuevo cliente
-                await insertarCliente(...Object.values(valoresLimpios));
-                setError('Cliente agregado con éxito');
-            }
-            cargarClientes(); // Recargar la lista de clientes
-            limpiarFormulario(); // Limpiar formulario
-        } catch (error) {
-            setError('Error al guardar el cliente: ' + error.message);
+        if (clienteActual) {
+            // Actualizar cliente
+            setModalAction('update');
+        } else {
+            // Insertar nuevo cliente
+            setModalAction('add');
         }
+
+        setModalOpen(true);
     };
 
     const manejarEdicion = async (id_cliente) => {
@@ -141,14 +130,41 @@ const Clientes = () => {
     };
 
     const manejarEliminacion = async (id_cliente) => {
+        setClienteSeleccionado(id_cliente);
+        setModalAction('delete');
+        setModalOpen(true);
+    };
+
+    const confirmarAccion = async () => {
+        const valoresLimpios = {
+            nombre: formValues.nombre || null,
+            apellido: formValues.apellido || null,
+            email: formValues.email || null,
+            telefono: formValues.telefono || null,
+            fecha_nacimiento: formValues.fecha_nacimiento || null,
+            id_grupo: formValues.id_grupo !== undefined ? formValues.id_grupo : null
+        };
         try {
-            await eliminarCliente(id_cliente);
-            setError('Cliente eliminado con éxito');
-            cargarClientes(); // Recargar la lista de clientes
+            if (modalAction === 'add') {
+                await insertarCliente(...Object.values(valoresLimpios));
+                setError('Cliente ingresado exitosamente');
+            } else if (modalAction === 'update') {
+                await actualizarCliente(clienteActual.id_cliente, ...Object.values(valoresLimpios));
+                setError('Cliente actualizado exitosamente');
+            } else if (modalAction === 'delete') {
+                await eliminarCliente(clienteSeleccionado);
+                setError('Cliente eliminado exitosamente');
+            }
+            await cargarClientes(); // Recarga la lista de clientes
+            limpiarFormulario();
         } catch (error) {
-            setError('Error al eliminar el cliente: ' + error.message);
+            setError('Error al procesar la acción: ' + error.message);
+        } finally {
+            setModalOpen(false);
+            setClienteSeleccionado(null);
         }
     };
+
 
     const limpiarFormulario = () => {
         setClienteActual(null);
@@ -160,6 +176,20 @@ const Clientes = () => {
             fecha_nacimiento: '',
             id_grupo: ''
         });
+    };
+
+    const obtenerMensajeModal = () => {
+        switch (modalAction) {
+            case 'add':
+                return `¿Estás seguro de que quieres agregar el cliente "${formValues.nombre}"?`;
+            case 'update':
+                return `¿Estás seguro de que quieres actualizar el cliente "${formValues.nombre}"?`;
+            case 'delete':
+                return `¿Estás seguro de que quieres eliminar al cliente "${clienteSeleccionado?.nombre}"?`;
+
+            default:
+                return '';
+        }
     };
 
     if (loading) return <SpineLoader />;
@@ -291,6 +321,12 @@ const Clientes = () => {
                     ))}
                 </tbody>
             </table>
+            <ConfirmarModal
+                isOpen={isModalOpen}
+                onClose={() => setModalOpen(false)}
+                onConfirm={confirmarAccion}
+                mensaje={obtenerMensajeModal()}
+            />
         </div>
     );
 };

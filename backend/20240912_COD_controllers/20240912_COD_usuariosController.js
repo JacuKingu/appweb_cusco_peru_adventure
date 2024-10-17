@@ -10,6 +10,7 @@ export const obtenerUsuarios = async (req, res) => {
             success: true,
             data: usuarios
         });
+        console.log('obtener usuarios: ', usuarios);
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
         res.status(500).json({ success: false, message: error.message });

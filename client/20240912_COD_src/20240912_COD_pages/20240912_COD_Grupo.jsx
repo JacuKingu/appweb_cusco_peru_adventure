@@ -2,18 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { obtenerGruposPorRol, insertarGrupo, actualizarGrupo, eliminarGrupo } from '@services/20240912_COD_GrupoService';
 import { obtenerPdfsPorRol } from '@services/20240912_COD_PdfService'; // Servicio para PDFs
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
+import ConfirmarModal from '@components/20240912_COD_ConfirmarModal';
 
 const Grupos = () => {
     const [grupos, setGrupos] = useState([]);
-    const [pdfs, setPdfs] = useState([]); // Estado para almacenar la lista de PDFs
+    const [pdfs, setPdfs] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const [formValues, setFormValues] = useState({
         id_pdf: '',
         grupo: ''
     });
-    const [grupoActual, setGrupoActual] = useState(null); // Para actualizar un grupo específico
-
+    const [grupoActual, setGrupoActual] = useState(null);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [modalAction, setModalAction] = useState(null);
+    const [grupoSeleccionado, setGrupoSeleccionado] = useState(null);
+    
     useEffect(() => {
         const cargarDatos = async () => {
             setLoading(true);
@@ -33,37 +37,30 @@ const Grupos = () => {
         cargarDatos();
     }, []);
 
-    // Función para obtener el nombre del PDF basado en el id_pdf
     const obtenerNombrePdf = (id_pdf) => {
-      const pdf = pdfs.find((p) => p.id_pdf === id_pdf);
-      return pdf ? pdf.archivo : 'PDF no encontrado';
-  };
+        const pdf = pdfs.find((p) => p.id_pdf === id_pdf);
+        return pdf ? pdf.archivo : 'PDF no encontrado';
+    };
 
     const manejarCambio = (e) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
 
-    const manejarSubmit = async (e) => {
+    const manejarSubmit = (e) => {
         e.preventDefault();
         setError('');
-        try {
-            if (formValues.id_pdf && formValues.grupo) {
-                if (grupoActual) {
-                    // Actualizar grupo
-                    await actualizarGrupo(grupoActual.id_grupo, formValues.id_pdf, formValues.grupo);
-                    setError('Grupo actualizado con éxito');
-                } else {
-                    // Insertar nuevo grupo
-                    await insertarGrupo(formValues.id_pdf, formValues.grupo);
-                    setError('Grupo agregado con éxito');
-                }
-                cargarGrupos(); // Recargar la lista de grupos
-                limpiarFormulario(); // Limpiar formulario
+        if (formValues.id_pdf && formValues.grupo) {
+            // Si se está editando, abrir el modal para confirmar actualización
+            if (grupoActual) {
+                setModalAction('update');
+                setModalOpen(true);
             } else {
-                setError('Por favor, completa todos los campos');
+                // Abrir el modal para confirmar la adición de un nuevo grupo
+                setModalAction('add');
+                setModalOpen(true);
             }
-        } catch (error) {
-            setError('Error al guardar el grupo: ' + error.message);
+        } else {
+            setError('Por favor, completa todos los campos');
         }
     };
 
@@ -72,16 +69,39 @@ const Grupos = () => {
         if (grupo) {
             setGrupoActual(grupo);
             setFormValues({ id_pdf: grupo.id_pdf, grupo: grupo.grupo });
+        }else {
+            console.error(`Grupo con ID ${id_grupo} no encontrado.`);
         }
     };
 
-    const manejarEliminacion = async (id_grupo) => {
+    const manejarEliminacion = (id_grupo) => {
+        const grupo = grupos.find((g) => g.id_grupo === id_grupo);
+        if (grupo) {
+            setGrupoSeleccionado(grupo);
+            setModalAction('delete');  
+            setModalOpen(true);  
+        }
+    };
+
+    const confirmarAccion = async () => {
         try {
-            await eliminarGrupo(id_grupo);
-            setError('Grupo eliminado con éxito');
-            cargarGrupos(); // Recargar la lista de grupos
+            if (modalAction === 'add') {
+                await insertarGrupo(formValues.id_pdf, formValues.grupo);
+                setError('Grupo agregado con éxito');
+            } else if (modalAction === 'update') {
+                await actualizarGrupo(grupoActual.id_grupo, formValues.id_pdf, formValues.grupo);
+                setError('Grupo actualizado con éxito');
+            } else if (modalAction === 'delete') {
+                await eliminarGrupo(grupoSeleccionado.id_grupo);
+                setError('Grupo eliminado con éxito');
+            }
+            cargarGrupos(); // Recargar los grupos después de la acción
+            limpiarFormulario();
         } catch (error) {
-            setError('Error al eliminar el grupo: ' + error.message);
+            setError('Error al procesar la acción: ' + error.message);
+        } finally {
+            setModalOpen(false); // Cerrar el modal después de la acción
+            setGrupoSeleccionado(null); // Limpiar el grupo seleccionado
         }
     };
 
@@ -111,6 +131,20 @@ const Grupos = () => {
         }
     };
 
+    const obtenerMensajeModal = () => {
+        switch (modalAction) {
+            case 'add':
+                return `¿Estás seguro de que quieres agregar el grupo "${formValues.grupo}"?`;
+            case 'update':
+                return `¿Estás seguro de que quieres actualizar el grupo "${formValues.grupo}"?`;
+            case 'delete':
+                return `¿Estás seguro de que quieres eliminar el grupo "${grupoSeleccionado?.grupo}"?`;
+            default:
+                return '';
+        }
+    };
+    
+
     if (loading) return <SpineLoader />;
 
     return (
@@ -118,10 +152,8 @@ const Grupos = () => {
             <h1 className="text-2xl font-bold mb-4">Gestión de Grupos</h1>
             {error && <p className="text-red-500 mb-4">{error}</p>}
 
-
             <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
                 <h2 className="text-xl font-bold mb-4">{grupoActual ? 'Actualizar Grupo' : 'Agregar Grupo'}</h2>
-
 
                 <div className="mb-4">
                     <select
@@ -138,7 +170,6 @@ const Grupos = () => {
                         ))}
                     </select>
                 </div>
-
 
                 <div className="mb-4">
                     <input
@@ -168,7 +199,6 @@ const Grupos = () => {
                 )}
             </form>
 
-
             <table className="min-w-full bg-white">
                 <thead>
                     <tr>
@@ -182,7 +212,7 @@ const Grupos = () => {
                     {grupos.map((grupo) => (
                         <tr key={grupo.id_grupo}>
                             <td className="py-2 px-4 border-b border-gray-200">{grupo.id_grupo}</td>
-                            <td className="py-2 px-4 border-b border-gray-200">{obtenerNombrePdf(grupo.id_pdf)}</td> 
+                            <td className="py-2 px-4 border-b border-gray-200">{obtenerNombrePdf(grupo.id_pdf)}</td>
                             <td className="py-2 px-4 border-b border-gray-200">{grupo.grupo}</td>
                             <td className="py-2 px-4 border-b border-gray-200">
                                 <button
@@ -202,6 +232,13 @@ const Grupos = () => {
                     ))}
                 </tbody>
             </table>
+
+            <ConfirmarModal
+                isOpen={isModalOpen}
+                onClose={() => setModalOpen(false)}
+                onConfirm={confirmarAccion}
+                mensaje={obtenerMensajeModal()}
+            />
         </div>
     );
 };

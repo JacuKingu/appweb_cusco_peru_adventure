@@ -7,29 +7,24 @@ import {
   eliminarUsuario
 } from '@services/20240912_COD_UsuarioService'; 
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
+import ConfirmarModal from '@components/20240912_COD_ConfirmarModal';
 
 const Usuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const [usuarioActual, setUsuarioActual] = useState(null); // Para editar un usuario específico
-  const [formValues, setFormValues] = useState({ // Valores del formulario
+  const [usuarioActual, setUsuarioActual] = useState(null);
+  const [formValues, setFormValues] = useState({
     nombre: '',
     contraseña: '',
-    rol: 'usuario' // Rol predeterminado para el formulario
+    rol: 'asesor' // Rol predeterminado
   });
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [modalAction, setModalAction] = useState(null);
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
-    const cargarUsuariosSeguro = async () => {
-      if (isMounted) {
-        await cargarUsuarios();
-      }
-    };
-    cargarUsuariosSeguro();
-    return () => {
-      isMounted = false;
-    };
+    cargarUsuarios();
   }, []);
 
   useEffect(() => {
@@ -72,18 +67,36 @@ const Usuarios = () => {
     setError('');
     try {
       if (usuarioActual) {
-        // Actualizar usuario
         await actualizarUsuario(usuarioActual.id_usuario, ...Object.values(formValues));
-        setError('Usuario actualizado con éxito');
       } else {
-        // Insertar nuevo usuario
         await insertarUsuario(...Object.values(formValues));
-        setError('Usuario agregado con éxito');
       }
-      cargarUsuarios(); // Recargar la lista de usuarios
-      limpiarFormulario(); // Limpiar formulario
+      cargarUsuarios();
+      limpiarFormulario();
     } catch (error) {
       setError('Error al guardar el usuario: ' + error.message);
+    }
+  };
+
+  const confirmarAccion = async () => {
+    try {
+      if (modalAction === 'add') {
+        await insertarUsuario(...Object.values(formValues));
+        setError('Usuario agregado con éxito');
+      } else if (modalAction === 'update') {
+        await actualizarUsuario(usuarioActual.id_usuario, ...Object.values(formValues));
+        setError('Usuario actualizado con éxito');
+      } else if (modalAction === 'delete') {
+        await eliminarUsuario(usuarioSeleccionado);
+        setError('Usuario eliminado con éxito');
+      }
+      await cargarUsuarios();
+      limpiarFormulario();
+    } catch (error) {
+      setError('Error al procesar la acción: ' + error.message);
+    } finally {
+      setModalOpen(false);
+      setUsuarioSeleccionado(null);
     }
   };
 
@@ -96,7 +109,7 @@ const Usuarios = () => {
         setUsuarioActual(datosUsuario);
         setFormValues({
           nombre: datosUsuario.nombre,
-          contraseña:  '',
+          contraseña: '',
           rol: datosUsuario.rol
         });
       } else {
@@ -107,14 +120,10 @@ const Usuarios = () => {
     }
   };
 
-  const manejarEliminacion = async (id_usuario) => {
-    try {
-      await eliminarUsuario(id_usuario);
-      setError('Usuario eliminado con éxito');
-      cargarUsuarios(); // Recargar la lista de usuarios
-    } catch (error) {
-      setError('Error al eliminar el usuario: ' + error.message);
-    }
+  const manejarEliminacion = (id_usuario) => {
+    setUsuarioSeleccionado(id_usuario);
+    setModalOpen(true);
+    setModalAction('delete');
   };
 
   const limpiarFormulario = () => {
@@ -122,11 +131,25 @@ const Usuarios = () => {
     setFormValues({
       nombre: '',
       contraseña: '',
-      rol: ''
+      rol: 'asesor' // Rol predeterminado
     });
   };
 
-  if (loading) return <SpineLoader/>;
+  const obtenerMensajeModal = () => {
+    switch (modalAction) {
+        case 'add':
+            return `¿Estás seguro de que quieres agregar el usuario?`;
+        case 'update':
+            return `¿Estás seguro de que quieres actualizar el usuario?`;
+        case 'delete':
+            return `¿Estás seguro de que quieres eliminar al cliente usuario?`;
+
+        default:
+            return '';
+    }
+};
+
+  if (loading) return <SpineLoader />;
 
   return (
     <div className="p-8">
@@ -142,7 +165,7 @@ const Usuarios = () => {
             value={formValues.nombre}
             onChange={manejarCambio}
             placeholder="Nombre"
-            className="w-full px-4 py-2 border rouned-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             autoComplete='username'
           />
         </div>
@@ -188,7 +211,6 @@ const Usuarios = () => {
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-
       <table className="min-w-full bg-white">
         <thead>
           <tr>
@@ -222,6 +244,12 @@ const Usuarios = () => {
           ))}
         </tbody>
       </table>
+      <ConfirmarModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={confirmarAccion}
+        mensaje={obtenerMensajeModal()} // Asegúrate de implementar esta función
+      />
     </div>
   );
 };

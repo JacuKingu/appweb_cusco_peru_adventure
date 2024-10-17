@@ -20,9 +20,9 @@ const Sidebar = () => {
                         <li>
                             <Link to="/clientes" className="block py-2 px-4 hover:bg-gray-700">Clientes</Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link to="/reservaciones" className="block py-2 px-4 hover:bg-gray-700">Reservaciones</Link>
-                        </li>
+                        </li> */}
                         <li>
                             <Link to="/grupos" className="block py-2 px-4 hover:bg-gray-700">Grupos</Link>
                         </li>

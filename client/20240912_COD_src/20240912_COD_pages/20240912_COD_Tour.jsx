@@ -7,6 +7,7 @@ import {
   eliminarTour
 } from '@services/20240912_COD_TourService';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
+import ConfirmarModal from '@components/20240912_COD_ConfirmarModal';
 
 const Tour = () => {
   const [tours, setTours] = useState([]);
@@ -20,6 +21,9 @@ const Tour = () => {
     precio: '',
     categoria: ''
   });
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [modalAction, setModalAction] = useState(null);
+  const [tourSeleccionado, setTourSeleccionado] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -36,17 +40,21 @@ const Tour = () => {
 
   useEffect(() => {
     if (tourActual) {
-      setFormValues({
-        nombre: tourActual.nombre || tourActual.tour || '',
-        descripcion: tourActual.descripcion || '',
-        duracion: tourActual.duracion || '',
-        precio: tourActual.precio || '',
-        categoria: tourActual.categoria || ''
-      });
+      setFormValuesFromTour(tourActual);
     } else {
       limpiarFormulario();
     }
   }, [tourActual]);
+
+  const setFormValuesFromTour = (tour) => {
+    setFormValues({
+      nombre: tour.tour || '',
+      descripcion: tour.descripcion || '',
+      duracion: tour.duracion || '',
+      precio: tour.precio || '',
+      categoria: tour.categoria || ''
+    });
+  };
 
   const cargarTours = async () => {
     setLoading(true);
@@ -73,25 +81,50 @@ const Tour = () => {
   const manejarSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    if (tourActual) {
+      // Actualizar cliente
+      setModalAction('update');
+    } else {
+      // Insertar nuevo cliente
+      setModalAction('add');
+    }
+
+    setModalOpen(true);
+  };
+
+  const obtenerMensajeModal = () => {
+    if (modalAction === 'add') return '¿Estás seguro de que deseas agregar este tour?';
+    if (modalAction === 'update') return '¿Estás seguro de que deseas actualizar este tour?';
+    if (modalAction === 'delete') return '¿Estás seguro de que deseas eliminar este tour?';
+    return '';
+  };
+
+  const confirmarAccion = async () => {
+    const valoresLimpios = {
+      nombre: formValues.nombre || null,
+      descripcion: formValues.descripcion || null,
+      duracion: formValues.duracion !== undefined ? formValues.duracion : null,
+      precio: formValues.precio !== undefined ? formValues.precio : null,
+      categoria: formValues.categoria || null
+    };
     try {
-      const valoresLimpios = {
-        nombre: formValues.nombre || null,
-        descripcion: formValues.descripcion || null,
-        duracion: formValues.duracion !== undefined ? formValues.duracion : null,
-        precio: formValues.precio !== undefined ? formValues.precio : null,
-        categoria: formValues.categoria || null
-      };
-      if (tourActual) {
-        await actualizarTour(tourActual.id_tour, ...Object.values(valoresLimpios));
-        setError('Tour actualizado con éxito');
-      } else {
+      if (modalAction === 'add') {
         await insertarTour(...Object.values(valoresLimpios));
         setError('Tour agregado con éxito');
+      } else if (modalAction === 'update') {
+        await actualizarTour(tourActual.id_tour, ...Object.values(valoresLimpios));
+        setError('Tour actualizado con éxito');
+      } else if (modalAction === 'delete') {
+        await eliminarTour(tourSeleccionado);
+        setError('Tour eliminado con éxito');
       }
-      cargarTours();
+      await cargarTours(); // Recarga la lista de clientes
       limpiarFormulario();
     } catch (error) {
-      setError('Error al guardar el tour: ' + error.message);
+      setError('Error al procesar la acción: ' + error.message);
+    } finally {
+      setModalOpen(false);
+      setTourSeleccionado(null);
     }
   };
 
@@ -102,14 +135,9 @@ const Tour = () => {
       if (tour.success && tour.data && tour.data.length > 0) {
         const datosTour = tour.data[0];
         setTourActual(datosTour);
-        setFormValues({
-          nombre: datosTour.tour || '',
-          descripcion: datosTour.descripcion || '',
-          duracion: datosTour.duracion || '',
-          precio: datosTour.precio || '',
-          categoria: datosTour.categoria || ''
-        });
+        setFormValuesFromTour(datosTour);
       } else {
+        setTourActual(null);
         setError('Error: No se encontraron datos para este tour.');
       }
     } catch (error) {
@@ -118,13 +146,9 @@ const Tour = () => {
   };
 
   const manejarEliminacion = async (id_tour) => {
-    try {
-      await eliminarTour(id_tour);
-      setError('Tour eliminado con éxito');
-      cargarTours();
-    } catch (error) {
-      setError('Error al eliminar el tour: ' + error.message);
-    }
+    setTourSeleccionado(id_tour);
+    setModalAction('delete');
+    setModalOpen(true);
   };
 
   const limpiarFormulario = () => {
@@ -138,7 +162,7 @@ const Tour = () => {
     });
   };
 
-  if (loading) return <SpineLoader/>;
+  if (loading) return <SpineLoader />;
 
   return (
     <div className="p-8">
@@ -254,6 +278,12 @@ const Tour = () => {
           ))}
         </tbody>
       </table>
+      <ConfirmarModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={confirmarAccion}
+        mensaje={obtenerMensajeModal()}
+      />
     </div>
   );
 };

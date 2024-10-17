@@ -9,11 +9,12 @@ import {
 import { obtenerClientesPorRol } from '@services/20240912_COD_ClienteService'; // Servicio para obtener clientes
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 import { formatoFecha } from '@utils/20240912_COD_utils';
+import ConfirmarModal from '@components/20240912_COD_ConfirmarModal';
 
 const Pasaportes = () => {
   const [pasaportes, setPasaportes] = useState([]);
-  const [clientes, setClientes] = useState([]); // Estado para almacenar clientes
-  const [pasaporteActual, setPasaporteActual] = useState(null); // Define el estado para el pasaporte actual
+  const [clientes, setClientes] = useState([]);
+  const [pasaporteActual, setPasaporteActual] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [formValues, setFormValues] = useState({
@@ -22,6 +23,9 @@ const Pasaportes = () => {
     pais_emision: '',
     fecha_expiracion: ''
   });
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [modalAction, setModalAction] = useState(null);
+  const [pasaporteSeleccionado, setPasaporteSeleccionado] = useState(null);
 
   // Cargar clientes y pasaportes al montar el componente
   useEffect(() => {
@@ -32,7 +36,6 @@ const Pasaportes = () => {
     cargarDatos();
   }, []);
 
-  // Cargar clientes para el select
   const cargarClientes = async () => {
     try {
       const rol = localStorage.getItem('rolUser');
@@ -47,15 +50,18 @@ const Pasaportes = () => {
     }
   };
 
-  // Cargar pasaportes según el rol del usuario
   const cargarPasaportes = async () => {
     setLoading(true);
     setError('');
     try {
       const rol = localStorage.getItem('rolUser');
       const response = await obtenerPasaportesPorRol(rol);
-      if (response.success) {
-        setPasaportes(response.data);
+      if (response.success && Array.isArray(response.data)) {
+        const pasaporteFormateado = response.data.map(pasaporte => ({
+          ...pasaporte,
+          fecha_expiracion: formatoFecha(pasaporte.fecha_expiracion)
+        }));
+        setPasaportes(pasaporteFormateado);
       } else {
         setPasaportes([]);
       }
@@ -66,7 +72,6 @@ const Pasaportes = () => {
     }
   };
 
-  // Manejar la edición de un pasaporte
   const manejarEdicion = async (id_pasaporte) => {
     try {
       const rol = localStorage.getItem('rolUser');
@@ -86,48 +91,50 @@ const Pasaportes = () => {
     }
   };
 
-  // Manejar eliminación de un pasaporte
-  const manejarEliminacion = async (id_pasaporte) => {
-    try {
-      await eliminarPasaporte(id_pasaporte);
-      setError('Pasaporte eliminado con éxito');
-      cargarPasaportes(); // Recargar la lista de pasaportes
-    } catch (error) {
-      setError('Error al eliminar el pasaporte: ' + error.message);
-    }
+  const manejarEliminacion = (id_pasaporte) => {
+    setPasaporteSeleccionado(id_pasaporte);
+    setModalAction('delete');
+    setModalOpen(true);
   };
 
-  // Manejar cambios en los inputs del formulario
   const manejarCambio = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
-  // Manejar envío del formulario
-  const manejarSubmit = async (e) => {
+  const manejarSubmit = (e) => {
     e.preventDefault();
-    try {
-      const valoresLimpios = {
-        id_cliente: formValues.id_cliente,
-        numero_pasaporte: formValues.numero_pasaporte,
-        pais_emision: formValues.pais_emision,
-        fecha_expiracion: formValues.fecha_expiracion
-      };
+    setModalAction(pasaporteActual ? 'update' : 'add');
+    setModalOpen(true);
+  };
 
-      if (pasaporteActual) {
-        await actualizarPasaporte(pasaporteActual.id_pasaporte, ...Object.values(valoresLimpios));
-        setError('Pasaporte actualizado con éxito');
-      } else {
+  const confirmarAccion = async () => {
+    const valoresLimpios = {
+      id_cliente: formValues.id_cliente,
+      numero_pasaporte: formValues.numero_pasaporte,
+      pais_emision: formValues.pais_emision,
+      fecha_expiracion: formValues.fecha_expiracion
+    };
+    try {
+      if (modalAction === 'add') {
         await insertarPasaporte(...Object.values(valoresLimpios));
         setError('Pasaporte agregado con éxito');
+      } else if (modalAction === 'update') {
+        await actualizarPasaporte(pasaporteActual.id_pasaporte, ...Object.values(valoresLimpios));
+        setError('Pasaporte actualizado con éxito');
+      } else if (modalAction === 'delete') {
+        await eliminarPasaporte(pasaporteSeleccionado);
+        setError('Pasaporte eliminado con éxito');
       }
-      cargarPasaportes(); // Recargar la lista de pasaportes
+      await cargarPasaportes();
       limpiarFormulario();
     } catch (error) {
-      setError('Error al guardar el pasaporte: ' + error.message);
+      setError('Error al procesar la acción: ' + error.message);
+    } finally {
+      setModalOpen(false);
+      setPasaporteSeleccionado(null);
     }
   };
 
-  // Limpiar formulario
   const limpiarFormulario = () => {
     setPasaporteActual(null);
     setFormValues({
@@ -138,16 +145,29 @@ const Pasaportes = () => {
     });
   };
 
+  const obtenerMensajeModal = () => {
+    const clienteSeleccionado = clientes.find(cliente => cliente.id_cliente === formValues.id_cliente);
+    const nombreCliente = clienteSeleccionado ? `${clienteSeleccionado.nombre} ${clienteSeleccionado.apellido}` : '';
+    
+    switch (modalAction) {
+      case 'add':
+        return `¿Estás seguro de que quieres agregar el cliente "${nombreCliente}"?`;
+      case 'update':
+        return `¿Estás seguro de que quieres actualizar el cliente "${nombreCliente}"?`;
+      case 'delete':
+        return `¿Estás seguro de que quieres eliminar al cliente "${nombreCliente}"?`;
+      default:
+        return '';
+    }
+  };
+
   if (loading) return <SpineLoader />;
 
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Gestión de Pasaportes</h1>
-
-
       <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
         <h2 className="text-xl font-bold mb-4">{pasaporteActual ? 'Actualizar Pasaporte' : 'Agregar Pasaporte'}</h2>
-
 
         <div className="mb-4">
           <select
@@ -191,7 +211,6 @@ const Pasaportes = () => {
             name="fecha_expiracion"
             value={formValues.fecha_expiracion}
             onChange={manejarCambio}
-            placeholder="Fecha de Expiración"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -204,7 +223,6 @@ const Pasaportes = () => {
       </form>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
-
 
       <table className="min-w-full bg-white">
         <thead>
@@ -222,7 +240,6 @@ const Pasaportes = () => {
             <tr key={pasaporte.id_pasaporte}>
               <td className="py-2 px-4 border-b border-gray-200">{pasaporte.id_pasaporte}</td>
               <td className="py-2 px-4 border-b border-gray-200">
-
                 {clientes.find(cliente => cliente.id_cliente === pasaporte.id_cliente)?.nombre}{" "}
                 {clientes.find(cliente => cliente.id_cliente === pasaporte.id_cliente)?.apellido}
               </td>
@@ -247,6 +264,13 @@ const Pasaportes = () => {
           ))}
         </tbody>
       </table>
+
+      <ConfirmarModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={confirmarAccion}
+        mensaje={obtenerMensajeModal()}
+      />
     </div>
   );
 };
