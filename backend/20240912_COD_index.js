@@ -2,20 +2,20 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import { iniciarDatabase } from './20240912_COD_db/20240912_COD_dbConnection.js';
+import { iniciarDatabase } from './20240912_COD_src/20240912_COD_db/20240912_COD_dbConnection.js';
 //Middleware
-import { errorHandler } from './20240912_COD_middlewares/20240912_COD_errorHandler.js';
+import { errorHandler } from './20240912_COD_src/20240912_COD_middlewares/20240912_COD_errorHandler.js';
 //Rutas
-import clientesRoutes from './20240912_COD_routes/20240912_COD_clientesRoutes.js';
-import authRoutes from './20240912_COD_routes/20240912_COD_authRoutes.js';
-import gruposRoutes from './20240912_COD_routes/20240912_COD_gruposRoutes.js';
-import pasaporteRoutes from './20240912_COD_routes/20240912_COD_pasaporteRoutes.js';
-import pdfRoutes from './20240912_COD_routes/20240912_COD_pdfRoutes.js';
-import recomendacionesRoutes from './20240912_COD_routes/20240912_COD_recomendacionesRoutes.js';
-import reservasRoutes from './20240912_COD_routes/20240912_COD_reservasRoutes.js';
-import toursRoutes from './20240912_COD_routes/20240912_COD_toursRoutes.js';
-import usuarioRoutes from './20240912_COD_routes/20240912_COD_usuariosRoutes.js';
-import ocrRoutes from './20240912_COD_routes/20240912_COD_OcrRoutes.js';
+import clientesRoutes from './20240912_COD_src/20240912_COD_routes/20240912_COD_clientesRoutes.js';
+import authRoutes from './20240912_COD_src/20240912_COD_routes/20240912_COD_authRoutes.js';
+import gruposRoutes from './20240912_COD_src/20240912_COD_routes/20240912_COD_gruposRoutes.js';
+import pasaporteRoutes from './20240912_COD_src/20240912_COD_routes/20240912_COD_pasaporteRoutes.js';
+import pdfRoutes from './20240912_COD_src/20240912_COD_routes/20240912_COD_pdfRoutes.js';
+import recomendacionesRoutes from './20240912_COD_src/20240912_COD_routes/20240912_COD_recomendacionesRoutes.js';
+import reservasRoutes from './20240912_COD_src/20240912_COD_routes/20240912_COD_reservasRoutes.js';
+import toursRoutes from './20240912_COD_src/20240912_COD_routes/20240912_COD_toursRoutes.js';
+import usuarioRoutes from './20240912_COD_src/20240912_COD_routes/20240912_COD_usuariosRoutes.js';
+import ocrRoutes from './20240912_COD_src/20240912_COD_routes/20240912_COD_OcrRoutes.js';
 
 dotenv.config();
 

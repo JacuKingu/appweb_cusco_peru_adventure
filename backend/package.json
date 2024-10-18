@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "20240912_COD_index.js",
+  "main": "/20240912_COD_index.js",
   "type": "module",
   "scripts": {
     "test": "",

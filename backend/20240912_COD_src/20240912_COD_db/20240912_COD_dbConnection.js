@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Crear la ruta al archivo SQL
-const initScriptPath = join(__dirname, '../20240912_COD_data.sql');
+const initScriptPath = join(__dirname, '../../20240912_COD_data.sql');
 
 // Leer el contenido del archivo SQL
 const initScript = fs.readFileSync(initScriptPath, 'utf-8');
