@@ -36,7 +36,7 @@ const PrivateRoute = ({ children, roles }) => {
 const AppRoutes = () => (
     <Router>
         <Routes>
-
+            {/* Rutas públicas */}
             <Route path="/login" element={<Login />} />
             {/* <Route path="/registrar" element={<Registrar />} /> */}
             <Route
@@ -48,6 +48,7 @@ const AppRoutes = () => (
                     }
                 />
 
+            {/* Rutas protegidas */}
             <Route
                 path="/"
                 element={

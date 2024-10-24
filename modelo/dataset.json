@@ -1,9 +1,1209 @@
 [
     {
+        "cantidad_personas": 5,
+        "edad_promedio": 32.4,
+        "rango_edad": 25,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 16.5,
+        "rango_edad": 29,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 30.8,
+        "rango_edad": 33,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 56.0,
+        "rango_edad": 58,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 58.5,
+        "rango_edad": 15,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 57.0,
+        "rango_edad": 80,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 51.5,
+        "rango_edad": 56,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 36.7,
+        "rango_edad": 52,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 38.7,
+        "rango_edad": 56,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 37.5,
+        "rango_edad": 60,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 40.7,
+        "rango_edad": 27,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 32.0,
+        "rango_edad": 16,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 51.2,
+        "rango_edad": 75,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 22.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 39.8,
+        "rango_edad": 54,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 24.0,
+        "rango_edad": 10,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 54.5,
+        "rango_edad": 55,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 73.5,
+        "rango_edad": 33,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 58.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 34.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 2.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 10.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 76.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 54.4,
+        "rango_edad": 78,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 14.0,
+        "rango_edad": 14,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 36.0,
+        "rango_edad": 4,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 50.8,
+        "rango_edad": 84,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 53.5,
+        "rango_edad": 37,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 55.8,
+        "rango_edad": 68,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 49.5,
+        "rango_edad": 9,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 38.6,
+        "rango_edad": 61,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 30.7,
+        "rango_edad": 37,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 1.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 33.7,
+        "rango_edad": 59,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 43.0,
+        "rango_edad": 75,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 26.4,
+        "rango_edad": 57,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 55.2,
+        "rango_edad": 57,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 55.0,
+        "rango_edad": 88,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 52.7,
+        "rango_edad": 26,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 16.0,
+        "rango_edad": 32,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 47.7,
+        "rango_edad": 68,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 53.5,
+        "rango_edad": 1,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 44.0,
+        "rango_edad": 86,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 54.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 36.3,
+        "rango_edad": 25,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 43.8,
+        "rango_edad": 61,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 12.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 56.0,
+        "rango_edad": 30,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 19.0,
+        "rango_edad": 19,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 28.0,
+        "rango_edad": 61,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 18.0,
+        "rango_edad": 27,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 36.3,
+        "rango_edad": 40,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 51.0,
+        "rango_edad": 41,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 33.6,
+        "rango_edad": 50,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 51.5,
+        "rango_edad": 77,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 40.5,
+        "rango_edad": 31,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 43.0,
+        "rango_edad": 71,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 49.0,
+        "rango_edad": 78,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 24.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 45.3,
+        "rango_edad": 77,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 40.0,
+        "rango_edad": 18,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 44.5,
+        "rango_edad": 33,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 61.6,
+        "rango_edad": 26,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 53.2,
+        "rango_edad": 81,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 52.0,
+        "rango_edad": 84,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 45.2,
+        "rango_edad": 29,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 43.7,
+        "rango_edad": 72,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 54.7,
+        "rango_edad": 29,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 73.5,
+        "rango_edad": 19,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 58.7,
+        "rango_edad": 51,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 39.5,
+        "rango_edad": 77,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 27.0,
+        "rango_edad": 57,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 4.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 49.2,
+        "rango_edad": 60,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 28.5,
+        "rango_edad": 1,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 42.0,
+        "rango_edad": 77,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 37.0,
+        "rango_edad": 63,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 50.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 49.8,
+        "rango_edad": 82,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 34.2,
+        "rango_edad": 27,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 49.2,
+        "rango_edad": 57,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 70.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 43.7,
+        "rango_edad": 82,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 32.8,
+        "rango_edad": 34,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 56.5,
+        "rango_edad": 43,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 50.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 63.8,
+        "rango_edad": 45,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 21.7,
+        "rango_edad": 12,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 61.3,
+        "rango_edad": 53,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 42.2,
+        "rango_edad": 73,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 44.0,
+        "rango_edad": 77,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 28.2,
+        "rango_edad": 66,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 49.5,
+        "rango_edad": 80,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 38.0,
+        "rango_edad": 55,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 47.0,
+        "rango_edad": 50,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 29.7,
+        "rango_edad": 81,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 66.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 37.3,
+        "rango_edad": 84,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 58.8,
+        "rango_edad": 44,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 51.5,
+        "rango_edad": 61,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 55.0,
+        "rango_edad": 65,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 55.5,
+        "rango_edad": 66,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 12.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 23.5,
+        "rango_edad": 42,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 50.5,
+        "rango_edad": 65,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 23.8,
+        "rango_edad": 61,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 29.6,
+        "rango_edad": 48,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 31.5,
+        "rango_edad": 61,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 49.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 24.8,
+        "rango_edad": 45,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 47.8,
+        "rango_edad": 31,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 53.0,
+        "rango_edad": 62,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 55.0,
+        "rango_edad": 32,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 24.0,
+        "rango_edad": 26,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 47.2,
+        "rango_edad": 71,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 73.0,
+        "rango_edad": 32,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 80.0,
+        "rango_edad": 20,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 52.5,
+        "rango_edad": 69,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 56.0,
+        "rango_edad": 31,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 41.3,
+        "rango_edad": 64,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 62.0,
+        "rango_edad": 68,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 28.0,
+        "rango_edad": 58,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 70.8,
+        "rango_edad": 42,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 54.5,
+        "rango_edad": 19,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 44.0,
+        "rango_edad": 52,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 25.8,
+        "rango_edad": 34,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 28.0,
+        "rango_edad": 58,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 58.8,
+        "rango_edad": 63,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 64.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 65.0,
+        "rango_edad": 87,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 24.6,
+        "rango_edad": 57,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 69.3,
+        "rango_edad": 56,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 56.5,
+        "rango_edad": 82,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 56.8,
+        "rango_edad": 58,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 35.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 40.0,
+        "rango_edad": 78,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 70.8,
+        "rango_edad": 46,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 59.8,
+        "rango_edad": 55,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 42.7,
+        "rango_edad": 41,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 79.0,
+        "rango_edad": 12,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 52.2,
+        "rango_edad": 83,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 57.7,
+        "rango_edad": 80,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 47.0,
+        "rango_edad": 71,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 62.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 42.0,
+        "rango_edad": 67,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 7.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 39.0,
+        "rango_edad": 62,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 55.5,
+        "rango_edad": 49,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 44.0,
+        "rango_edad": 60,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 37.0,
+        "rango_edad": 53,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 44.0,
+        "rango_edad": 76,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 59.7,
+        "rango_edad": 57,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 59.7,
+        "rango_edad": 59,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 50.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 23.5,
+        "rango_edad": 23,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 28.3,
+        "rango_edad": 30,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 41.3,
+        "rango_edad": 72,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 19.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 33.2,
+        "rango_edad": 51,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 15.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 26.3,
+        "rango_edad": 40,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 68.2,
+        "rango_edad": 34,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 54.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 9.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 65.7,
+        "rango_edad": 33,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 31.5,
+        "rango_edad": 1,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 38.2,
+        "rango_edad": 37,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 37.0,
+        "rango_edad": 10,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 52.3,
+        "rango_edad": 7,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 55.8,
+        "rango_edad": 75,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 29.0,
+        "rango_edad": 18,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 55.0,
+        "rango_edad": 39,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 1,
+        "edad_promedio": 60.0,
+        "rango_edad": 0,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 54.2,
+        "rango_edad": 78,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 33.2,
+        "rango_edad": 48,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 54.5,
+        "rango_edad": 48,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 48.5,
+        "rango_edad": 40,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 33.5,
+        "rango_edad": 80,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 20.3,
+        "rango_edad": 42,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 5,
+        "edad_promedio": 51.6,
+        "rango_edad": 48,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 48.5,
+        "rango_edad": 51,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 64.0,
+        "rango_edad": 24,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 45.8,
+        "rango_edad": 72,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 40.8,
+        "rango_edad": 86,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 49.0,
+        "rango_edad": 77,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 33.5,
+        "rango_edad": 76,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 38.0,
+        "rango_edad": 19,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 35.7,
+        "rango_edad": 74,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 41.0,
+        "rango_edad": 4,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 34.8,
+        "rango_edad": 33,
+        "tour_recomendado": "Machu Picchu by Car | Ruta Amazonica En Bus, Hidroelectrica"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 76.0,
+        "rango_edad": 33,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 56.0,
+        "rango_edad": 79,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 27.8,
+        "rango_edad": 38,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 47.7,
+        "rango_edad": 74,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 71.0,
+        "rango_edad": 16,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 7.0,
+        "rango_edad": 8,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 3,
+        "edad_promedio": 24.3,
+        "rango_edad": 9,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
+        "cantidad_personas": 2,
+        "edad_promedio": 36.0,
+        "rango_edad": 34,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 4,
+        "edad_promedio": 32.8,
+        "rango_edad": 61,
+        "tour_recomendado": "Tour Cuatrimotos Maras Moray | Moray, Salineras de Maras, Terrazas Incas de Zurite, Huarocondo y Laguna de Huaypo en Tour Exclusivo Privado"
+    },
+    {
+        "cantidad_personas": 6,
+        "edad_promedio": 53.0,
+        "rango_edad": 83,
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
+    },
+    {
         "cantidad_personas": 4,
         "edad_promedio": 31.5,
         "rango_edad": 12,
-        "tour_recomendado": "Machupicchu | Full Day todo inlcuido con tren Turistico de Peru Rail o Inca Rail"
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
     },
     {
         "cantidad_personas": 3,
@@ -225,7 +1425,7 @@
         "cantidad_personas": 5,
         "edad_promedio": 38.6,
         "rango_edad": 43,
-        "tour_recomendado": "Machupicchu | Full Day todo inlcuido con tren Turistico de Peru Rail o Inca Rail"
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
     },
     {
         "cantidad_personas": 4,
@@ -429,7 +1629,7 @@
         "cantidad_personas": 3,
         "edad_promedio": 49.666666666666664,
         "rango_edad": 17,
-        "tour_recomendado": "Machupicchu | Full Day todo inlcuido con tren Turistico de Peru Rail o Inca Rail"
+        "tour_recomendado": "Machupicchu | Full Day todo incluido con tren Turistico de Peru Rail o Inca Rail"
     },
     {
         "cantidad_personas": 1,

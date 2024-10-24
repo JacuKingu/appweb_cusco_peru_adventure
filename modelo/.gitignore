@@ -1,7 +1,0 @@
-# Ignorar entornos virtuales y archivos innecesarios
-venv/
-__pycache__/
-*.pyc
-*.pkl
-*.log
-.DS_Store

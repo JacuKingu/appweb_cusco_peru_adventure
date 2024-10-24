@@ -14,12 +14,12 @@ Este proyecto utiliza **Machine Learning** para recomendar tours a grupos de per
 2. Crea un entorno virtual y actívalo (en caso no funciona por powershell, puedes probar por cmd como administrador en la carpeta del archivo):
 
 ```bash
-# En Windows:
+# En Windows CMD:
 python -m venv venv
 venv\Scripts\activate
-# En macOS/Linux:
-python3 -m venv venv
-source venv/bin/activate
+
+Set-ExecutionPolicy Restricted #restringir scripts
+Set-ExecutionPolicy RemoteSigned #poder habilitar la ejecucion de scripts
 
 
 3. Instala dependencias:
@@ -28,9 +28,10 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 4. Ejecutar el microservicio:
-
+powerp
 ```bash
 python app.py
+
 
 
 np.asfarray         np.asarray

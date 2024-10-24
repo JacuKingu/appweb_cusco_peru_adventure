@@ -68,6 +68,8 @@ export const procesarEdades = async (edades) => {
     }
 };
 
+//AGREGAR SERVICIO POST PARA MICROSERVICIO QUE SE TRAIGA EL PDF
+
 // Servicio para actualizar un grupo existente
 export const actualizarGrupo = async (id_grupo, id_pdf, nombre_grupo) => {
     try {
