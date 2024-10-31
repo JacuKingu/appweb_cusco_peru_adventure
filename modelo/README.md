@@ -21,6 +21,10 @@ venv\Scripts\activate
 python3 -m venv venv
 source venv/bin/activate
 
+# Para salir
+deactivate
+exit
+
 
 3. Instala dependencias:
 
