@@ -68,7 +68,7 @@ export const obtenerEdadesPorGrupo = async (req, res) => {
 
 // Controlador que coordina el GET para obtener edades y luego el POST para procesarlas
 export const obtenerYProcesarEdades = async (req, res) => {
-    const { id_grupo } = req.params;
+    const { id_grupo, tipo, nivel, presupuesto, destino, duracion } = req.body;
 
     try {
         // Llamar al servicio GET para obtener las edades del grupo
@@ -81,16 +81,14 @@ export const obtenerYProcesarEdades = async (req, res) => {
         const edadesArray = edadesCadena.split(',').map(Number);
 
         // Ahora enviar el array de edades al microservicio POST
-        const resultadoPost = await gruposService.procesarEdades(edadesArray);
+        const resultadoPost = await gruposService.procesarEdades(edadesArray, tipo, nivel, presupuesto, destino, duracion);
 
         res.status(200).json({ success: true, data: resultadoPost });
     } catch (error) {
         console.error('Error en obtenerYProcesarEdades (Controlador):', error);
         res.status(500).json({ success: false, message: error.message });
     }
-};
-
-
+};  
 
 // Actualizar un grupo existente
 export const actualizarGrupo = async (req, res) => {

@@ -290,6 +290,7 @@ const Clientes = () => {
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Teléfono</th>
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Fecha de Nacimiento</th>
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Grupo</th>
+                        <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Activo</th>
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>
                     </tr>
                 </thead>
@@ -303,6 +304,7 @@ const Clientes = () => {
                             <td className="py-2 px-4 border-b border-gray-200">{cliente.telefono}</td>
                             <td className="py-2 px-4 border-b border-gray-200">{cliente.fecha_nacimiento}</td>
                             <td className="py-2 px-4 border-b border-gray-200">{cliente.id_grupo}</td>
+                            <td className="py-2 px-4 border-b border-gray-200">{cliente.activo}</td>
                             <td className="py-2 px-4 border-b border-gray-200">
                                 <button
                                     onClick={() => manejarEdicion(cliente.id_cliente)}

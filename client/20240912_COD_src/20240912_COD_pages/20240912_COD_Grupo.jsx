@@ -205,6 +205,7 @@ const Grupos = () => {
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID</th>
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Nombre del PDF</th>
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Nombre del Grupo</th>
+                        <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Activo</th>
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>
                     </tr>
                 </thead>
@@ -214,6 +215,7 @@ const Grupos = () => {
                             <td className="py-2 px-4 border-b border-gray-200">{grupo.id_grupo}</td>
                             <td className="py-2 px-4 border-b border-gray-200">{obtenerNombrePdf(grupo.id_pdf)}</td>
                             <td className="py-2 px-4 border-b border-gray-200">{grupo.grupo}</td>
+                            <td className="py-2 px-4 border-b border-gray-200">{grupo.activo}</td>
                             <td className="py-2 px-4 border-b border-gray-200">
                                 <button
                                     onClick={() => manejarEdicion(grupo.id_grupo)}

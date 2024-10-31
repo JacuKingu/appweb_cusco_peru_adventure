@@ -217,6 +217,7 @@ const Usuarios = () => {
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Nombre</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Rol</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Activo</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>
           </tr>
         </thead>
@@ -226,6 +227,7 @@ const Usuarios = () => {
               <td className="py-2 px-4 border-b border-gray-200">{usuario.id_usuario}</td>
               <td className="py-2 px-4 border-b border-gray-200">{usuario.nombre}</td>
               <td className="py-2 px-4 border-b border-gray-200">{usuario.rol}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{usuario.activo}</td>
               <td className="py-2 px-4 border-b border-gray-200">
                 <button
                   onClick={() => manejarEdicion(usuario.id_usuario)}

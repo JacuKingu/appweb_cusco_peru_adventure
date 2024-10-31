@@ -248,6 +248,7 @@ const Tour = () => {
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Duración (horas)</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Precio</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Categoría</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Activo</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>
           </tr>
         </thead>
@@ -260,6 +261,7 @@ const Tour = () => {
               <td className="py-2 px-4 border-b border-gray-200">{tour.duracion}</td>
               <td className="py-2 px-4 border-b border-gray-200">{tour.precio}</td>
               <td className="py-2 px-4 border-b border-gray-200">{tour.categoria}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{tour.activo}</td>
               <td className="py-2 px-4 border-b border-gray-200">
                 <button
                   onClick={() => manejarEdicion(tour.id_tour)}

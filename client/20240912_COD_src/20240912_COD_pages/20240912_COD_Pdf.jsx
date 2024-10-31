@@ -98,6 +98,8 @@ const Pdfs = () => {
                     <tr>
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID</th>
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Nombre del Archivo</th>
+                        <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Ver</th>
+                        <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Activo</th>
                         <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>
                     </tr>
                 </thead>
@@ -122,6 +124,7 @@ const Pdfs = () => {
                                     Descargar PDF
                                 </button>
                             </td>
+                            <td className="py-2 px-4 border-b border-gray-200">{pdf.activo}</td>
                             <td className="py-2 px-4 border-b border-gray-200">
                                 <button
                                     onClick={() => manejarEliminacion(pdf.id_pdf)}

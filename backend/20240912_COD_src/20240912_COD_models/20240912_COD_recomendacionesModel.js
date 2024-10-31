@@ -25,10 +25,13 @@ export const obtenerRecomendacionPorId = async (id_recomendacion, rol) => {
 };
 
 // Insertar una nueva recomendación
-export const insertarRecomendacion = async (id_grupo, contenido) => {
+export const insertarRecomendacion = async (id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido) => {
   try {
     const pool = await connection;
-    const [result] = await pool.execute('CALL insertarRecomendacion(?, ?)', [id_grupo, contenido]);
+    const [result] = await pool.execute(
+      'CALL insertarRecomendacion(?, ?, ?, ?, ?, ?, ?)', 
+      [id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido]
+    );
     return result;
   } catch (error) {
     console.error('Error al insertar recomendación:', error);
@@ -36,11 +39,12 @@ export const insertarRecomendacion = async (id_grupo, contenido) => {
   }
 };
 
+
 // Actualizar una recomendación existente
-export const actualizarRecomendacion = async (id_recomendacion, id_grupo, contenido) => {
+export const actualizarRecomendacion = async (id_recomendacion, id_grupo,  tipo, nivel, presupuesto, destino, duracion, contenido) => {
   try {
     const pool = await connection;
-    const [result] = await pool.execute('CALL actualizarRecomendacion(?, ?, ?)', [id_recomendacion, id_grupo, contenido]);
+    const [result] = await pool.execute('CALL actualizarRecomendacion(?, ?, ?, ?, ?, ?, ?, ?)', [id_recomendacion, id_grupo,  tipo, nivel, presupuesto, destino, duracion, contenido]);
     return result;
   } catch (error) {
     console.error('Error al actualizar recomendación:', error);

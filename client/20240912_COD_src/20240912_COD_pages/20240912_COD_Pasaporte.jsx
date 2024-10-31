@@ -232,6 +232,7 @@ const Pasaportes = () => {
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Número de Pasaporte</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">País de Emisión</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Fecha de Expiración</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Activo</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>
           </tr>
         </thead>
@@ -246,6 +247,7 @@ const Pasaportes = () => {
               <td className="py-2 px-4 border-b border-gray-200">{pasaporte.numero_pasaporte}</td>
               <td className="py-2 px-4 border-b border-gray-200">{pasaporte.pais_emision}</td>
               <td className="py-2 px-4 border-b border-gray-200">{pasaporte.fecha_expiracion}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{pasaporte.activo}</td>
               <td className="py-2 px-4 border-b border-gray-200">
                 <button
                   onClick={() => manejarEdicion(pasaporte.id_pasaporte)}

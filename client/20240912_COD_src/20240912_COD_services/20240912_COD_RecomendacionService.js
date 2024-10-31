@@ -23,9 +23,10 @@ export const obtenerRecomendacionPorIdYRol = async (id_recomendacion, rol) => {
 };
 
 // Servicio para insertar una nueva recomendación
-export const insertarRecomendacion = async (id_grupo, contenido) => {
+export const insertarRecomendacion = async (id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido) => {
     try {
-        const response = await api.post('/recomendacion', { id_grupo, contenido });
+        const response = await api.post('/recomendacion', { id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido });
+        console.log('esta es la respueta:', response)
         return response.data.message; // Devuelve el mensaje de éxito
     } catch (error) {
         console.error('Error en insertarRecomendacion (Frontend):', error);
@@ -46,9 +47,9 @@ export const obtenerYProcesarEdades = async (id_grupo) => {
 };
 
 // Servicio para actualizar una recomendación existente
-export const actualizarRecomendacion = async (id_recomendacion, id_grupo, contenido) => {
+export const actualizarRecomendacion = async (id_recomendacion, id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido) => {
     try {
-        const response = await api.put(`/recomendacion/${id_recomendacion}`, { id_grupo, contenido });
+        const response = await api.put(`/recomendacion/${id_recomendacion}`, { id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido });
         return response.data.message; // Devuelve el mensaje de éxito
     } catch (error) {
         console.error('Error en actualizarRecomendacion (Frontend):', error);

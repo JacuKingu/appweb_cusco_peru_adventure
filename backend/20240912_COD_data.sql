@@ -278,10 +278,12 @@ END;
 
 -- Procedimientos para la tabla de recomendaciones
 DROP PROCEDURE IF EXISTS insertarRecomendacion;
-CREATE PROCEDURE insertarRecomendacion(IN id_grupo INT, IN contenido TEXT)
+CREATE PROCEDURE insertarRecomendacion(IN id_grupo INT, IN tipo TEXT, IN nivel TEXT, IN presupuesto TEXT, IN destino TEXT, IN duracion INT, IN contenido TEXT)
 BEGIN
-    INSERT INTO recomendaciones (id_grupo, contenido) VALUES (id_grupo, contenido);
+    INSERT INTO recomendaciones (id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido) 
+    VALUES (id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido);
 END;
+
 
 DROP PROCEDURE IF EXISTS obtenerRecomendacionesActivas;
 CREATE PROCEDURE obtenerRecomendacionesActivas(IN rol ENUM('admin', 'asesor'))
@@ -304,9 +306,9 @@ BEGIN
 END;
 
 DROP PROCEDURE IF EXISTS actualizarRecomendacion;
-CREATE PROCEDURE actualizarRecomendacion(IN id INT, IN nuevo_id_grupo INT, IN nuevo_contenido TEXT)
+CREATE PROCEDURE actualizarRecomendacion(IN id INT, IN nuevo_id_grupo INT, IN nuevo_tipo TEXT, IN nuevo_nivel TEXT, IN nuevo_presupuesto TEXT, IN nuevo_destino TEXT, IN nuevo_duracion INT, IN nuevo_contenido TEXT)
 BEGIN
-    UPDATE recomendaciones SET id_grupo = nuevo_id_grupo, contenido = nuevo_contenido WHERE id_recomendacion = id AND activo = 1;
+    UPDATE recomendaciones SET id_grupo = nuevo_id_grupo, nivel = nuevo_nivel, presupuesto = nuevo_presupuesto, destino= nuevo_destino, duracion = nuevo_duracion, contenido = nuevo_contenido WHERE id_recomendacion = id AND activo = 1;
 END;
 
 DROP PROCEDURE IF EXISTS eliminarRecomendacion;

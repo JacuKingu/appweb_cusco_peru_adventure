@@ -6,7 +6,7 @@ import {
   actualizarRecomendacion,
   eliminarRecomendacion,
   obtenerYProcesarEdades // Importar el servicio para procesar edades
-} from '@services/20240912_COD_RecomendacionService'; 
+} from '@services/20240912_COD_RecomendacionService';
 import { obtenerGruposPorRol } from '@services/20240912_COD_GrupoService';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
@@ -18,6 +18,11 @@ const Recomendaciones = () => {
   const [recomendacionActual, setRecomendacionActual] = useState(null); // Para editar una recomendación específica
   const [formValues, setFormValues] = useState({ // Valores del formulario
     id_grupo: '',
+    tipo: '',
+    nivel: '',
+    presupuesto: '',
+    destino: '',
+    duracion: '',
     contenido: ''
   });
 
@@ -39,6 +44,11 @@ const Recomendaciones = () => {
     if (recomendacionActual) {
       setFormValues({
         id_grupo: recomendacionActual.id_grupo || '',
+        tipo: recomendacionActual.tipo || '',
+        nivel: recomendacionActual.nivel || '',
+        destino: recomendacionActual.destino || '',
+        presupuesto: recomendacionActual.presupuesto || '',
+        duracion: recomendacionActual.duracion || '',
         contenido: recomendacionActual.contenido || ''
       });
     } else {
@@ -84,14 +94,13 @@ const Recomendaciones = () => {
     }
   };
 
-  // Manejar el cambio del select para grupos y procesar edades
   const manejarCambioGrupo = async (e) => {
     const id_grupo = e.target.value;
     setFormValues({ ...formValues, id_grupo }); // Actualizar el id_grupo en el formulario
 
     if (id_grupo) {
       try {
-        const response = await obtenerYProcesarEdades(id_grupo); // Llamar al servicio
+        const response = await obtenerYProcesarEdades(id_grupo,); // Llamar al servicio
         if (response.success) {
           const { tour_recomendado } = response.data;
           setFormValues((prevFormValues) => ({
@@ -115,21 +124,39 @@ const Recomendaciones = () => {
     e.preventDefault();
     setError('');
     try {
-      if (recomendacionActual) {
-        // Actualizar recomendación
-        await actualizarRecomendacion(recomendacionActual.id_recomendacion, ...Object.values(formValues));
-        setError('Recomendación actualizada con éxito');
-      } else {
-        // Insertar nueva recomendación
-        await insertarRecomendacion(...Object.values(formValues));
-        setError('Recomendación agregada con éxito');
-      }
-      cargarRecomendaciones(); // Recargar la lista de recomendaciones
-      limpiarFormulario(); // Limpiar formulario
+        const { id_grupo, tipo, nivel, presupuesto, destino, duracion } = formValues;
+        
+        if (recomendacionActual) {
+            // Actualizar recomendación
+            await actualizarRecomendacion(recomendacionActual.id_recomendacion, ...Object.values(formValues));
+            setError('Recomendación actualizada con éxito');
+        } else {
+            // Insertar nueva recomendación
+            await insertarRecomendacion(...Object.values(formValues));
+            setError('Recomendación agregada con éxito');
+
+            // Procesar edades después de agregar la recomendación
+            await procesarEdades(id_grupo, tipo, nivel, presupuesto, destino, duracion);
+        }
+        cargarRecomendaciones(); // Recargar la lista de recomendaciones
+        limpiarFormulario(); // Limpiar formulario
     } catch (error) {
-      setError('Error al guardar la recomendación: ' + error.message);
+        setError('Error al guardar la recomendación: ' + error.message);
     }
-  };
+};
+
+const procesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, duracion) => {
+    try {
+        const response = await obtenerYProcesarEdades(id_grupo, tipo, nivel, presupuesto, destino, duracion);
+        if (!response.success) {
+            throw new Error('Error al procesar las edades: ' + response.message);
+        }
+    } catch (error) {
+        setError('Error al procesar las edades: ' + error.message);
+    }
+};
+
+
 
   const manejarEdicion = async (id_recomendacion) => {
     try {
@@ -140,6 +167,11 @@ const Recomendaciones = () => {
         setRecomendacionActual(datosRecomendacion);
         setFormValues({
           id_grupo: datosRecomendacion.id_grupo || '',
+          tipo: datosRecomendacion.tipo || '',
+          nivel: datosRecomendacion.nivel || '',
+          destino: datosRecomendacion.destino || '',
+          presupuesto: datosRecomendacion.presupuesto || '',
+          duracion: datosRecomendacion.duracion || '',
           contenido: datosRecomendacion.contenido || ''
         });
       } else {
@@ -164,11 +196,16 @@ const Recomendaciones = () => {
     setRecomendacionActual(null);
     setFormValues({
       id_grupo: '',
+      tipo: '',
+      nivel: '',
+      destino: '',
+      presupuesto: '',
+      duracion: '',
       contenido: ''
     });
   };
 
-  if (loading) return <SpineLoader/>;
+  if (loading) return <SpineLoader />;
 
   return (
     <div className="p-8">
@@ -176,14 +213,92 @@ const Recomendaciones = () => {
       {loading && <p className="text-center">Cargando...</p>}
 
       <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-bold mb-4">{recomendacionActual ? 'Actualizar Recomendación' : 'Agregar Recomendación'}</h2>
+        <h2 className="text-xl font-bold mb-4">
+          {recomendacionActual ? 'Actualizar Recomendación' : 'Agregar Recomendación'}
+        </h2>
+
+        <div className="mb-4">
+          <label htmlFor="tipo" className="block text-sm font-medium text-gray-700">Tipo de Actividad</label>
+          <select
+            name="tipo"
+            value={formValues.tipo}
+            onChange={manejarCambio}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Selecciona un Tipo de Actividad</option>
+            <option value="Cultura">Cultura</option>
+            <option value="Aventura">Aventura</option>
+            <option value="Relajación">Relajación</option>
+            <option value="Naturaleza">Naturaleza</option>
+            <option value="Gastronomía">Gastronomía</option>
+          </select>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="nivel" className="block text-sm font-medium text-gray-700">Nivel de Actividad</label>
+          <select
+            name="nivel"
+            value={formValues.nivel}
+            onChange={manejarCambio}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Selecciona el Nivel de Actividad</option>
+            <option value="Baja">Baja</option>
+            <option value="Media">Media</option>
+            <option value="Alta">Alta</option>
+          </select>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="destino" className="block text-sm font-medium text-gray-700">Destino Preferido</label>
+          <select
+            name="destino"
+            value={formValues.destino}
+            onChange={manejarCambio}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Selecciona un Destino</option>
+            <option value="Playa">Playa</option>
+            <option value="Montaña">Montaña</option>
+            <option value="Ciudad">Ciudad</option>
+            <option value="Desierto">Desierto</option>
+            <option value="Selva">Selva</option>
+          </select>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="presupuesto" className="block text-sm font-medium text-gray-700">Presupuesto</label>
+          <select
+            name="presupuesto"
+            value={formValues.presupuesto}
+            onChange={manejarCambio}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Selecciona un Presupuesto</option>
+            <option value="Economico">Económico</option>
+            <option value="Medio">Medio</option>
+            <option value="Alto">Alto</option>
+          </select>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="duracion" className="block text-sm font-medium text-gray-700">Duración del Viaje (días)</label>
+          <input
+            type="number"
+            name="duracion"
+            value={formValues.duracion}
+            onChange={manejarCambio}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            min="1"
+          />
+        </div>
 
         <div className="mb-4">
           <label htmlFor="id_grupo" className="block text-sm font-medium text-gray-700">Seleccionar Grupo</label>
           <select
             name="id_grupo"
             value={formValues.id_grupo}
-            onChange={manejarCambioGrupo} // Actualizamos esta función para manejar el procesamiento
+            onChange={manejarCambioGrupo}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Selecciona un Grupo</option>
@@ -195,22 +310,13 @@ const Recomendaciones = () => {
           </select>
         </div>
 
-        <div className="mb-4">
-          <textarea
-            name="contenido"
-            value={formValues.contenido}
-            onChange={manejarCambio}
-            placeholder="Contenido de la Recomendación"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            rows="3"
-          />
-        </div>
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
         >
           {recomendacionActual ? 'Actualizar' : 'Agregar'}
         </button>
+
         {recomendacionActual && (
           <button
             type="button"
@@ -222,6 +328,7 @@ const Recomendaciones = () => {
         )}
       </form>
 
+
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       <table className="min-w-full bg-white">
@@ -230,6 +337,7 @@ const Recomendaciones = () => {
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Grupo</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Contenido</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Activo</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>
           </tr>
         </thead>
@@ -241,6 +349,7 @@ const Recomendaciones = () => {
                 {grupos.find(grupo => grupo.id_grupo === recomendacion.id_grupo)?.grupo}
               </td>
               <td className="py-2 px-4 border-b border-gray-200">{recomendacion.contenido}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{recomendacion.activo}</td>
               <td className="py-2 px-4 border-b border-gray-200">
                 <button
                   onClick={() => manejarEdicion(recomendacion.id_recomendacion)}

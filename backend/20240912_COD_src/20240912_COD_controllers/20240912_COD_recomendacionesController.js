@@ -32,9 +32,9 @@ export const obtenerRecomendacionPorId = async (req, res) => {
 
 // Insertar una nueva recomendación
 export const insertarRecomendacion = async (req, res) => {
-    const { id_grupo, contenido } = req.body;
+    const { id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido } = req.body;
     try {
-        await recomendacionesService.insertarRecomendacion(id_grupo, contenido);
+        await recomendacionesService.insertarRecomendacion(id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido);
         res.status(201).json({ message: 'Recomendación insertada exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al insertar recomendación' });
@@ -44,9 +44,9 @@ export const insertarRecomendacion = async (req, res) => {
 // Actualizar una recomendación existente
 export const actualizarRecomendacion = async (req, res) => {
     const { id_recomendacion } = req.params;
-    const { id_grupo, contenido } = req.body;
+    const { id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido } = req.body;
     try {
-        await recomendacionesService.actualizarRecomendacion(id_recomendacion, id_grupo, contenido);
+        await recomendacionesService.actualizarRecomendacion(id_recomendacion, id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido);
         res.status(200).json({ message: 'Recomendación actualizada exitosamente' });
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar recomendación' });
