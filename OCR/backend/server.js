@@ -1,11 +1,11 @@
 const express = require('express');
 const multer = require('multer');
-const pdfPoppler = require('pdf-poppler');
 const Tesseract = require('tesseract.js');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const stopwords = require('stopword');
+const pdfPoppler = require('pdf-poppler'); // Asegúrate de tener esta dependencia instalada
 
 const app = express();
 const PORT = 5000;
@@ -15,99 +15,56 @@ const upload = multer({ dest: 'uploads/' });
 
 // Función para convertir PDF a imágenes usando pdf-poppler
 const pdfToImages = async (pdfPath) => {
-    const outputDir = path.join(__dirname, 'images');
-    if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir);
-    }
+    const outputPath = path.join(__dirname, 'images');
+    if (!fs.existsSync(outputPath)) fs.mkdirSync(outputPath);
 
     const options = {
-        format: 'jpg',
-        out_dir: outputDir,
+        format: 'jpeg',
+        out_dir: outputPath,
         out_prefix: path.basename(pdfPath, path.extname(pdfPath)),
-        page: null // Convertir todas las páginas
+        page: null,
+        dpi: 70,
     };
 
     await pdfPoppler.convert(pdfPath, options);
-    const images = fs.readdirSync(outputDir).map(file => path.join(outputDir, file));
-    return images;
+    return fs.readdirSync(outputPath).map(file => path.join(outputPath, file));
 };
 
-// Función para limpiar y preprocesar el texto
+// Funcion para limpiar y preprocesar el texto
 const preprocessText = (text) => {
-    // Convertir a minúsculas
-    let cleanedText = text.toLowerCase();
-
-    // Eliminar caracteres especiales, pero mantener espacios y letras
-    cleanedText = cleanedText.replace(/[^a-záéíóúüñ\s]/gi, '');
-
-    // Tokenizar el texto
+    let cleanedText = text.toLowerCase().replace(/[^a-záéíóúüñ\s]/gi, '');
     let tokens = cleanedText.split(/\s+/);
-
-    // Eliminar palabras vacías
     tokens = stopwords.removeStopwords(tokens, stopwords.es);
-
-    // Imprimir texto limpio y tokens en consola
-    console.log("Texto limpio:", cleanedText);
-    console.log("Tokens:", tokens);
-
     return tokens;
 };
 
-// Función para extraer características claves
+// Funcion para extraer características clave
 const extractKeyFeatures = (tokens, text) => {
     const keyFeatures = {
-        voluntariado: false,
-        promedio: null,
-        experiencia: false,
-        habilidades: [],
-        certificacion: false,
-        educacion: false,
-        nombres: false,
-        apellidos: false
+        nombres: '',
+        apellidos: '',
+        nacionalidad: '',
+        fechaNacimiento: ''
     };
 
-    const volunteerKeywords = ['voluntariado', 'voluntario'];
-    const workExperienceKeywords = ['trabajo', 'experiencia', 'laboral'];
-    const skillsKeywords = ['habilidad', 'competencia', 'destreza', 'aptitud', 'gestión'];
-    const certificationsKeywords = ['certificación', 'certificaciones', 'certificado', 'scrum', 'pmp'];
-    const educationKeywords = ['universidad', 'colegio', 'instituto', 'educación'];
-    const apellidosKeywords = ['apellido','surname'];
-    const nombresKeywords = ['Nombre', 'Nombres', 'Name'];
+    const nombresRegex = /nombres?:\s*([a-zA-Z\s]+)/i;
+    const apellidosRegex = /apellidos?:\s*([a-zA-Z\s]+)/i;
+    const nacionalidadRegex = /nacionalidad:\s*([a-zA-Z\s]+)/i;
+    const fechaNacimientoRegex = /fecha de nacimiento:\s*(\d{2}\/\d{2}\/\d{4})/i;
 
-    // Identificar palabras clave en el texto
-    tokens.forEach(token => {
-        if (volunteerKeywords.includes(token)) {
-            keyFeatures.voluntariado = true;
-        }
-        if (workExperienceKeywords.includes(token)) {
-            keyFeatures.experiencia = true;
-        }
-        if (skillsKeywords.includes(token)) {
-            keyFeatures.habilidades.push(token);
-        }
-        if (certificationsKeywords.includes(token)){
-            keyFeatures.certificacion = true;
-        }
-        if (educationKeywords.includes(token)){
-            keyFeatures.educacion = true;
-        }
-        if (apellidosKeywords.includes(token)) {
-            keyFeatures.nombres = true;
-        }
-        if (nombresKeywords.includes(token)) {
-            keyFeatures.nombres = true;
-        }
-    });
+    const nombresMatch = text.match(nombresRegex);
+    if (nombresMatch) keyFeatures.nombres = nombresMatch[1].trim();
 
-    // Eliminar duplicados en las habilidades
-    keyFeatures.habilidades = [...new Set(keyFeatures.habilidades)];
+    const apellidosMatch = text.match(apellidosRegex);
+    if (apellidosMatch) keyFeatures.apellidos = apellidosMatch[1].trim();
 
-    // Extraer el promedio (simulando la extracción aquí, se necesita una lógica más compleja)
-    const promedioRegex = /promedio\s*:\s*(\d+(\.\d+)?)/i;
-    const promedioMatch = text.match(promedioRegex);
-    if (promedioMatch) {
-        keyFeatures.promedio = parseFloat(promedioMatch[1]);
-    }
+    const nacionalidadMatch = text.match(nacionalidadRegex);
+    if (nacionalidadMatch) keyFeatures.nacionalidad = nacionalidadMatch[1].trim();
+
+    const fechaNacimientoMatch = text.match(fechaNacimientoRegex);
+    if (fechaNacimientoMatch) keyFeatures.fechaNacimiento = fechaNacimientoMatch[1];
+
+    console.log("Texto extraido de cada imagen: nombres"+nombresMatch);
 
     return keyFeatures;
 };
@@ -120,24 +77,19 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     if (fileType === 'application/pdf') {
         try {
             const images = await pdfToImages(filePath);
-            let fullText = '';
+            const peopleData = [];
 
-            // Procesa cada imagen con Tesseract para extraer texto
             for (const image of images) {
                 const { data: { text } } = await Tesseract.recognize(image, 'spa');
-                fullText += text + '\n';
+                console.log("Texto extraído:", text); // Para depuración
+                const tokens = preprocessText(text);
+                const keyFeatures = extractKeyFeatures(tokens, text);
+                peopleData.push(keyFeatures);
+                fs.unlinkSync(image); // Eliminar la imagen procesada
             }
-
-            // Elimina las imágenes temporales
-            images.forEach(image => fs.unlinkSync(image));
-
-            // Preprocesar el texto extraído
-            const tokens = preprocessText(fullText);
-
-            // Extraer características claves
-            const keyFeatures = extractKeyFeatures(tokens, fullText);
-
-            res.json({ text: fullText, features: keyFeatures });
+            
+            res.json({ people: peopleData });
+            fs.unlinkSync(filePath);
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Error al procesar el PDF.' });

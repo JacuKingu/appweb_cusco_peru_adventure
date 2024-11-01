@@ -3,8 +3,7 @@ import axios from 'axios';
 
 function FileUpload() {
     const [file, setFile] = useState(null);
-    const [text, setText] = useState('');
-    const [features, setFeatures] = useState(null);
+    const [people, setPeople] = useState([]);
     const [error, setError] = useState('');
 
     const handleFileChange = (e) => {
@@ -28,8 +27,7 @@ function FileUpload() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            setText(response.data.text);
-            setFeatures(response.data.features);
+            setPeople(response.data.people);
             setError('');
         } catch (error) {
             console.error('Error al subir el archivo', error);
@@ -39,26 +37,20 @@ function FileUpload() {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className='formulario'>
-                <input type="file" accept=".pdf" onChange={handleFileChange} className='pdf'/>
-                <button type="submit" className='btn'>Subir archivo</button>
+            <form onSubmit={handleSubmit}>
+                <input type="file" onChange={handleFileChange} accept="application/pdf" />
+                <button type="submit">Subir Archivo</button>
             </form>
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-            {text && <div>
-                <h3>Texto extraído:</h3>
-                <p>{text}</p>
-            </div>}
-            {features && <div>
-                <h3>Características Claves:</h3>
-                <p>Voluntariado: {features.voluntariado ? 'Sí' : 'No'}</p>
-                <p>Promedio: {features.promedio !== null ? features.promedio : 'No disponible'}</p>
-                <p>Experiencia Laboral: {features.experiencia ? 'Sí' : 'No'}</p>
-                <p>Habilidades: {features.habilidades.join(', ')}</p>
-                <p>Certificaciones: {features.certificacion ? 'Si' : 'No'}</p>
-                <p>Educacion: {features.educacion ? 'Si' : 'No'}</p>
-                <p>Nombres: {features.nombres}</p>
-                <p>Apellidos: {features.apellidos}</p>
-            </div>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {people.map((person, index) => (
+                <div key={index}>
+                    <h3>Persona {index + 1}</h3>
+                    <p>Nombres: {person.nombres || 'No disponible'}</p>
+                    <p>Apellidos: {person.apellidos || 'No disponible'}</p>
+                    <p>Nacionalidad: {person.nacionalidad || 'No disponible'}</p>
+                    <p>Fecha de Nacimiento: {person.fechaNacimiento || 'No disponible'}</p>
+                </div>
+            ))}
         </div>
     );
 }
