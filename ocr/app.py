@@ -31,7 +31,7 @@ def extract():
 
 def extract_info_from_mrz(text):
     # Patron MRZ para capturar codigo de pais, apellido y nombres
-    mrz_pattern = r'P<([A-Z]{3})([A-Z<]+)<<([A-Z<]+)'
+    mrz_pattern = r'<([A-Z]{3})([A-Z<]+)<<([A-Z<]+)'
     match = re.search(mrz_pattern, text.replace('\n', ''))
 
     if match:
