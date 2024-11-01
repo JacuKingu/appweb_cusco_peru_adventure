@@ -25,8 +25,9 @@ export const obtenerRecomendacionPorIdYRol = async (id_recomendacion, rol) => {
 // Servicio para insertar una nueva recomendación
 export const insertarRecomendacion = async (id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido) => {
     try {
+        console.log('Datos a enviar:', { id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido });
         const response = await api.post('/recomendacion', { id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido });
-        console.log('esta es la respueta:', response)
+        console.log('Esta es la respuesta:', response);
         return response.data.message; // Devuelve el mensaje de éxito
     } catch (error) {
         console.error('Error en insertarRecomendacion (Frontend):', error);
@@ -36,15 +37,18 @@ export const insertarRecomendacion = async (id_grupo, tipo, nivel, presupuesto, 
 
 
 // Servicio para obtener y procesar las edades de un grupo
-export const obtenerYProcesarEdades = async (id_grupo) => {
+export const obtenerYProcesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido) => {
     try {
-        const response = await api.get(`/grupo/procesar-edades/${id_grupo}`);
+        const response = await api.get(`/grupo/procesar-edades/${id_grupo}`, {
+            params: { tipo, nivel, presupuesto, destino, duracion, contenido }
+        });
         return response.data; 
     } catch (error) {
         console.error('Error en obtenerYProcesarEdades (Frontend):', error);
         throw new Error(error.response ? error.response.data.message : 'Error al obtener y procesar las edades');
     }
 };
+
 
 // Servicio para actualizar una recomendación existente
 export const actualizarRecomendacion = async (id_recomendacion, id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido) => {

@@ -68,27 +68,40 @@ export const obtenerEdadesPorGrupo = async (req, res) => {
 
 // Controlador que coordina el GET para obtener edades y luego el POST para procesarlas
 export const obtenerYProcesarEdades = async (req, res) => {
-    const { id_grupo, tipo, nivel, presupuesto, destino, duracion } = req.body;
+    const { id_grupo } = req.params; // Obtiene el ID del grupo desde los parámetros de la solicitud
+    const { tipo, nivel, presupuesto, destino, duracion, contenido } = req.query; // Cambiar a req.query
 
     try {
         // Llamar al servicio GET para obtener las edades del grupo
         const resultado = await gruposService.obtenerEdadesPorGrupo(id_grupo);
 
         // Extraer solo el campo de edades (cadena)
-        const edadesCadena = resultado[0].edades;
+        const edadesCadena = resultado[0].edades; // Asegúrate de que esto sea correcto
+        const edadesArray = edadesCadena.split(',').map(Number); // Transformar la cadena a un array de números
 
-        // Transformar la cadena de edades "31, 34, 31" en un array de números [31, 34, 31]
-        const edadesArray = edadesCadena.split(',').map(Number);
+        // Convertir duracion a número
+        const duracionNumero = parseInt(duracion, 10); // O usar parseFloat si es un decimal
 
-        // Ahora enviar el array de edades al microservicio POST
-        const resultadoPost = await gruposService.procesarEdades(edadesArray, tipo, nivel, presupuesto, destino, duracion);
+        // Construir el objeto que se enviará al microservicio
+        const dataParaMicroservicio = {
+            edades: edadesArray,
+            destino_preferido: destino,
+            duracion_viaje: duracionNumero,
+            nivel_actividad: nivel,
+            presupuesto: presupuesto,
+            tipo_actividades: tipo
+        };
+
+        // Enviar el objeto al microservicio POST
+        const resultadoPost = await gruposService.procesarEdades(dataParaMicroservicio);
+        console.log('este es el resultaod del ml: ', resultadoPost)
 
         res.status(200).json({ success: true, data: resultadoPost });
     } catch (error) {
         console.error('Error en obtenerYProcesarEdades (Controlador):', error);
         res.status(500).json({ success: false, message: error.message });
     }
-};  
+};
 
 // Actualizar un grupo existente
 export const actualizarGrupo = async (req, res) => {

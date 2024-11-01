@@ -45,8 +45,8 @@ const Recomendaciones = () => {
         id_grupo: recomendacionActual.id_grupo || '',
         tipo: recomendacionActual.tipo || '',
         nivel: recomendacionActual.nivel || '',
-        destino: recomendacionActual.destino || '',
         presupuesto: recomendacionActual.presupuesto || '',
+        destino: recomendacionActual.destino || '',
         duracion: recomendacionActual.duracion || ''
       });
     } else {
@@ -100,26 +100,36 @@ const Recomendaciones = () => {
     e.preventDefault();
     setError('');
     try {
-      const { id_grupo, tipo, nivel, presupuesto, destino, duracion } = formValues;
+        const { id_grupo, tipo, nivel, presupuesto, destino, duracion } = formValues;
 
-      if (recomendacionActual) {
-        // Actualizar recomendación
-        await actualizarRecomendacion(recomendacionActual.id_recomendacion, ...Object.values(formValues));
-        setError('Recomendación actualizada con éxito');
-      } else {
-        // Insertar nueva recomendación
-        await insertarRecomendacion(...Object.values(formValues));
-        setError('Recomendación agregada con éxito');
+        // Verifica los valores que se están capturando
+        console.log('Valores antes de enviar:', {
+            id_grupo,
+            tipo,
+            nivel,
+            presupuesto,
+            destino,
+            duracion
+        });
 
-        // Procesar edades después de agregar la recomendación
-        await procesarEdades(id_grupo, tipo, nivel, presupuesto, destino, duracion);
-      }
-      cargarRecomendaciones(); // Recargar la lista de recomendaciones
-      limpiarFormulario(); // Limpiar formulario
+        if (recomendacionActual) {
+            await actualizarRecomendacion(recomendacionActual.id_recomendacion, id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido);
+            setError('Recomendación actualizada con éxito');
+        } else {
+            // Asegúrate de que 'contenido' tenga un valor adecuado
+            const contenido = ''; // Cambia esto según tu lógica
+            await insertarRecomendacion(id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido);
+            setError('Recomendación agregada con éxito');
+
+            await procesarEdades(id_grupo, tipo, nivel, presupuesto, destino, duracion);
+        }
+        cargarRecomendaciones();
+        limpiarFormulario();
     } catch (error) {
-      setError('Error al guardar la recomendación: ' + error.message);
+        setError('Error al guardar la recomendación: ' + error.message);
     }
-  };
+};
+
 
   const procesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, duracion) => {
     try {
@@ -145,8 +155,8 @@ const Recomendaciones = () => {
           id_grupo: datosRecomendacion.id_grupo || '',
           tipo: datosRecomendacion.tipo || '',
           nivel: datosRecomendacion.nivel || '',
-          destino: datosRecomendacion.destino || '',
           presupuesto: datosRecomendacion.presupuesto || '',
+          destino: datosRecomendacion.destino || '',
           duracion: datosRecomendacion.duracion || ''
         });
       } else {
