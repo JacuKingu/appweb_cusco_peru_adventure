@@ -1,33 +1,51 @@
 from flask import Flask, request, jsonify
-from passporteye import read_mrz
 from PIL import Image
 import pytesseract
 import io
+import re
 
 app = Flask(__name__)
 
+# Especifica la ruta de tesseract si es necesario
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
 @app.route('/extract', methods=['POST'])
 def extract():
-    # Recibe el archivo PDF
+    # Recibe la imagen
     file = request.files['file']
-    
-    # Lee la MRZ (zona de lectura mecánica) usando PassportEye
-    mrz = read_mrz(file)
-    mrz_data = mrz.to_dict() if mrz else None
-
-    # Convierte el PDF a imagen si es necesario
-    file.seek(0)  # Resetear el puntero del archivo para leerlo de nuevo
     image = Image.open(io.BytesIO(file.read()))
-    
-    # Aplica Tesseract para OCR general en la imagen del pasaporte
+
+    # Aplica Tesseract para extraer texto
     text = pytesseract.image_to_string(image)
 
+    # Muestra el texto extraído para depuración
+    print("Texto extraído:\n", text)
+
+    # Lógica para extraer nombres, apellidos y nacionalidad
+    extracted_info = extract_info_from_mrz(text)
+
     return jsonify({
-        "mrz_data": mrz_data,
-        "ocr_text": text
+        "extracted_text": text,  # Devuelve el texto extraído
+        "extracted_info": extracted_info
     })
+
+def extract_info_from_mrz(text):
+    # Patrón MRZ para capturar país, apellido y nombres
+    mrz_pattern = r'P<([A-Z]{3})([A-Z<]+)<<([A-Z<]+)'
+    match = re.search(mrz_pattern, text.replace('\n', ''))
+
+    if match:
+        country = match.group(1)
+        surname = match.group(2).replace('<', ' ').strip()
+        given_names = match.group(3).replace('<', ' ').strip()
+
+        return {
+            "pais": country,
+            "apellido": surname,
+            "nombres": given_names
+        }
+
+    return {"error": "No MRZ data found"}
 
 if __name__ == "__main__":
     app.run(port=5001)
-    print("Microservicio de OCR en ejecución en http://127.0.0.1:5001")
-
