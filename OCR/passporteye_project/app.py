@@ -18,19 +18,19 @@ def extract():
     # Aplica Tesseract para extraer texto
     text = pytesseract.image_to_string(image)
 
-    # Muestra el texto extraído para depuración
+    # Muestra el texto extraido
     print("Texto extraído:\n", text)
 
-    # Lógica para extraer nombres, apellidos y nacionalidad
+    # extraer nombres, apellidos y nacionalidad
     extracted_info = extract_info_from_mrz(text)
 
     return jsonify({
-        "extracted_text": text,  # Devuelve el texto extraído
+        "extracted_text": text, 
         "extracted_info": extracted_info
     })
 
 def extract_info_from_mrz(text):
-    # Patrón MRZ para capturar país, apellido y nombres
+    # Patron MRZ para capturar codigo de pais, apellido y nombres
     mrz_pattern = r'P<([A-Z]{3})([A-Z<]+)<<([A-Z<]+)'
     match = re.search(mrz_pattern, text.replace('\n', ''))
 
