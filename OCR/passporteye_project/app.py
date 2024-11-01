@@ -1,44 +1,33 @@
 from flask import Flask, request, jsonify
 from passporteye import read_mrz
-import fitz  # PyMuPDF para manejar el PDF
-import os
+from PIL import Image
+import pytesseract
+import io
 
 app = Flask(__name__)
 
 @app.route('/extract', methods=['POST'])
-def extract_mrz():
-    files = request.files.getlist('file')
-    if not files:
-        return jsonify({"error": "No files provided"}), 400
+def extract():
+    # Recibe el archivo PDF
+    file = request.files['file']
+    
+    # Lee la MRZ (zona de lectura mecánica) usando PassportEye
+    mrz = read_mrz(file)
+    mrz_data = mrz.to_dict() if mrz else None
 
-    results = []
-    for file in files:
-        # Guardar cada archivo PDF temporalmente
-        pdf_path = "./temp_passport.pdf"
-        file.save(pdf_path)
+    # Convierte el PDF a imagen si es necesario
+    file.seek(0)  # Resetear el puntero del archivo para leerlo de nuevo
+    image = Image.open(io.BytesIO(file.read()))
+    
+    # Aplica Tesseract para OCR general en la imagen del pasaporte
+    text = pytesseract.image_to_string(image)
 
-        # Extraer la primera página como imagen
-        doc = fitz.open(pdf_path)
-        page = doc.load_page(0)
-        pix = page.get_pixmap()
-        image_path = "./temp_passport.png"
-        pix.save(image_path)
-
-        # Procesar la imagen con PassportEye
-        mrz = read_mrz(image_path)
-        doc.close()
-        
-        # Borrar archivos temporales
-        os.remove(pdf_path)
-        os.remove(image_path)
-
-        if mrz is None:
-            results.append({"file": file.filename, "error": "No MRZ found"})
-        else:
-            # Convertir el resultado a un diccionario
-            results.append({"file": file.filename, "data": mrz.to_dict()})
-
-    return jsonify(results)
+    return jsonify({
+        "mrz_data": mrz_data,
+        "ocr_text": text
+    })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5001)
+    print("Microservicio de OCR en ejecución en http://127.0.0.1:5001")
+
