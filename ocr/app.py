@@ -1,51 +1,50 @@
-from flask import Flask, request, jsonify
-from PIL import Image
-import pytesseract
-import io
-import re
+# Debemos poner una aplicación en Py para poder crear un microservicio 
+# para poder extraer los datos de los pasaportes.
 
-app = Flask(__name__)
+from fastapi import FastAPI, File, UploadFile
+import requests
+import base64
 
-# Especifica la ruta de tesseract si es necesario
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+app = FastAPI()
 
-@app.route('/extract', methods=['POST'])
-def extract():
-    # Recibe la imagen
-    file = request.files['file']
-    image = Image.open(io.BytesIO(file.read()))
+API_KEY = 'MNN6kUVJEQTOSuRTt7zM0f5AkuuIbWAu'  # Reemplaza con tu clave de API real
+API_URL = 'https://dochorizon.klippa.com/api/services/document_capturing/v1/identity'  # URL correcta del endpoint
 
-    # Aplica Tesseract para extraer texto
-    text = pytesseract.image_to_string(image)
+def encode_image_to_base64(file):
+    return base64.b64encode(file.read()).decode('utf-8')
 
-    # Muestra el texto extraido
-    print("Texto extraído:\n", text)
+def create_payload(image_base64):
+    return {
+        "documents": [
+            {
+                "data": image_base64
+            }
+        ]
+    }
 
-    # extraer nombres, apellidos y nacionalidad
-    extracted_info = extract_info_from_mrz(text)
+def send_request(image_base64):
+    headers = {
+        'x-api-key': API_KEY,
+        'Content-Type': 'application/json'
+    }
+    payload = create_payload(image_base64)
+    response = requests.post(API_URL, headers=headers, json=payload)
 
-    return jsonify({
-        "extracted_text": text, 
-        "extracted_info": extracted_info
-    })
+    if response.status_code == 200:
+        data = response.json()  # Convertir la respuesta a JSON
+        text_fields = data.get("data", {}).get("components", {}).get("text_fields", {})
+        return {"status": "success", "text_fields": text_fields}
+    else:
+        return {"status": "error", "code": response.status_code, "message": response.text}
 
-def extract_info_from_mrz(text):
-    # Patron MRZ para capturar codigo de pais, apellido y nombres
-    mrz_pattern = r'<([A-Z]{3})([A-Z<]+)<<([A-Z<]+)'
-    match = re.search(mrz_pattern, text.replace('\n', ''))
-
-    if match:
-        country = match.group(1)
-        surname = match.group(2).replace('<', ' ').strip()
-        given_names = match.group(3).replace('<', ' ').strip()
-
-        return {
-            "pais": country,
-            "apellido": surname,
-            "nombres": given_names
-        }
-
-    return {"error": "No MRZ data found"}
-
-if __name__ == "__main__":
-    app.run(port=5001)
+@app.post("/upload/")
+async def upload_image(files: list[UploadFile] = File(...)):
+    results = []
+    for file in files:
+        # Leer y codificar el archivo en Base64
+        image_base64 = encode_image_to_base64(file.file)
+        # Enviar la solicitud a la API externa
+        result = send_request(image_base64)
+        results.append({"filename": file.filename, "result": result})
+    
+    return {"files": results}
