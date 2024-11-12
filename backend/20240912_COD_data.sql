@@ -59,13 +59,7 @@ CREATE TABLE IF NOT EXISTS recomendaciones (
     duracion INT,
     contenido TEXT,
     creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    contenido TEXT,
-    tipo TEXT,              
-    nivel TEXT,             
-    presupuesto TEXT,       
-    destino TEXT,           
-    duracion INT,           
-    activo TINYINT(1) DEFAULT 1,
+    activo TINYINT(1) DEFAULT 1, 
     FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo)
 );
 
@@ -319,7 +313,7 @@ END;
 DROP PROCEDURE IF EXISTS actualizarRecomendacion;
 CREATE PROCEDURE actualizarRecomendacion(IN id INT, IN nuevo_id_grupo INT, IN nuevo_tipo TEXT, IN nuevo_nivel TEXT, IN nuevo_presupuesto TEXT, IN nuevo_destino TEXT, IN nuevo_duracion INT, IN nuevo_contenido TEXT)
 BEGIN
-    UPDATE recomendaciones SET id_grupo = nuevo_id_grupo, tipo = nuevo_tipo, nivel = nuevo_nivel, presupuesto = nuevo_presupuesto, destino = nuevo_destino, duracion = nuevo_duracion, contenido = nuevo_contenido WHERE id_recomendacion = id AND activo = 1;
+    UPDATE recomendaciones SET id_grupo = nuevo_id_grupo, nivel = nuevo_nivel, presupuesto = nuevo_presupuesto, destino= nuevo_destino, duracion = nuevo_duracion, contenido = nuevo_contenido WHERE id_recomendacion = id AND activo = 1;
 END;
 
 DROP PROCEDURE IF EXISTS eliminarRecomendacion;
