@@ -58,15 +58,16 @@ export const obtenerEdadesPorGrupo = async (id_grupo) => {
 };
 
 // Servicio para hacer el POST al microservicio que ingresa las edades
-export const procesarEdades = async (edades) => {
+export const procesarEdades = async (datos) => {
     try {
-        const response = await axios.post('http://localhost:5000/recomendar_tour', { edades });
+        const response = await axios.post('http://localhost:5000/recomendar_tour', datos);
         return response.data;
     } catch (error) {
         console.error('Error al ingresar edades (Servicio):', error);
         throw new Error('Error al comunicarse con el microservicio POST');
     }
 };
+
 
 // Servicio para actualizar un grupo existente
 export const actualizarGrupo = async (id_grupo, id_pdf, nombre_grupo) => {

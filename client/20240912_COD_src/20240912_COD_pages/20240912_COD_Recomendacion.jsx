@@ -46,8 +46,8 @@ const Recomendaciones = () => {
         id_grupo: recomendacionActual.id_grupo || '',
         tipo: recomendacionActual.tipo || '',
         nivel: recomendacionActual.nivel || '',
-        destino: recomendacionActual.destino || '',
         presupuesto: recomendacionActual.presupuesto || '',
+        destino: recomendacionActual.destino || '',
         duracion: recomendacionActual.duracion || '',
         contenido: recomendacionActual.contenido || ''
       });
@@ -95,26 +95,35 @@ const Recomendaciones = () => {
   };
 
   const manejarCambioGrupo = async (e) => {
-    const id_grupo = e.target.value;
+    const id_grupo = e.target.value; // Obtener el ID del grupo
     setFormValues({ ...formValues, id_grupo }); // Actualizar el id_grupo en el formulario
 
     if (id_grupo) {
-      try {
-        const response = await obtenerYProcesarEdades(id_grupo,); // Llamar al servicio
-        if (response.success) {
-          const { tour_recomendado } = response.data;
-          setFormValues((prevFormValues) => ({
-            ...prevFormValues,
-            contenido: tour_recomendado // Guardar el tour recomendado en contenido
-          }));
-        } else {
-          setError('Error al procesar las edades.');
+        const tipo = formValues.tipo; 
+        const nivel = formValues.nivel; 
+        const presupuesto = formValues.presupuesto; 
+        const destino = formValues.destino; 
+        const duracion = formValues.duracion; 
+
+        try {
+            const response = await obtenerYProcesarEdades(id_grupo, tipo, nivel, presupuesto, destino, duracion);
+            
+            if (response.success) {
+                const { tour_recomendado } = response.data;
+                setFormValues((prevFormValues) => ({
+                    ...prevFormValues,
+                    contenido: tour_recomendado
+                }));
+            } else {
+                setError('Error al procesar las edades.');
+            }
+        } catch (error) {
+            setError('Error al obtener y procesar las edades: ' + error.message);
         }
-      } catch (error) {
-        setError('Error al obtener y procesar las edades: ' + error.message);
-      }
     }
-  };
+};
+
+  
 
   const manejarCambio = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
@@ -124,40 +133,23 @@ const Recomendaciones = () => {
     e.preventDefault();
     setError('');
     try {
-        const { id_grupo, tipo, nivel, presupuesto, destino, duracion } = formValues;
-        
-        if (recomendacionActual) {
-            // Actualizar recomendación
-            await actualizarRecomendacion(recomendacionActual.id_recomendacion, ...Object.values(formValues));
-            setError('Recomendación actualizada con éxito');
-        } else {
-            // Insertar nueva recomendación
-            await insertarRecomendacion(...Object.values(formValues));
-            setError('Recomendación agregada con éxito');
-
-            // Procesar edades después de agregar la recomendación
-            await procesarEdades(id_grupo, tipo, nivel, presupuesto, destino, duracion);
-        }
-        cargarRecomendaciones(); // Recargar la lista de recomendaciones
-        limpiarFormulario(); // Limpiar formulario
+      if (recomendacionActual) {
+        // Actualizar recomendación
+        await actualizarRecomendacion(recomendacionActual.id_recomendacion, ...Object.values(formValues));
+        setError('Recomendación actualizada con éxito');
+      } else {
+        // Insertar nueva recomendación
+        await insertarRecomendacion(...Object.values(formValues));
+        setError('Recomendación agregada con éxito');
+      }
+      cargarRecomendaciones(); // Recargar la lista de recomendaciones
+      limpiarFormulario(); // Limpiar formulario
     } catch (error) {
-        setError('Error al guardar la recomendación: ' + error.message);
+      setError('Error al guardar la recomendación: ' + error.message);
     }
-};
+  };
 
-const procesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, duracion) => {
-    try {
-        const response = await obtenerYProcesarEdades(id_grupo, tipo, nivel, presupuesto, destino, duracion);
-        if (!response.success) {
-            throw new Error('Error al procesar las edades: ' + response.message);
-        }
-    } catch (error) {
-        setError('Error al procesar las edades: ' + error.message);
-    }
-};
-
-
-
+  
   const manejarEdicion = async (id_recomendacion) => {
     try {
       const rol = localStorage.getItem('rolUser');
@@ -169,8 +161,8 @@ const procesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, durac
           id_grupo: datosRecomendacion.id_grupo || '',
           tipo: datosRecomendacion.tipo || '',
           nivel: datosRecomendacion.nivel || '',
-          destino: datosRecomendacion.destino || '',
           presupuesto: datosRecomendacion.presupuesto || '',
+          destino: datosRecomendacion.destino || '',
           duracion: datosRecomendacion.duracion || '',
           contenido: datosRecomendacion.contenido || ''
         });
@@ -198,8 +190,8 @@ const procesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, durac
       id_grupo: '',
       tipo: '',
       nivel: '',
-      destino: '',
       presupuesto: '',
+      destino: '',
       duracion: '',
       contenido: ''
     });
@@ -210,8 +202,7 @@ const procesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, durac
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Gestión de Recomendaciones</h1>
-      {loading && <p className="text-center">Cargando...</p>}
-
+      
       <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
         <h2 className="text-xl font-bold mb-4">
           {recomendacionActual ? 'Actualizar Recomendación' : 'Agregar Recomendación'}
@@ -250,6 +241,21 @@ const procesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, durac
         </div>
 
         <div className="mb-4">
+          <label htmlFor="presupuesto" className="block text-sm font-medium text-gray-700">Presupuesto</label>
+          <select
+            name="presupuesto"
+            value={formValues.presupuesto}
+            onChange={manejarCambio}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Selecciona un Presupuesto</option>
+            <option value="Economico">Económico</option>
+            <option value="Medio">Medio</option>
+            <option value="Alto">Alto</option>
+          </select>
+        </div>
+
+        <div className="mb-4">
           <label htmlFor="destino" className="block text-sm font-medium text-gray-700">Destino Preferido</label>
           <select
             name="destino"
@@ -263,21 +269,6 @@ const procesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, durac
             <option value="Ciudad">Ciudad</option>
             <option value="Desierto">Desierto</option>
             <option value="Selva">Selva</option>
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="presupuesto" className="block text-sm font-medium text-gray-700">Presupuesto</label>
-          <select
-            name="presupuesto"
-            value={formValues.presupuesto}
-            onChange={manejarCambio}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Selecciona un Presupuesto</option>
-            <option value="Economico">Económico</option>
-            <option value="Medio">Medio</option>
-            <option value="Alto">Alto</option>
           </select>
         </div>
 
@@ -309,6 +300,20 @@ const procesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, durac
             ))}
           </select>
         </div>
+        
+        <div className="mb-4">
+          <label htmlFor="contenido" className="block text-sm font-medium text-gray-700">Contenido</label>
+          <textarea
+            name="contenido"
+            value={formValues.contenido} // Aquí se muestra el tour recomendado
+            onChange={manejarCambio}
+            placeholder='Contenido de la Recomendacion'
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            readOnly
+          />
+        </div>
+
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <button
           type="submit"
@@ -329,7 +334,7 @@ const procesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, durac
       </form>
 
 
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      
 
       <table className="min-w-full bg-white">
         <thead>

@@ -35,16 +35,37 @@ export const insertarRecomendacion = async (id_grupo, tipo, nivel, presupuesto, 
 };
 
 
-// Servicio para obtener y procesar las edades de un grupo
-export const obtenerYProcesarEdades = async (id_grupo) => {
+export const obtenerYProcesarEdades = async (id_grupo, tipo, nivel, presupuesto, destino, duracion) => {
     try {
-        const response = await api.get(`/grupo/procesar-edades/${id_grupo}`);
-        return response.data; 
+        // Cuerpo de la solicitud POST con los datos necesarios en el formato requerido
+        const body = {
+            id_grupo,             // ID del grupo
+            tipo_actividades: tipo,  // Tipo de actividades
+            nivel_actividad: nivel,      // Nivel de actividad
+            presupuesto,          // Presupuesto
+            destino_preferido: destino,    // Destino preferido
+            duracion_viaje: duracion      // Duración del viaje
+        };
+        console.log('esta es el body para el backend: ', body)
+
+        // Enviar la solicitud POST con los datos en el cuerpo
+        const response = await api.post('/grupo/procesar-edades/', body);
+        console.log('respuesta del backend: ', response)
+
+        return response.data; // Retornar los datos de la respuesta
     } catch (error) {
-        console.error('Error en obtenerYProcesarEdades (Frontend):', error);
+        if (error.response) {
+            // El servidor respondió con un código de error
+            console.error('Error de servidor:', error.response.data);
+        } else {
+            // Si no hay respuesta del servidor
+            console.error('Error de red o configuración de la solicitud:', error.message);
+        }
         throw new Error(error.response ? error.response.data.message : 'Error al obtener y procesar las edades');
     }
 };
+
+
 
 // Servicio para actualizar una recomendación existente
 export const actualizarRecomendacion = async (id_recomendacion, id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido) => {

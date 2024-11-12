@@ -35,6 +35,3 @@ pip install -r requirements.txt
 
 ```bash
 python app.py
-
-
-np.asfarray         np.asarray

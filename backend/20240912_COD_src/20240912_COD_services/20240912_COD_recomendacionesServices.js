@@ -26,7 +26,7 @@ export const obtenerRecomendacionPorIdYRol = async (id_recomendacion, rol) => {
 };
 
 // Servicio para insertar una nueva recomendación
-export const insertarRecomendacion = async (id_grupo,  tipo, nivel, presupuesto, destino, duracion, contenido) => {
+export const insertarRecomendacion = async (id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido) => {
     try {
         await recomendacionesModel.insertarRecomendacion(id_grupo, tipo, nivel, presupuesto, destino, duracion, contenido);
     } catch (error) {

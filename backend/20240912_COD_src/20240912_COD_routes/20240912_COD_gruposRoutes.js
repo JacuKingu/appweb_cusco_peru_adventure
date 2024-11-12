@@ -17,7 +17,7 @@ router.post('/', verificarToken, verificarRol(['admin', 'asesor']), gruposContro
 router.get('/edades/:id_grupo', verificarToken, gruposController.obtenerEdadesPorGrupo);
 
 //Ruta para obtener las edades del grupo, entregar al microservicio y recibir la respuesta
-router.get('/procesar-edades/:id_grupo', verificarToken, gruposController.obtenerYProcesarEdades);
+router.post('/procesar-edades/', verificarToken, gruposController.obtenerYProcesarEdades);
 
 // Ruta protegida para actualizar un grupo (requiere token y rol de admin o asesor)
 router.put('/:id_grupo', verificarToken, verificarRol(['admin', 'asesor']), gruposController.actualizarGrupo);

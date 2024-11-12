@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types'; // Asegúrate de importar PropTypes
+import PropTypes from 'prop-types'; 
 
 const ConfirmarModal = ({ isOpen, onClose, onConfirm, mensaje }) => {
     if (!isOpen) return null;

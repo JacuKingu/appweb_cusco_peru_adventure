@@ -184,7 +184,7 @@ const Recomendaciones = () => {
     return (
         <div className="p-8">
             <h1 className="text-2xl font-bold mb-4">Gestión de Recomendaciones</h1>
-            {loading && <p className="text-center">Cargando...</p>}
+            
 
             <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
                 <h2 className="text-xl font-bold mb-4">{recomendacionActual ? 'Actualizar Recomendación' : 'Agregar Recomendación'}</h2>

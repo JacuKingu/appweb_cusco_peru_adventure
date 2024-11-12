@@ -52,8 +52,13 @@ CREATE TABLE IF NOT EXISTS pasaporte (
 CREATE TABLE IF NOT EXISTS recomendaciones (
     id_recomendacion INT AUTO_INCREMENT PRIMARY KEY,
     id_grupo INT,
-    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    tipo TEXT,
+    nivel TEXT,
+    presupuesto TEXT,
+    destino TEXT,
+    duracion INT,
     contenido TEXT,
+    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     activo TINYINT(1) DEFAULT 1, 
     FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo)
 );
@@ -468,22 +473,28 @@ CREATE PROCEDURE obtenerEdadesPorGrupo(
     IN grupo_id INT
 )
 BEGIN
+    DECLARE edades_resultado VARCHAR(255);
+
+    -- Seleccionar y concatenar las edades en una sola cadena
     SELECT 
-        g.grupo, 
         GROUP_CONCAT(
             TIMESTAMPDIFF(YEAR, c.fecha_nacimiento, CURDATE()) SEPARATOR ', '
-        ) AS edades
+        ) INTO edades_resultado
     FROM 
         clientes c
     INNER JOIN 
         grupos g ON c.id_grupo = g.id_grupo
     WHERE 
-        g.id_grupo = grupo_id
-    GROUP BY 
-        g.grupo;
+        g.id_grupo = grupo_id;
+
+    -- Si no hay resultado, asignar un mensaje por defecto
+    IF edades_resultado IS NULL THEN
+        SET edades_resultado = 'No se encontraron edades.';
+    END IF;
+
+    -- Devolver el resultado final
+    SELECT edades_resultado AS edades;
 END;
-
-
 
 INSERT INTO tours (tour, descripcion, duracion, precio, categoria, activo) VALUES ('Machupicchu | Full Day todo inlcuido con tren Turístico de Perú Rail o Inca Rail', 'recojo de hotel viaje en bus aprox 1 hora con 30 minutos, subir al tren viaje de 2 horas, abordar bus turistico de macupicchu pueblo a machu picchu viaje de 30 minutos, en machupicchu se recorrera todo los principales sitios turisticos en compañia del guia, tendran tiempo de tomarse fotos, se tomara el bus de retorno a machu picchu pueblo donde se almorzara luego tomaran el tren de regreso a Cusco. 
 

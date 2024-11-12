@@ -89,7 +89,6 @@ const Pdfs = () => {
     return (
         <div className="p-8">
             <h1 className="text-2xl font-bold mb-4">Gestión de PDFs</h1>
-            {loading && <p className="text-center">Cargando...</p>}
 
             {error && <p className="text-red-500 mb-4">{error}</p>}
 
