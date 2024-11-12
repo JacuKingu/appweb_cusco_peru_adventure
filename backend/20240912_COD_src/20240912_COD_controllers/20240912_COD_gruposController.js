@@ -70,7 +70,8 @@ export const obtenerEdadesPorGrupo = async (req, res) => {
 
 // Controlador que coordina el GET para obtener edades y luego el POST para procesarlas
 export const obtenerYProcesarEdades = async (req, res) => {
-    const { id_grupo, tipo_actividades, nivel_actividad, presupuesto, destino_preferido, duracion_viaje } = req.body;
+    const { id_grupo } = req.params; // Obtiene el ID del grupo desde los parámetros de la solicitud
+    const { tipo, nivel, presupuesto, destino, duracion, contenido } = req.query; // Cambiar a req.query
 
     try {
         // Llamar al servicio GET para obtener las edades del grupo
@@ -78,27 +79,25 @@ export const obtenerYProcesarEdades = async (req, res) => {
         console.log('Resultado de obtenerEdadesPorGrupo:', resultado);  // Mostrar en consola el resultado del servicio GET
 
         // Extraer solo el campo de edades (cadena)
-        const edadesCadena = resultado[0].edades;
-        console.log('Edades en formato de cadena:', edadesCadena);  // Mostrar la cadena de edades
+        const edadesCadena = resultado[0].edades; // Asegúrate de que esto sea correcto
+        const edadesArray = edadesCadena.split(',').map(Number); // Transformar la cadena a un array de números
 
-        // Transformar la cadena de edades "39, 31, 34, 30, 34" en un array de números [39, 31, 34, 30, 34]
-        const edadesArray = edadesCadena.split(',').map(Number);
-        console.log('Edades convertidas en array:', edadesArray);  // Mostrar el array de edades
+        // Convertir duracion a número
+        const duracionNumero = parseInt(duracion, 10); // O usar parseFloat si es un decimal
 
-        // Preparar los datos para enviar al microservicio
-        const datos = {
+        // Construir el objeto que se enviará al microservicio
+        const dataParaMicroservicio = {
             edades: edadesArray,
-            destino_preferido,
-            duracion_viaje,
-            nivel_actividad,
-            presupuesto,
-            tipo_actividades
+            destino_preferido: destino,
+            duracion_viaje: duracionNumero,
+            nivel_actividad: nivel,
+            presupuesto: presupuesto,
+            tipo_actividades: tipo
         };
-        console.log('Datos para enviar al microservicio:', datos);  // Ver los datos preparados
 
-        // Ahora enviar los datos al microservicio POST
-        const resultadoPost = await gruposService.procesarEdades(datos);
-        console.log('Resultado del procesamiento de edades:', resultadoPost);  // Mostrar el resultado del servicio POST
+        // Enviar el objeto al microservicio POST
+        const resultadoPost = await gruposService.procesarEdades(dataParaMicroservicio);
+        console.log('este es el resultaod del ml: ', resultadoPost)
 
         res.status(200).json({ success: true, data: resultadoPost });
     } catch (error) {
@@ -106,9 +105,6 @@ export const obtenerYProcesarEdades = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-
-
-
 
 // Actualizar un grupo existente
 export const actualizarGrupo = async (req, res) => {

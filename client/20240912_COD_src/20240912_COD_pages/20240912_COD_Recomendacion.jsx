@@ -22,8 +22,7 @@ const Recomendaciones = () => {
     nivel: '',
     presupuesto: '',
     destino: '',
-    duracion: '',
-    contenido: ''
+    duracion: ''
   });
 
   useEffect(() => {
@@ -133,17 +132,22 @@ const Recomendaciones = () => {
     e.preventDefault();
     setError('');
     try {
-      if (recomendacionActual) {
-        // Actualizar recomendación
-        await actualizarRecomendacion(recomendacionActual.id_recomendacion, ...Object.values(formValues));
-        setError('Recomendación actualizada con éxito');
-      } else {
-        // Insertar nueva recomendación
-        await insertarRecomendacion(...Object.values(formValues));
-        setError('Recomendación agregada con éxito');
-      }
-      cargarRecomendaciones(); // Recargar la lista de recomendaciones
-      limpiarFormulario(); // Limpiar formulario
+        const { id_grupo, tipo, nivel, presupuesto, destino, duracion } = formValues;
+        
+        if (recomendacionActual) {
+            // Actualizar recomendación
+            await actualizarRecomendacion(recomendacionActual.id_recomendacion, ...Object.values(formValues));
+            setError('Recomendación actualizada con éxito');
+        } else {
+            // Insertar nueva recomendación
+            await insertarRecomendacion(...Object.values(formValues));
+            setError('Recomendación agregada con éxito');
+
+            // Procesar edades después de agregar la recomendación
+            await procesarEdades(id_grupo, tipo, nivel, presupuesto, destino, duracion);
+        }
+        cargarRecomendaciones(); // Recargar la lista de recomendaciones
+        limpiarFormulario(); // Limpiar formulario
     } catch (error) {
       setError('Error al guardar la recomendación: ' + error.message);
     }
@@ -256,6 +260,21 @@ const Recomendaciones = () => {
         </div>
 
         <div className="mb-4">
+          <label htmlFor="presupuesto" className="block text-sm font-medium text-gray-700">Presupuesto</label>
+          <select
+            name="presupuesto"
+            value={formValues.presupuesto}
+            onChange={manejarCambio}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Selecciona un Presupuesto</option>
+            <option value="Economico">Económico</option>
+            <option value="Medio">Medio</option>
+            <option value="Alto">Alto</option>
+          </select>
+        </div>
+
+        <div className="mb-4">
           <label htmlFor="destino" className="block text-sm font-medium text-gray-700">Destino Preferido</label>
           <select
             name="destino"
@@ -289,7 +308,7 @@ const Recomendaciones = () => {
           <select
             name="id_grupo"
             value={formValues.id_grupo}
-            onChange={manejarCambioGrupo}
+            onChange={manejarCambio}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Selecciona un Grupo</option>
@@ -341,6 +360,11 @@ const Recomendaciones = () => {
           <tr>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Grupo</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Tipo de Actividad</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Nivel de Actividad</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Presupuesto</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Destino</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Duracion (dias)</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Contenido</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Activo</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>
@@ -353,6 +377,11 @@ const Recomendaciones = () => {
               <td className="py-2 px-4 border-b border-gray-200">
                 {grupos.find(grupo => grupo.id_grupo === recomendacion.id_grupo)?.grupo}
               </td>
+              <td className="py-2 px-4 border-b border-gray-200">{recomendacion.tipo}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{recomendacion.nivel}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{recomendacion.presupuesto}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{recomendacion.destino}</td>
+              <td className="py-2 px-4 border-b border-gray-200">{recomendacion.duracion}</td>
               <td className="py-2 px-4 border-b border-gray-200">{recomendacion.contenido}</td>
               <td className="py-2 px-4 border-b border-gray-200">{recomendacion.activo}</td>
               <td className="py-2 px-4 border-b border-gray-200">
