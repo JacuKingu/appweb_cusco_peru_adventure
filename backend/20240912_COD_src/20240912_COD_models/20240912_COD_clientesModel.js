@@ -27,23 +27,18 @@ export const obtenerClientePorId = async (id_cliente, rol) => {
 export const insertarCliente = async (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) => {
     try {
         const pool = await connection;
-        const [result] = await pool.execute(
+        const [rows] = await pool.execute(
             'CALL insertarCliente(?, ?, ?, ?, ?, ?)',
-            [
-                nombre || null,              
-                apellido || null,            
-                email || null,               
-                telefono || null,            
-                fecha_nacimiento || null,    
-                id_grupo || null             
-            ]
+            [nombre, apellido, email, telefono, fecha_nacimiento, id_grupo]
         );
-        return result[0];
+        return rows[0];  // Accede al id_cliente devuelto
+
     } catch (error) {
         console.error('Error al insertar cliente:', error);
         throw error;
     }
 };
+
 
 
 // Actualizar un Cliente existente

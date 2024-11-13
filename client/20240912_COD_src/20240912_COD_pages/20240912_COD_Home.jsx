@@ -23,7 +23,6 @@ const Home = () => {
         try {
             // Llamar al servicio para cargar el PDF, pasando nombre y archivo
             const mensajeExito = await insertarPdf(archivo.name, archivo); 
-            console.log('este es el mensaje: ', mensajeExito)
             setMensaje(mensajeExito);
         } catch (error) {
             setError('Error al cargar el archivo: ' + error.message);

@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS clientes (
 CREATE TABLE IF NOT EXISTS pasaporte (
     id_pasaporte INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT,
-    numero_pasaporte VARCHAR(20) UNIQUE NOT NULL,
+    numero_pasaporte VARCHAR(20) NOT NULL,
     pais_emision VARCHAR(100),
     fecha_expiracion DATE,
     creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -88,6 +88,7 @@ DROP PROCEDURE IF EXISTS insertarPdf;
 CREATE PROCEDURE insertarPdf(IN nombre VARCHAR(255), IN contenido LONGBLOB)
 BEGIN
     INSERT INTO pdf (archivo, contenido) VALUES (nombre, contenido);
+    SELECT LAST_INSERT_ID() AS nuevo_id;
 END;
 
 DROP PROCEDURE IF EXISTS obtenerPdfsActivos;
@@ -163,12 +164,21 @@ BEGIN
 END;
 
 DROP PROCEDURE IF EXISTS insertarUltimoGrupo;
-CREATE PROCEDURE insertarUltimoGrupo(IN id_pdf INT, IN nombre_grupo VARCHAR(100))
+CREATE PROCEDURE insertarUltimoGrupo(IN id_pdf INT)
 BEGIN
+    DECLARE siguiente_id INT;
+
+    -- Calcular el siguiente id basado en el número de registros existentes
+    SELECT IFNULL((SELECT COUNT(*) FROM grupos), 0) + 1 INTO siguiente_id;
+
+    -- Insertar el nuevo grupo
     INSERT INTO grupos (id_pdf, grupo)
-    VALUES (id_pdf, nombre_grupo);
-    SELECT LAST_INSERT_ID() AS id_grupo;
+    VALUES (id_pdf, CONCAT('Grupo ', siguiente_id));
+    
+    -- Obtener el ID del último registro insertado (que es auto incrementado)
+    SELECT LAST_INSERT_ID() AS nuevo_id;
 END;
+
 
 
 DROP PROCEDURE IF EXISTS obtenerGruposActivos;
@@ -207,7 +217,9 @@ END;
 DROP PROCEDURE IF EXISTS insertarCliente;
 CREATE PROCEDURE insertarCliente(IN nombre VARCHAR(100), IN apellido VARCHAR(100), IN email VARCHAR(100), IN telefono VARCHAR(15), IN fecha_nacimiento DATE, IN id_grupo INT)
 BEGIN
-    INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) VALUES (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
+    INSERT INTO clientes (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo) 
+    VALUES (nombre, apellido, email, telefono, fecha_nacimiento, id_grupo);
+    SELECT LAST_INSERT_ID() AS id_cliente;
 END;
 
 DROP PROCEDURE IF EXISTS obtenerClientesActivos;

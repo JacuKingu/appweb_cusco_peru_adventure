@@ -42,13 +42,11 @@ export const insertarGrupo = async (req, res) => {
 };
 
 export const insertarUltimoGrupo = async (req, res) => {
-    const { id_pdf, nombre_grupo } = req.body;
+    const { id_pdf } = req.body;
     try {
-        const grupo = await gruposService.insertarGrupo(id_pdf, nombre_grupo);
-        console.log('este el ultimo grupo', grupo)
-        res.status(200).json({ success: true, data: grupo });
+        await gruposService.insertarUltimoGrupo(id_pdf);
+        res.status(201).json({ message: 'Grupo insertado exitosamente' });
     } catch (error) {
-        console.error('Error al insertar grupo:', error);
         res.status(500).json({ success: false, message: error.message });
     }
 };

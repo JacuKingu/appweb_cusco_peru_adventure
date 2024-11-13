@@ -1,4 +1,6 @@
 import * as pdfModel from '../20240912_COD_models/20240912_COD_pdfModel.js';
+import * as gruposModel from '../20240912_COD_models/20240912_COD_gruposModel.js';
+
 
 // Servicio para obtener todos los PDFs activos basados en el rol
 export const obtenerPdfsPorRol = async (rol) => {
@@ -40,6 +42,29 @@ export const insertarPdf = async (nombre_archivo, contenido) => {
         throw new Error('Error al insertar el PDF en la base de datos');
     }
 };
+
+export const insertarPdfYGrupo = async (nombre_archivo, contenido,) => {
+    try {
+        // Validar los parámetros antes de insertarlos
+        if (!nombre_archivo || !contenido) {
+            throw new Error('Nombre de archivo y contenido son requeridos');
+        }
+
+        // Insertar el PDF primero
+        const nuevoPdf = await pdfModel.insertarPdf(nombre_archivo, contenido);
+
+        // Una vez que el PDF se inserte, obtener su id 
+        const nuevoid = nuevoPdf.nuevo_id; 
+
+        // Insertar el último grupo relacionado con el PDF
+        const ultGru = await gruposModel.insertarUltimoGrupo(nuevoid);
+        return { nuevoPdf, ultGru };
+    } catch (error) {
+        console.error('Error en insertarPdfYGrupo (Servicio):', error);
+        throw new Error('Error al insertar el PDF y el grupo en la base de datos');
+    }
+};
+
 
 
 // Servicio para eliminar un PDF lógicamente

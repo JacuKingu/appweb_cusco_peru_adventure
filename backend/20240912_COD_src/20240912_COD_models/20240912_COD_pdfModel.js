@@ -39,8 +39,8 @@ export const obtenerPdfPorId = async (id_pdf, rol) => {
 export const insertarPdf = async (nombre_archivo, contenido) => {
   try {
     const pool = await connection;
-    const [result] = await pool.execute('CALL insertarPdf(?, ?)', [nombre_archivo, contenido]);
-    return result;
+    const [row] = await pool.execute('CALL insertarPdf(?, ?)', [nombre_archivo, contenido]);
+    return row[0][0];
   } catch (error) {
     console.error('Error al insertar PDF:', error);
     throw error;

@@ -1,5 +1,5 @@
 import * as pdfService from '../20240912_COD_services/20240912_COD_pdfServices.js';
-
+import * as pdfController from '../20240912_COD_controllers/20240912_COD_OcrController.js'
 
 // Obtener todos los PDFs activos basados en el rol
 export const obtenerPdfs = async (req, res) => {
@@ -41,8 +41,12 @@ export const insertarPdf = async (req, res) => {
     const contenido = archivo.buffer; // Contenido binario del archivo
 
     try {
-        await pdfService.insertarPdf(nombre_archivo, contenido);
-        res.status(201).json({ message: 'PDF insertado exitosamente' });
+        const pdfGru = await pdfService.insertarPdfYGrupo(nombre_archivo, contenido);
+        console.log('este es return de pdf: ',pdfGru.nuevoPdf.nuevo_id )
+        console.log('este es return de grupo: ',pdfGru.ultGru[0].nuevo_id )
+        const documento = pdfGru.nuevoPdf.nuevo_id;
+        const grupo = pdfGru.ultGru[0].nuevo_id
+        await pdfController.procesarOcrDePdf(req, res, grupo, documento); 
     } catch (error) {
         res.status(500).json({ error: 'Error al insertar PDF' });
     }
