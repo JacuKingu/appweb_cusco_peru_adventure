@@ -151,11 +151,11 @@ const Pasaportes = () => {
     
     switch (modalAction) {
       case 'add':
-        return `¿Estás seguro de que quieres agregar el cliente "${nombreCliente}"?`;
+        return `¿Estás seguro de que quieres agregar el cliente?`;
       case 'update':
-        return `¿Estás seguro de que quieres actualizar el cliente "${nombreCliente}"?`;
+        return `¿Estás seguro de que quieres actualizar el cliente?`;
       case 'delete':
-        return `¿Estás seguro de que quieres eliminar al cliente "${nombreCliente}"?`;
+        return `¿Estás seguro de que quieres eliminar al cliente?`;
       default:
         return '';
     }

@@ -181,11 +181,11 @@ const Clientes = () => {
     const obtenerMensajeModal = () => {
         switch (modalAction) {
             case 'add':
-                return `¿Estás seguro de que quieres agregar el cliente "${formValues.nombre}"?`;
+                return `¿Estás seguro de que quieres agregar el cliente?`;
             case 'update':
-                return `¿Estás seguro de que quieres actualizar el cliente "${formValues.nombre}"?`;
+                return `¿Estás seguro de que quieres actualizar el cliente?`;
             case 'delete':
-                return `¿Estás seguro de que quieres eliminar al cliente "${clienteSeleccionado?.nombre}"?`;
+                return `¿Estás seguro de que quieres eliminar al cliente?`;
 
             default:
                 return '';

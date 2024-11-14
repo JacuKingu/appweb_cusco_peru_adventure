@@ -134,11 +134,11 @@ const Grupos = () => {
     const obtenerMensajeModal = () => {
         switch (modalAction) {
             case 'add':
-                return `¿Estás seguro de que quieres agregar el grupo "${formValues.grupo}"?`;
+                return `¿Estás seguro de que quieres agregar el grupo?`;
             case 'update':
-                return `¿Estás seguro de que quieres actualizar el grupo "${formValues.grupo}"?`;
+                return `¿Estás seguro de que quieres actualizar el grupo?`;
             case 'delete':
-                return `¿Estás seguro de que quieres eliminar el grupo "${grupoSeleccionado?.grupo}"?`;
+                return `¿Estás seguro de que quieres eliminar el grupo?`;
             default:
                 return '';
         }
