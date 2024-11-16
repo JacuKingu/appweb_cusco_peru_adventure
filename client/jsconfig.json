@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@components/*": [
+                "./20240912_COD_src/20240912_COD_components/*"
+            ],
+            "@pages/*": [
+                "./20240912_COD_src/20240912_COD_pages/*"
+            ],
+            "@services/*": [
+                "./20240912_COD_src/20240912_COD_services/*"
+            ],
+            "@routes/*": [
+                "./20240912_COD_src/20240912_COD_routes/*"
+            ],
+            "@context/*":[
+                "./20240912_COD_src/20240912_COD_context/*"
+            ],
+            "@layouts/*":[
+                "./20240912_COD_src/20240912_COD_layouts/*"
+            ],
+            "@utils/*":[
+                "./20240912_COD_src/20240912_COD_utils/*"
+            ]
+        }
+    },
+    "include": [
+        "20240912_COD_src"
+    ]
+}
