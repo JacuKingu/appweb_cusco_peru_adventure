@@ -1,0 +1,6 @@
+projectKey=Cusco-Peru-Adventure
+serverUrl=http://localhost:9000
+serverVersion=9.9.7.96285
+dashboardUrl=http://localhost:9000/dashboard?id=Cusco-Peru-Adventure
+ceTaskId=AZLAfx18yLyN8V_1VaU7
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AZLAfx18yLyN8V_1VaU7
