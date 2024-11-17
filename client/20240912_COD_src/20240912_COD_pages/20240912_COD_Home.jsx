@@ -1,9 +1,11 @@
 import React, { useState } from 'react'; 
 import { insertarPdf } from '@services/20240912_COD_PdfService'; 
+import SpineLoader from '@components/20240912_COD_LoadingSpinner';
 
 const Home = () => {
     const [archivo, setArchivo] = useState(null); // Inicializado como null en vez de una cadena vacía
     const [exito, setExito] = useState('');
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
     const handleFileChange = (e) => {
@@ -14,9 +16,11 @@ const Home = () => {
         e.preventDefault();
         setExito('');
         setError('');
+        setLoading(true);
 
         if (!archivo) {
             setError('Por favor, selecciona un archivo PDF.');
+            setLoading(false);
             return;
         }
 
@@ -26,8 +30,12 @@ const Home = () => {
             setExito(mensajeExito);
         } catch (error) {
             setError('Error al cargar el archivo: ' + error.message);
+        } finally {
+            setLoading(false);
         }
     };
+
+    if (loading) return <SpineLoader />;
 
     return (
         <div className="p-8">
