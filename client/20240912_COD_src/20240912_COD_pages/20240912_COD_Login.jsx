@@ -62,6 +62,7 @@ const Login = () => {
                     </button>
                 </div>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
+                
                 <button 
                     type="submit" 
                     className={`w-full py-2 rounded-lg ${cargando ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`} 

@@ -13,6 +13,7 @@ import ConfirmarModal from '@components/20240912_COD_ConfirmarModal';
 const Clientes = () => {
     const [clientes, setClientes] = useState([]);
     const [error, setError] = useState('');
+    const [exito, setExito] = useState('');
     const [loading, setLoading] = useState(true);
     const [clienteActual, setClienteActual] = useState(null); // Para editar un cliente específico
     const [formValues, setFormValues] = useState({ // Valores del formulario
@@ -146,14 +147,14 @@ const Clientes = () => {
         };
         try {
             if (modalAction === 'add') {
-                await insertarCliente(...Object.values(valoresLimpios));
-                setError('Cliente ingresado exitosamente');
+                const mensajeExito = await insertarCliente(...Object.values(valoresLimpios));
+                setExito(mensajeExito);
             } else if (modalAction === 'update') {
-                await actualizarCliente(clienteActual.id_cliente, ...Object.values(valoresLimpios));
-                setError('Cliente actualizado exitosamente');
+                const mensajeExito = await actualizarCliente(clienteActual.id_cliente, ...Object.values(valoresLimpios));
+                setExito(mensajeExito);
             } else if (modalAction === 'delete') {
-                await eliminarCliente(clienteSeleccionado);
-                setError('Cliente eliminado exitosamente');
+                const mensajeExito = await eliminarCliente(clienteSeleccionado);
+                setExito(mensajeExito);
             }
             await cargarClientes(); // Recarga la lista de clientes
             limpiarFormulario();
@@ -277,6 +278,7 @@ const Clientes = () => {
                 )}
             </form>
 
+            {exito && <p className="text-green-500 mb-4">{exito}</p>}
             {error && <p className="text-red-500 mb-4">{error}</p>}
 
 

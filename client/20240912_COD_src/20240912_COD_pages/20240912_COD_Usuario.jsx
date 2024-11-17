@@ -12,6 +12,7 @@ import ConfirmarModal from '@components/20240912_COD_ConfirmarModal';
 const Usuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [error, setError] = useState('');
+  const [exito, setExito] = useState('');
   const [loading, setLoading] = useState(true);
   const [usuarioActual, setUsuarioActual] = useState(null);
   const [formValues, setFormValues] = useState({
@@ -74,21 +75,21 @@ const Usuarios = () => {
       cargarUsuarios();
       limpiarFormulario();
     } catch (error) {
-      setError('Error al guardar el usuario: ' + error.message);
+      setError('Error al guardar el usuario: ' + error);
     }
   };
 
   const confirmarAccion = async () => {
     try {
       if (modalAction === 'add') {
-        await insertarUsuario(...Object.values(formValues));
-        setError('Usuario agregado con éxito');
+        const mensajeExito = await insertarUsuario(...Object.values(formValues));
+        setExito(mensajeExito);
       } else if (modalAction === 'update') {
-        await actualizarUsuario(usuarioActual.id_usuario, ...Object.values(formValues));
-        setError('Usuario actualizado con éxito');
+        const mensajeExito = await actualizarUsuario(usuarioActual.id_usuario, ...Object.values(formValues));
+        setExito(mensajeExito);
       } else if (modalAction === 'delete') {
-        await eliminarUsuario(usuarioSeleccionado);
-        setError('Usuario eliminado con éxito');
+        const mensajeExito = await eliminarUsuario(usuarioSeleccionado);
+        setExito(mensajeExito);
       }
       await cargarUsuarios();
       limpiarFormulario();
@@ -187,7 +188,7 @@ const Usuarios = () => {
             onChange={manejarCambio}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">Seleccionar</option>
+            <option value="">Seleccionar Rol</option>
             <option value="asesor">Asesor</option>
             <option value="admin">Administrador</option>
           </select>
@@ -210,6 +211,7 @@ const Usuarios = () => {
       </form>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
+      {exito && <p className="text-green-500 mb-4">{exito}</p>}
 
       <table className="min-w-full bg-white">
         <thead>

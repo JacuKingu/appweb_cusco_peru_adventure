@@ -3,7 +3,7 @@ import { insertarPdf } from '@services/20240912_COD_PdfService';
 
 const Home = () => {
     const [archivo, setArchivo] = useState(null); // Inicializado como null en vez de una cadena vacía
-    const [mensaje, setMensaje] = useState('');
+    const [exito, setExito] = useState('');
     const [error, setError] = useState('');
 
     const handleFileChange = (e) => {
@@ -12,7 +12,7 @@ const Home = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMensaje('');
+        setExito('');
         setError('');
 
         if (!archivo) {
@@ -23,7 +23,7 @@ const Home = () => {
         try {
             // Llamar al servicio para cargar el PDF, pasando nombre y archivo
             const mensajeExito = await insertarPdf(archivo.name, archivo); 
-            setMensaje(mensajeExito);
+            setExito(mensajeExito);
         } catch (error) {
             setError('Error al cargar el archivo: ' + error.message);
         }
@@ -47,7 +47,7 @@ const Home = () => {
                 >
                     Subir PDF
                 </button>
-                {mensaje && <p className="text-green-500 mt-4">{mensaje}</p>}
+                {exito && <p className="text-green-500 mb-4">{exito}</p>}
                 {error && <p className="text-red-500 mt-4">{error}</p>}
             </form>
         </div>

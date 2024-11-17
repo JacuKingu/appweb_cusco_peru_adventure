@@ -22,16 +22,28 @@ export const obtenerUsuarioPorIdYRol = async (id_usuario, rol) => {
   }
 };
 
-// Servicio para insertar un nuevo usuario
 export const insertarUsuario = async (nombre, contraseña, rol) => {
   try {
+    // Realiza una petición POST al backend para insertar un nuevo usuario
     const response = await api.post('/usuario', { nombre, contraseña, rol });
-    return response.data.message; // Devuelve el mensaje de éxito
+    
+    // Devuelve el mensaje de éxito si la inserción es correcta
+    return response.data.message;
   } catch (error) {
-    console.error('Error en insertarUsuario (Frontend):', error);
-    throw new Error(error.response ? error.response.data.message : 'Error al insertar usuario');
+    // Aquí puedes manejar diferentes tipos de errores de forma más amigable
+
+    // Si el error tiene una respuesta del servidor, maneja el error de esa forma
+    if (error.response.data.errors) {
+      const mensajeError = error.response.data.errors[0].msg;
+
+      // Lanza un error con el mensaje adecuado para mostrar al usuario
+      throw new Error(mensajeError);
+    } else {
+      throw new Error('El nombre de usuario ya está en uso');
+    }
   }
 };
+
 
 // Servicio para actualizar un usuario existente
 export const actualizarUsuario = async (id_usuario, nombre, contraseña, rol) => {

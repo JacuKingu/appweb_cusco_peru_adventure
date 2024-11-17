@@ -38,7 +38,7 @@ export const insertarUsuario = async (req, res) => {
         await usuariosService.insertarUsuario(nombre, contraseña, rol);
         res.status(201).json({ message: 'Usuario insertado exitosamente' });
     } catch (error) {
-        console.error('Error al insertar usuario:', error);
+        console.error('Error al insertar usuario:', error.message);
         res.status(500).json({ message: error.message });
     }
 };

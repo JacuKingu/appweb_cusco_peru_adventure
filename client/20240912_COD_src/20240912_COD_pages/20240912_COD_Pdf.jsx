@@ -9,6 +9,8 @@ import 'pdfjs-dist/build/pdf.worker.min.mjs';
 const Pdfs = () => {
     const [pdfs, setPdfs] = useState([]);
     const [error, setError] = useState('');
+    const [exito, setExito] = useState('');
+    
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -91,6 +93,7 @@ const Pdfs = () => {
             <h1 className="text-2xl font-bold mb-4">Gestión de PDFs</h1>
 
             {error && <p className="text-red-500 mb-4">{error}</p>}
+            {exito && <p className="text-green-500 mb-4">{exito}</p>}
 
             <table className="min-w-full bg-white">
                 <thead>

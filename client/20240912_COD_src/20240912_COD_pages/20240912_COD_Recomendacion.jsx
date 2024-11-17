@@ -9,11 +9,15 @@ import {
 } from '@services/20240912_COD_RecomendacionService';
 import { obtenerGruposPorRol } from '@services/20240912_COD_GrupoService';
 import SpineLoader from '@components/20240912_COD_LoadingSpinner';
+import ConfirmarModal from '@components/20240912_COD_ConfirmarModal';
 
 const Recomendaciones = () => {
   const [recomendaciones, setRecomendaciones] = useState([]);
   const [grupos, setGrupos] = useState([]); // Estado para almacenar grupos
   const [error, setError] = useState('');
+  const [exito, setExito] = useState('');
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [modalAction, setModalAction] = useState(null);
   const [loading, setLoading] = useState(true);
   const [recomendacionActual, setRecomendacionActual] = useState(null); // Para editar una recomendación específica
   const [formValues, setFormValues] = useState({ // Valores del formulario
@@ -341,7 +345,7 @@ const Recomendaciones = () => {
           <tr>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">ID</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Grupo</th>
-            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Contenido</th>
+            <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Tour Recomendado</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Activo</th>
             <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">Acciones</th>
           </tr>

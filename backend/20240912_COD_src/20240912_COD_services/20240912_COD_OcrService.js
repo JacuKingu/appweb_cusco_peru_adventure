@@ -28,7 +28,7 @@ export const procesarImagenes = async (imagenes) => {
         // Retornar la respuesta JSON con los resultados
         return response.data;
     } catch (error) {
-        console.error('Error al procesar imágenes (Servicio):', error);
+        console.error('Error al procesar imágenes:', error);
         throw new Error('Error al comunicarse con el microservicio Flask');
     }
 };

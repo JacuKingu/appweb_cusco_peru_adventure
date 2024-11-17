@@ -6,7 +6,7 @@ const API_BASE_URL = 'http://localhost:3001/appweb';
 // Crear una instancia de axios
 const api = axios.create({
     baseURL: API_BASE_URL,
-    timeout: 10000, // Tiempo de espera para las solicitudes
+    timeout: 60000, // Tiempo de espera para las solicitudes
     headers: {
         'Content-Type': 'application/json'
     }

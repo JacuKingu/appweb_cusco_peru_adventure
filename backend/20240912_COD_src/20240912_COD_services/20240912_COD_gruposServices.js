@@ -56,7 +56,7 @@ export const obtenerEdadesPorGrupo = async (id_grupo) => {
     }
 };
 
-// Servicio para hacer el POST al microservicio que ingresa las edades
+// Servicio para hacer el POST al microservicio que ingresa las edades y datos agregados
 export const procesarEdades = async (datos) => {
     try {
         const response = await axios.post('http://localhost:5000/recomendar_tour', datos);

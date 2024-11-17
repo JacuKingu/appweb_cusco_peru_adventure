@@ -8,6 +8,7 @@ const Grupos = () => {
     const [grupos, setGrupos] = useState([]);
     const [pdfs, setPdfs] = useState([]);
     const [error, setError] = useState('');
+    const [exito, setExito] = useState('');
     const [loading, setLoading] = useState(true);
     const [formValues, setFormValues] = useState({
         id_pdf: '',
@@ -86,14 +87,14 @@ const Grupos = () => {
     const confirmarAccion = async () => {
         try {
             if (modalAction === 'add') {
-                await insertarGrupo(formValues.id_pdf, formValues.grupo);
-                setError('Grupo agregado con éxito');
+                const mensajeExito = await insertarGrupo(formValues.id_pdf, formValues.grupo);
+                setExito(mensajeExito);
             } else if (modalAction === 'update') {
-                await actualizarGrupo(grupoActual.id_grupo, formValues.id_pdf, formValues.grupo);
-                setError('Grupo actualizado con éxito');
+                const mensajeExito =await actualizarGrupo(grupoActual.id_grupo, formValues.id_pdf, formValues.grupo);
+                setExito(mensajeExito);
             } else if (modalAction === 'delete') {
-                await eliminarGrupo(grupoSeleccionado.id_grupo);
-                setError('Grupo eliminado con éxito');
+                const mensajeExito = await eliminarGrupo(grupoSeleccionado.id_grupo);
+                setExito(mensajeExito);
             }
             cargarGrupos(); // Recargar los grupos después de la acción
             limpiarFormulario();
@@ -151,6 +152,7 @@ const Grupos = () => {
         <div className="p-8">
             <h1 className="text-2xl font-bold mb-4">Gestión de Grupos</h1>
             {error && <p className="text-red-500 mb-4">{error}</p>}
+            {exito && <p className="text-green-500 mb-4">{exito}</p>}
 
             <form onSubmit={manejarSubmit} className="bg-white p-4 rounded-lg shadow-md mb-8">
                 <h2 className="text-xl font-bold mb-4">{grupoActual ? 'Actualizar Grupo' : 'Agregar Grupo'}</h2>

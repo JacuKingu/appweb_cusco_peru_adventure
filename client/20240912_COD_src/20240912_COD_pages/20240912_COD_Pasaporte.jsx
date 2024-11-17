@@ -16,6 +16,7 @@ const Pasaportes = () => {
   const [clientes, setClientes] = useState([]);
   const [pasaporteActual, setPasaporteActual] = useState(null);
   const [error, setError] = useState('');
+  const [exito, setExito] = useState('');
   const [loading, setLoading] = useState(true);
   const [formValues, setFormValues] = useState({
     id_cliente: '',
@@ -116,14 +117,14 @@ const Pasaportes = () => {
     };
     try {
       if (modalAction === 'add') {
-        await insertarPasaporte(...Object.values(valoresLimpios));
-        setError('Pasaporte agregado con éxito');
+        const mensajeExito =  await insertarPasaporte(...Object.values(valoresLimpios));
+        setExito(mensajeExito);
       } else if (modalAction === 'update') {
-        await actualizarPasaporte(pasaporteActual.id_pasaporte, ...Object.values(valoresLimpios));
-        setError('Pasaporte actualizado con éxito');
+        const mensajeExito =  await actualizarPasaporte(pasaporteActual.id_pasaporte, ...Object.values(valoresLimpios));
+        setExito(mensajeExito);
       } else if (modalAction === 'delete') {
-        await eliminarPasaporte(pasaporteSeleccionado);
-        setError('Pasaporte eliminado con éxito');
+        const mensajeExito =  await eliminarPasaporte(pasaporteSeleccionado);
+        setExito(mensajeExito);
       }
       await cargarPasaportes();
       limpiarFormulario();
@@ -223,6 +224,7 @@ const Pasaportes = () => {
       </form>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
+      {exito && <p className="text-green-500 mb-4">{exito}</p>}
 
       <table className="min-w-full bg-white">
         <thead>

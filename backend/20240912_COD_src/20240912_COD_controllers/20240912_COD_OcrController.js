@@ -58,7 +58,7 @@ export const procesarOcrDePdf = async (req, res, grupo, nuevoPdf) => {
         // Llamar al servicio para procesar todas las imágenes generadas
         const resultadosOcr = await ocrService.procesarImagenes(imagenes);
         await ocrService.guardarClientesYPasaportes(resultadosOcr, grupo);
-        console.log('este es el rasutlaod ocr: ', resultadosOcr)
+        console.log('este es el resultado ocr: ', resultadosOcr)
 
         // Eliminar el PDF temporal y las imágenes generadas después del procesamiento
         fs.unlinkSync(pdfPath);

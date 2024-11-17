@@ -19,6 +19,16 @@ const PrivateRoute = ({ children, roles }) => {
     const { isAuthenticated } = useContext(AuthContext);
     const rolUsuario = localStorage.getItem('rolUser'); // Obtiene el rol del usuario del localStorage
 
+
+    console.log("Usuario autenticado:", isAuthenticated);
+    console.log("Rol del usuario:", rolUsuario);
+    console.log("Roles permitidos:", roles);
+
+    if (roles) {
+        console.log("Evaluando: !roles.includes(rolUsuario)");
+        console.log("Resultado de !roles.includes(rolUsuario):", !roles.includes(rolUsuario));
+    }
+
     // Verifica si el usuario está autenticado y tiene el rol adecuado
     if (!isAuthenticated) {
         return <Navigate to="/login" />;
@@ -40,13 +50,13 @@ const AppRoutes = () => (
             <Route path="/login" element={<Login />} />
             {/* <Route path="/registrar" element={<Registrar />} /> */}
             <Route
-                    path="/registrar"
-                    element={
-                        <PrivateRoute roles={['admin']}>
-                            <Registrar />
-                        </PrivateRoute>
-                    }
-                />
+                path="/registrar"
+                element={
+                    <PrivateRoute roles={['admin']}>
+                        <Registrar />
+                    </PrivateRoute>
+                }
+            />
 
             <Route
                 path="/"

@@ -109,14 +109,14 @@ const Tour = () => {
     };
     try {
       if (modalAction === 'add') {
-        await insertarTour(...Object.values(valoresLimpios));
-        setError('Tour agregado con éxito');
+        const mensajeExito = await insertarTour(...Object.values(valoresLimpios));
+        setExito(mensajeExito);
       } else if (modalAction === 'update') {
-        await actualizarTour(tourActual.id_tour, ...Object.values(valoresLimpios));
-        setError('Tour actualizado con éxito');
+        const mensajeExito = await actualizarTour(tourActual.id_tour, ...Object.values(valoresLimpios));
+        setExito(mensajeExito);
       } else if (modalAction === 'delete') {
-        await eliminarTour(tourSeleccionado);
-        setError('Tour eliminado con éxito');
+        const mensajeExito = await eliminarTour(tourSeleccionado);
+        setExito(mensajeExito);
       }
       await cargarTours(); // Recarga la lista de clientes
       limpiarFormulario();
@@ -238,6 +238,7 @@ const Tour = () => {
       </form>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
+      {exito && <p className="text-green-500 mb-4">{exito}</p>}
 
       <table className="min-w-full bg-white">
         <thead>

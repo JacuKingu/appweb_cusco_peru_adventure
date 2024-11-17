@@ -36,7 +36,6 @@ export const insertarUsuario = async (nombre, contraseña, rol) => {
         const hashedPassword = await bcrypt.hash(contraseña, salt);
         await usuariosModel.insertarUsuario(nombre, hashedPassword, rol);
     } catch (error) {
-        console.error('Error en insertarUsuario:', error);
         throw new Error('Error al insertar usuario');
     }
 };
