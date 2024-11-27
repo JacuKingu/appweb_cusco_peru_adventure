@@ -238,7 +238,6 @@ const Tour = () => {
       </form>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      {exito && <p className="text-green-500 mb-4">{exito}</p>}
 
       <table className="min-w-full bg-white">
         <thead>
