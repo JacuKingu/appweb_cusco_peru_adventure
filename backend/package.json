@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "",
-    "start": "nodemon 20240912_COD_index.js"
+    "dev": "nodemon 20240912_COD_index.js",
+    "start": "node 20240912_COD_index.js"
   },
   "keywords": [],
   "author": "",
