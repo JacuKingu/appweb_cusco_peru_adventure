@@ -73,3 +73,4 @@ iniciarDatabase().then(() => {
     process.exit(1);
 });
 
+console.log('Running on platform:', process.platform);
