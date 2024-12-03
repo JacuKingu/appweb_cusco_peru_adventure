@@ -45,74 +45,36 @@ async function verificarExistenciaBaseDatos() {
   }
 }
 
-async function insertarUsuarioAdmin() {
+async function verificarExistenciaTablas() {
   try {
-    const [rows] = await connection.query(
-      'SELECT * FROM usuarios WHERE nombre = ?', ['admin']
-    );
-
-    if (rows.length === 0) {
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash('cuscoperuadventure$_2024_', saltRounds);
-      await connection.query(
-        'INSERT IGNORE INTO usuarios (nombre, contraseña, rol) VALUES (?, ?, ?)',
-        ['admin', hashedPassword, 'admin']
-      );
-
-      console.log('Usuario admin insertado exitosamente con contraseña encriptada.');
-    } else {
-      console.log('El usuario admin ya existe.');
-    }
+    const [rows] = await connection.query("SHOW TABLES LIKE 'usuarios'");
+    return rows.length > 0;
   } catch (error) {
-    console.error('Error al insertar usuario admin:', error.message);
-    throw error;
+    console.error('Error al verificar la existencia de la tabla: ', error.message);
+    throw error
   }
 }
 
-async function insertarUsuarioAdmin1() {
+async function insertarUsuario(nombre, contraseña, rol) {
   try {
     const [rows] = await connection.query(
-      'SELECT * FROM usuarios WHERE nombre = ?', ['cpa']
+      'SELECT * FROM usuarios WHERE nombre = ?', [nombre]
     );
 
     if (rows.length === 0) {
       const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash('qwerasdfzxcv', saltRounds);
+      const hashedPassword = await bcrypt.hash(contraseña, saltRounds);
       await connection.query(
         'INSERT IGNORE INTO usuarios (nombre, contraseña, rol) VALUES (?, ?, ?)',
-        ['cpa', hashedPassword, 'admin']
+        [nombre, hashedPassword, rol]
       );
 
-      console.log('Usuario admin1 insertado exitosamente con contraseña encriptada.');
+      console.log(`Usuario ${nombre} insertado exitosamente con contraseña encriptada.`);
     } else {
-      console.log('El usuario admin1 ya existe.');
+      console.log(`El usuario ${nombre} ya existe.`);
     }
   } catch (error) {
-    console.error('Error al insertar usuario admin1:', error.message);
-    throw error;
-  }
-}
-
-async function insertarUsuarioAsesor() {
-  try {
-    const [rows] = await connection.query(
-      'SELECT * FROM usuarios WHERE nombre = ?', ['asd']
-    );
-
-    if (rows.length === 0) {
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash('qwerasdfzxcv', saltRounds);
-      await connection.query(
-        'INSERT IGNORE INTO usuarios (nombre, contraseña, rol) VALUES (?, ?, ?)',
-        ['asd', hashedPassword, 'asesor']
-      );
-
-      console.log('Usuario asesor insertado exitosamente con contraseña encriptada.');
-    } else {
-      console.log('El usuario asesor ya existe.');
-    }
-  } catch (error) {
-    console.error('Error al insertar usuario asesor:', error.message);
+    console.error(`Error al insertar usuario ${nombre}:`, error.message);
     throw error;
   }
 }
@@ -124,26 +86,48 @@ export async function iniciarDatabase() {
 
     if (dbExiste) {
       console.log(`Conexión exitosa: la base de datos '${process.env.DB_NAME}' ya existe.`);
-      await insertarUsuarioAdmin();
-      await insertarUsuarioAdmin1();
-      await insertarUsuarioAsesor();
+
+      const tablasExisten = await verificarExistenciaTablas();
+            if (!tablasExisten) {
+                console.log('Las tablas no existen. Creando tablas...');
+                
+                const tempConnection = await mysql.createConnection({
+                    host: process.env.DB_SERVER,
+                    user: process.env.DB_USER,
+                    password: process.env.DB_PASSWORD,
+                    multipleStatements: true
+                });
+                
+                await tempConnection.query(`USE ${process.env.DB_NAME}`);
+                await tempConnection.query(initScript);
+                console.log('Tablas y procedimientos almacenados creadas exitosamente.');
+                tempConnection.end();
+            } else {
+                console.log('Las tablas ya existen. No se necesita recrearlas.');
+            }
+
+      // Inserción de usuarios después de la verificación o creación de tablas
+      await insertarUsuario('admin', 'qwerasdfzxcv', 'admin');
+      await insertarUsuario('asd', 'qwerasdfzxcv', 'asesor');
     } else {
       console.log(`La base de datos '${process.env.DB_NAME}' no existe. Creando...`);
-      const connection = await mysql.createConnection({
+      
+      const tempConnection = await mysql.createConnection({
         host: process.env.DB_SERVER,
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
-        multipleStatements: true, // Permite ejecutar múltiples sentencias en un solo query
-      });
+        multipleStatements: true
+    });
 
-      await connection.query(`CREATE DATABASE ${process.env.DB_NAME}`);
-      await connection.query(`USE ${process.env.DB_NAME}`);
-      await connection.query(initScript);
-      console.log('Base de datos y procedimientos almacenados creados exitosamente.');
-      await insertarUsuarioAdmin();
-      await insertarUsuarioAdmin1();
-      await insertarUsuarioAsesor();
-      connection.end(); // Cerrar la conexión después de la inicialización
+      await tempConnection.query(`CREATE DATABASE ${process.env.DB_NAME}`);
+      await tempConnection.query(`USE ${process.env.DB_NAME}`);
+      await tempConnection.query(initScript);
+
+      console.log('Base de datos, tablas y procedimientos almacenados creadas exitosamente.');
+
+      await insertarUsuario('admin', 'qwerasdfzxcv', 'admin');
+      await insertarUsuario('asd', 'qwerasdfzxcv', 'asesor');
+      tempConnection.end(); // Cerrar la conexión después de la inicialización
     }
   } catch (error) {
     console.error('Error al inicializar la base de datos:', error.message);
