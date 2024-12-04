@@ -18,7 +18,7 @@ export const procesarOcrDePdf = async (req, res, grupo, nuevoPdf) => {
         }
 
         // Enviar el contenido del PDF como un archivo binario al microservicio en Python
-        const microservicioUrl = 'http://localhost:5003/convert-pdf';  // URL de tu microservicio Python
+        const microservicioUrl = 'https://appweb-turismo-pdf.onrender.com/convert-pdf';  // URL de tu microservicio Python
 
         const response = await axios.post(microservicioUrl, pdf.contenido, {
             headers: {
