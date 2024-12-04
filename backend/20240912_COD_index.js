@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import rateLimit from 'express-rate-limit'; 
+
 import { iniciarDatabase } from './20240912_COD_src/20240912_COD_db/20240912_COD_dbConnection.js';
 //Middleware
 import { errorHandler } from './20240912_COD_src/20240912_COD_middlewares/20240912_COD_errorHandler.js';
