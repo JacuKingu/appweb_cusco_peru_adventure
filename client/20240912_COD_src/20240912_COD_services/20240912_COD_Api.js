@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // URL base de la API (cambiar a la URL de tu backend en producción)
-const API_BASE_URL = 'http://localhost:3001/appweb';
+const API_BASE_URL = 'https://appweb-cusco-peru-adventure.onrender.com/appweb';
 
 // Crear una instancia de axios
 const api = axios.create({
