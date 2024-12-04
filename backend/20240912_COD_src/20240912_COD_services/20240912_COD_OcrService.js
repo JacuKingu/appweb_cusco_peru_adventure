@@ -3,8 +3,6 @@ import * as pasaporteModel from '../20240912_COD_models/20240912_COD_pasaporteMo
 import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
-import { convert } from 'pdf-poppler';
-import path from 'path';
 
 export const procesarImagenes = async (imagenes) => {
     try {

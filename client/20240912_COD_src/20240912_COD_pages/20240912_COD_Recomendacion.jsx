@@ -306,7 +306,7 @@ const Recomendaciones = () => {
         </div>
         
         <div className="mb-4">
-          <label htmlFor="contenido" className="block text-sm font-medium text-gray-700">Contenido</label>
+          <label htmlFor="contenido" className="block text-sm font-medium text-gray-700">Tour Recomendado</label>
           <textarea
             name="contenido"
             value={formValues.contenido} // Aquí se muestra el tour recomendado

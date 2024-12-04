@@ -2,7 +2,7 @@ import * as pdfService from '../20240912_COD_services/20240912_COD_pdfServices.j
 import * as ocrService from '../20240912_COD_services/20240912_COD_OcrService.js';
 import path from 'path';
 import fs from 'fs';
-import { convert } from 'pdf-poppler';
+/* import { convert } from 'pdf-poppler'; */
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export const procesarOcrDePdf = async (req, res, grupo, nuevoPdf) => {
-    /* const { id_pdf } = req.params; */
+    //const { id_pdf } = req.params;
 
     try {
         // Recuperar el PDF desde la base de datos
