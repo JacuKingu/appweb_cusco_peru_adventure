@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS pdf (
 
 CREATE TABLE IF NOT EXISTS tours (
     id_tour INT AUTO_INCREMENT PRIMARY KEY,
-    tour VARCHAR(100) NOT NULL,
+    tour text NOT NULL,
     descripcion TEXT,
     duracion INT,
     precio DECIMAL(10, 2),
