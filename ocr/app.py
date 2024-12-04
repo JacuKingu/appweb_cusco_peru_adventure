@@ -85,4 +85,5 @@ def procesar_imagenes():
 
 # Ejecutar la aplicación en el puerto 5002
 if __name__ == '__main__':
-    app.run(debug=True, port=5002)
+    port = int(os.getenv('PORT',5002))
+    app.run(debug=True, port=port)

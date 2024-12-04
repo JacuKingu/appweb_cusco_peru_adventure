@@ -39,7 +39,7 @@ export const procesarOcrDePdf = async (req, res, grupo, nuevoPdf) => {
         };
 
         // Realizar la conversión del PDF
-        await convert(pdfPath, options);
+        /* await convert(pdfPath, options); */
 
         // Obtener la lista de imágenes generadas
         const imagenes = fs.readdirSync(options.out_dir)

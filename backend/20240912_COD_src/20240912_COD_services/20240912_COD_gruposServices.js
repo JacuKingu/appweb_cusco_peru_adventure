@@ -59,7 +59,7 @@ export const obtenerEdadesPorGrupo = async (id_grupo) => {
 // Servicio para hacer el POST al microservicio que ingresa las edades y datos agregados
 export const procesarEdades = async (datos) => {
     try {
-        const response = await axios.post('http://localhost:5000/recomendar_tour', datos);
+        const response = await axios.post('https://appweb-cusco-peru-adventure-1.onrender.com/recomendar_tour', datos);
         return response.data;
     } catch (error) {
         console.error('Error al ingresar edades (Servicio):', error);

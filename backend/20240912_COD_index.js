@@ -23,7 +23,8 @@ const app = express();
 
 // Configuración de CORS
 const corsOptions = {
-    origin: ['http://localhost:5173','http://localhost:3001','http://localhost:5000','http://localhost:5002'],
+    //origin: ['http://localhost:5173','http://localhost:3001','http://localhost:5000','http://localhost:5002'],
+    origin: ['http://localhost:5173', 'http://localhost:3001', 'https://appweb-cusco-peru-adventure-1.onrender.com', 'http://localhost:5002'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     optionsSuccessStatus: 200,
     credentials: true,

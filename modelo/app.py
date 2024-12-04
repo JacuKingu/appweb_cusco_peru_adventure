@@ -1,7 +1,11 @@
-from flask import Flask, request, jsonify  
+from flask import Flask, request, jsonify
+from dotenv import load_dotenv
 import joblib  
 import numpy as np  
-import pandas as pd  
+import pandas as pd
+import os
+
+load_dotenv()
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -67,4 +71,5 @@ def recomendar_tour():
 
 # Iniciar la aplicación Flask
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.getenv('PORT',5000))
+    app.run(debug=True, port=port)
