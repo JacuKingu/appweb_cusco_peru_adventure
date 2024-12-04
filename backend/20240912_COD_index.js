@@ -25,20 +25,10 @@ const app = express();
 
 app.set('trust proxy', true);
 
-// Middleware para limitar la tasa de solicitudes
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutos
-    max: 100, // Limitar a 100 solicitudes por IP
-    message: 'Demasiadas solicitudes desde esta IP, intenta nuevamente más tarde',
-});
-
-// Aplicar el middleware globalmente
-app.use(limiter);
-
 // Configuración de CORS
 const corsOptions = {
-    //origin: ['http://localhost:5173','http://localhost:3001','http://localhost:5000','http://localhost:5002','http://localhost:5003'],
-    origin: ['https://appweb-turismo-frontend.onrender.com', 'https://appweb-cusco-peru-adventure.onrender.com', 'https://appweb-cusco-peru-adventure-1.onrender.com', 'https://appweb-turismo-ocr.onrender.com', 'https://appweb-turismo-pdf.onrender.com'],
+    //origin: ['http://localhost:5173','http://localhost:3001','https://appweb-cusco-peru-adventure-1.onrender.com', 'https://appweb-turismo-ocr.onrender.com', 'https://appweb-turismo-pdf.onrender.com'],
+    origin: ['https://appweb-turismo-frontend.onrender.com','https://appweb-cusco-peru-adventure.onrender.com','https://appweb-cusco-peru-adventure-1.onrender.com', 'https://appweb-turismo-ocr.onrender.com', 'https://appweb-turismo-pdf.onrender.com'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     optionsSuccessStatus: 200,
     credentials: true,

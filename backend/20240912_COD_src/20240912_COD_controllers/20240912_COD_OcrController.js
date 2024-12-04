@@ -10,6 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export const procesarOcrDePdf = async (req, res, grupo, nuevoPdf) => {
+    const imagenPaths = []; // Almacenar rutas de imágenes para limpieza posterior
     try {
         // Recuperar el PDF desde la base de datos
         const pdf = await pdfService.obtenerPdfPorId(nuevoPdf, req.usuario.rol);
@@ -38,7 +39,6 @@ export const procesarOcrDePdf = async (req, res, grupo, nuevoPdf) => {
             }
 
             // Guardar cada imagen en el directorio 'uploads'
-            const imagenPaths = [];
             for (let i = 0; i < imagenesBase64.length; i++) {
                 const imageBuffer = Buffer.from(imagenesBase64[i], 'base64');
                 const imagePath = path.join(uploadDir, `imagen_${i + 1}.jpeg`);
@@ -56,11 +56,23 @@ export const procesarOcrDePdf = async (req, res, grupo, nuevoPdf) => {
                 data: resultadosOcr
             });
         } else {
-            res.status(500).json({ message: 'Error al procesar las imágenes del PDF' });
+            return res.status(500).json({ message: 'Error al procesar las imágenes del PDF' });
         }
-
-    } catch (error) {
+    }  
+    catch (error) {
         console.error('Error al procesar OCR de PDF:', error);
-        res.status(500).json({ message: 'Error al procesar OCR de PDF' });
+        return res.status(500).json({ message: 'Error al procesar OCR de PDF' });
+    }  
+    finally {
+        // Eliminar las imágenes generadas después de usarlas
+        for (const imagePath of imagenPaths) {
+            try {
+                if (fs.existsSync(imagePath)) {
+                    fs.unlinkSync(imagePath); // Elimina el archivo
+                }
+            } catch (err) {
+                console.error(`Error al eliminar la imagen ${imagePath}:`, err);
+            }
+        }
     }
 };
