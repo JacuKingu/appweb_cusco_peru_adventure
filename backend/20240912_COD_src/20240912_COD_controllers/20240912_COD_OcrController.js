@@ -2,7 +2,7 @@ import * as pdfService from '../20240912_COD_services/20240912_COD_pdfServices.j
 import * as ocrService from '../20240912_COD_services/20240912_COD_OcrService.js';
 import path from 'path';
 import fs from 'fs';
-/* import { convert } from 'pdf-poppler'; */
+import { convert } from 'pdf-poppler';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -39,7 +39,7 @@ export const procesarOcrDePdf = async (req, res, grupo, nuevoPdf) => {
         };
 
         // Realizar la conversión del PDF
-        /* await convert(pdfPath, options); */
+        await convert(pdfPath, options);
 
         // Obtener la lista de imágenes generadas
         const imagenes = fs.readdirSync(options.out_dir)

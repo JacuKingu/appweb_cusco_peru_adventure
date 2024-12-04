@@ -16,7 +16,7 @@ export const procesarImagenes = async (imagenes) => {
         });
 
         // Hacer la solicitud POST al microservicio Flask
-        const response = await axios.post('http://localhost:5002/procesar_imagenes', formData, {
+        const response = await axios.post('https://appweb-turismo-ocr.onrender.com/procesar_imagenes', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 ...formData.getHeaders() // Agregar los encabezados necesarios para multipart/form-data
