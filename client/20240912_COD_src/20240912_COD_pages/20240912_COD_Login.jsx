@@ -70,11 +70,11 @@ const Login = () => {
                 >
                     {cargando ? <SpineLoader /> : 'Iniciar Sesión'} 
                 </button>
-                <div className="mt-4 text-center">
+                {/* <div className="mt-4 text-center">
                     <Link to="/registrar" className="text-blue-500 hover:underline">
                         Regístrate aquí
                     </Link>
-                </div>
+                </div> */}
             </form>
         </div>
     );
